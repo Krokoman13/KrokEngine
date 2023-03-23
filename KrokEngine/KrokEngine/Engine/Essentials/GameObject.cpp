@@ -1,5 +1,6 @@
 #include "GameObject.hpp"
 #include "Game.hpp"
+#include "GmObjctPtr.hpp"
 
 GameObject::GameObject(Vec2 position, std::string name, GameObject* parent)
 {
@@ -8,7 +9,7 @@ GameObject::GameObject(Vec2 position, std::string name, GameObject* parent)
 
 	if (parent != nullptr)
 	{
-		parent->AddChild(new GameObject(*this));
+		parent->AddChild(this);
 	}
 }
 
@@ -30,11 +31,9 @@ void GameObject::ClearChildren()
 {
 	while (_children.size() > 0)
 	{
-		GameObject* child = _children.back();
+		GmObjctPtr child = _children.back();
 		_children.pop_back();
 		child->_parent = nullptr;
-
-		delete child;
 	}
 }
 
@@ -80,19 +79,19 @@ void GameObject::ClearParent()
 	}
 }
 
-const std::vector<GameObject*> GameObject::GetChildren()
+const std::vector<GmObjctPtr> GameObject::GetChildren()
 {
 	return _children;
 }
 
-GameObject* GameObject::GetChild(unsigned int i)
+GmObjctPtr GameObject::GetChild(unsigned int i)
 {
 	if (i > _children.size()-1) return nullptr;
 
 	return _children[i];
 }
 
-void GameObject::AddChild(GameObject* toAdd)
+void GameObject::AddChild(GmObjctPtr toAdd)
 {
 	if (toAdd == nullptr) throw std::invalid_argument("Cannot add a non-existing GameObject");
 
@@ -104,9 +103,9 @@ void GameObject::AddChild(GameObject* toAdd)
 	toAdd->_parent = this;
 }
 
-void GameObject::RemoveChild(GameObject* toRemove)
+void GameObject::RemoveChild(GmObjctPtr toRemove)
 {
-	if (toRemove == nullptr) return;
+	if (toRemove.Get() == nullptr) return;
 
 	for (unsigned int i = 0; i < this->_children.size(); i++)
 	{

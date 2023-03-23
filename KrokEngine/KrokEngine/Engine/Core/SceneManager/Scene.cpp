@@ -36,7 +36,7 @@ void Scene::OnClose()
 
 void Scene::loadChildren(GameObject* gameObject)
 {
-	for (GameObject* child : gameObject->GetChildren())
+	for (GmObjctPtr child : gameObject->GetChildren())
 	{
 		child->SetScene(this);
 		child->OnLoad();

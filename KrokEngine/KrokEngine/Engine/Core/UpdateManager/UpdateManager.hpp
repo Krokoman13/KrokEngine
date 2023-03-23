@@ -1,6 +1,6 @@
 #pragma once
-#include "../Graphics/Renderer.hpp"
 
+class Renderer;
 class GameObject;
 
 class UpdateManager

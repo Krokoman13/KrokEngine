@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include "Vec2.hpp"
+#include "GmObjctPtr.hpp"
 
 class Scene;
 
@@ -23,11 +24,11 @@ public:
 
 	void ClearParent();
 
-	const std::vector <GameObject*> GetChildren();
-	GameObject* GetChild(unsigned int i);
+	const std::vector <GmObjctPtr> GetChildren();
+	GmObjctPtr GetChild(unsigned int i);
 
-	void AddChild(GameObject* toAdd);
-	void RemoveChild(GameObject* toRemove);
+	void AddChild(GmObjctPtr toAdd);
+	void RemoveChild(GmObjctPtr toRemove);
 
 	const Vec2 GetGlobaPosition();
 	void SetGlobalPosition(Vec2 position);
@@ -58,7 +59,7 @@ protected:
 	int _renderLayer = -1;
 
 	GameObject* _parent = nullptr;
-	std::vector <GameObject*> _children;
+	std::vector <GmObjctPtr> _children;
 
 	//int getPositionAsChild(GameObject* toFind);
 

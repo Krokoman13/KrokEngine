@@ -145,6 +145,7 @@
     <ClInclude Include="Engine\KrokEngine.hpp" />
     <ClInclude Include="Engine\Util\FileIO.hpp" />
     <ClInclude Include="Engine\Util\StringUtil.hpp" />
+    <ClInclude Include="Engine\Essentials\GmObjctPtr.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\EventHandeler\EventHandeler.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="Engine\Essentials\Vec2.cpp" />
     <ClCompile Include="Engine\Util\FileIO.cpp" />
     <ClCompile Include="Engine\Util\StringUtil.cpp" />
+    <ClCompile Include="Engine\Essentials\GmObjctPtr.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

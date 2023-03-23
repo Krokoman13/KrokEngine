@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
-#include "../Core/UpdateManager/UpdateManager.hpp"
 #include "../Core/SceneManager/SceneManager.hpp"
 #include "../Core/EventHandeler/EventHandeler.hpp"
+#include "../Core/Graphics/Renderer.hpp"
+#include "../Core/UpdateManager/UpdateManager.hpp"
 
 class Game 
 	: public SceneManager, public EventHandeler

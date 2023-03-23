@@ -1,5 +1,6 @@
 #include "UpdateManager.hpp"
 #include "../../Essentials/GameObject.hpp"
+#include "../Graphics/Renderer.hpp"
 
 UpdateManager::UpdateManager()
 {
@@ -31,7 +32,7 @@ void UpdateManager::update(GameObject* toUpdate)
 	Vec2 scaleTransf = GameObject::GetAllScaleing(toUpdate);
 
 	for (int i = toUpdate->GetChildren().size() - 1; i >= 0; --i) {
-		GameObject* gameObject = toUpdate->GetChildren()[i];
+		GmObjctPtr gameObject = toUpdate->GetChildren()[i];
 		gameObject->globalScale = Vec2(gameObject->GetScale().x * scaleTransf.x, gameObject->GetScale().y * scaleTransf.y);
 		gameObject->globalPosition = Vec2(transformation.x + gameObject->localPosition.x * scaleTransf.x, transformation.y + gameObject->localPosition.y * scaleTransf.y);
 

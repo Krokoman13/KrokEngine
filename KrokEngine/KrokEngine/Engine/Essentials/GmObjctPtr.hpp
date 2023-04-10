@@ -17,5 +17,6 @@ public:
 	GameObject* operator ->();	
 
 	void* operator new (size_t size) = delete;
+	void* operator new[](std::size_t) = delete;
 };
 

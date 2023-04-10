@@ -16,7 +16,7 @@ UIElement::UIElement(std::string name, std::string path, float x, float y)
 		path += name;
 
 		if (path.size() < 4) path += FILE_TYPE;
-		else if (path[path.size() - 4] != '.') path += FILE_TYPE;;
+		else if (path[path.size() - 4] != '.') path += FILE_TYPE;
 	}
 
 	loadTexture(path);

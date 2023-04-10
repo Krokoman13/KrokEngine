@@ -15,5 +15,7 @@ public:
 	operator GameObject* ();
 	GameObject* operator =(GmObjctPtr pOther);
 	GameObject* operator ->();	
+
+	void* operator new (size_t size) = delete;
 };
 

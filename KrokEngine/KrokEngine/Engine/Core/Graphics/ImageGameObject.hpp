@@ -19,6 +19,9 @@ public:
     float GetHeight();
 
     sf::Sprite* GetSprite() override;
+
+    bool centered = false;
+
     void CenterImageAround(Vec2 position);
     const std::string GetFullPath();
 

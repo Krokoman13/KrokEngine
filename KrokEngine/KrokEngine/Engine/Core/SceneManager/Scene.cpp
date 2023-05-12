@@ -1,4 +1,5 @@
 #include "Scene.hpp"
+#include "../../Essentials/GmObjctPtr.hpp"
 
 Scene::Scene(std::string Name, bool reloadOnOpen) : GameObject(0, 0, "Scene")
 {

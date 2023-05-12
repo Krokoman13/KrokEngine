@@ -1,18 +1,22 @@
 #pragma once
 #include <iostream>
 
+struct Matrix;
+
 /// <summary>
 /// 2D Vector. Meant for 2D physics calculations.
 /// </summary>
-struct Vec2
+struct Vec2 
 {
 	float x;
 	float y;
 
 	Vec2(float pX = 0, float pY = 0);
 	Vec2(float pX, float pY, bool normalized);
+	explicit Vec2(const Matrix& other);
 
 	Vec2& operator =(const Vec2& other);
+	Vec2& operator *=(const float& other);
 
 	float GetLength();
 	Vec2 Normalized();

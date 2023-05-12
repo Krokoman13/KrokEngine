@@ -1,7 +1,6 @@
-#pragma once
-
 class Renderer;
 class GameObject;
+class GmObjctPtr;
 
 class UpdateManager
 {

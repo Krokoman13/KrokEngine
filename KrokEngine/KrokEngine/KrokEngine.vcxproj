@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -131,6 +131,7 @@
     <ClInclude Include="Engine\Core\Graphics\ImageGameObject.hpp" />
     <ClInclude Include="Engine\Core\Graphics\Renderer.hpp" />
     <ClInclude Include="Engine\Core\Graphics\RenderLayer.hpp" />
+    <ClInclude Include="Engine\Core\Math\Matrix3.hpp" />
     <ClInclude Include="Engine\Core\SceneManager\Scene.hpp" />
     <ClInclude Include="Engine\Core\SceneManager\SceneManager.hpp" />
     <ClInclude Include="Engine\Core\UI\Button.hpp" />
@@ -141,16 +142,22 @@
     <ClInclude Include="Engine\Core\UpdateManager\UpdateManager.hpp" />
     <ClInclude Include="Engine\Essentials\Game.hpp" />
     <ClInclude Include="Engine\Essentials\GameObject.hpp" />
-    <ClInclude Include="Engine\Essentials\Vec2.hpp" />
+    <ClInclude Include="Engine\Essentials\Transform.hpp" />
+    <ClInclude Include="Engine\Core\Math\Vec2.hpp" />
     <ClInclude Include="Engine\KrokEngine.hpp" />
     <ClInclude Include="Engine\Util\FileIO.hpp" />
     <ClInclude Include="Engine\Util\StringUtil.hpp" />
     <ClInclude Include="Engine\Essentials\GmObjctPtr.hpp" />
+    <ClInclude Include="Engine\Core\Math\Matrix.hpp" />
+    <ClInclude Include="Testing\MovingObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\EventHandeler\EventHandeler.cpp" />
     <ClCompile Include="Engine\Core\Graphics\ImageGameObject.cpp" />
     <ClCompile Include="Engine\Core\Graphics\Renderer.cpp" />
+    <ClCompile Include="Engine\Util\DynamicFloatArray.cpp" />
+    <ClCompile Include="Engine\Util\DynamicFloatArray.hpp" />
+    <ClCompile Include="Engine\Core\Math\Matrix3.cpp" />
     <ClCompile Include="Engine\Core\SceneManager\Scene.cpp" />
     <ClCompile Include="Engine\Core\SceneManager\SceneManager.cpp" />
     <ClCompile Include="Engine\Core\UI\Button.cpp" />
@@ -161,11 +168,14 @@
     <ClCompile Include="Engine\Core\UpdateManager\UpdateManager.cpp" />
     <ClCompile Include="Engine\Essentials\Game.cpp" />
     <ClCompile Include="Engine\Essentials\GameObject.cpp" />
-    <ClCompile Include="Engine\Essentials\Vec2.cpp" />
+    <ClCompile Include="Engine\Core\Math\Vec2.cpp" />
     <ClCompile Include="Engine\Util\FileIO.cpp" />
     <ClCompile Include="Engine\Util\StringUtil.cpp" />
     <ClCompile Include="Engine\Essentials\GmObjctPtr.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Engine\Core\Math\Matrix.cpp" />
+    <ClCompile Include="Testing\MovingObject.cpp" />
+    <ClCompile Include="Engine\Essentials\Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

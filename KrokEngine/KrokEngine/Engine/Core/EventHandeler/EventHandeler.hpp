@@ -1,12 +1,12 @@
-#pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "../../Essentials/Vec2.hpp"
+#include "../Math/Vec2.hpp"
 
 class UIElement;
 class Hoverable;
 class Clickable;
 class UI;
+//struct Vec2;
 
 class EventHandeler
 {

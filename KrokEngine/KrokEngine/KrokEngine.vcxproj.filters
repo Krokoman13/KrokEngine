@@ -27,7 +27,7 @@
     <ClInclude Include="Engine\Essentials\GameObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Essentials\Vec2.hpp">
+    <ClInclude Include="Engine\Core\Math\Vec2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Util\FileIO.hpp">
@@ -75,6 +75,18 @@
     <ClInclude Include="Engine\Essentials\GmObjctPtr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Testing\MovingObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Essentials\Transform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Math\Matrix.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Math\Matrix3.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -86,7 +98,7 @@
     <ClCompile Include="Engine\Essentials\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Essentials\Vec2.cpp">
+    <ClCompile Include="Engine\Core\Math\Vec2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Util\FileIO.cpp">
@@ -129,6 +141,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Essentials\GmObjctPtr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Testing\MovingObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Essentials\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Math\Matrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Math\Matrix3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Util\DynamicFloatArray.hpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Util\DynamicFloatArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

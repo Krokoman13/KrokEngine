@@ -1,5 +1,6 @@
 #include <cmath>
 #include "Vec2.hpp"
+#include "Matrix.hpp"
 #define M_PI          3.141592653589793238462643383279502884L /* pi */
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -51,6 +52,14 @@ Vec2 operator *(float left, Vec2 right)
 {
 	return right * left;
 }
+Vec2 operator*=(Vec2 left, float right)
+{
+	return left * right;
+}
+Vec2 operator*=(float left, Vec2 right)
+{
+	return left * right;
+}
 Vec2 operator*(Vec2 left, Vec2 right)
 {
 	return Vec2(left.x * right.x, left.y * right.y);
@@ -93,10 +102,28 @@ Vec2::Vec2(float pX, float pY, bool normalized)
 	}
 }
 
+Vec2::Vec2(const Matrix& other)
+{
+	if (other.GetRows() != 2 && other.GetColumns() != 1) throw std::invalid_argument("Invalid size Matrix to convert to Vec2");
+
+	x = other.Get(0, 0);
+	y = other.Get(0, 1);
+}
+
 Vec2& Vec2::operator=(const Vec2& other)
 {
 	this->x = other.x;
 	this->y = other.y;
+
+	return *this;
+}
+
+Vec2& Vec2::operator*=(const float& other)
+{
+	Vec2 temp = (*this) * other;
+
+	this->x = temp.x;
+	this->y = temp.y;
 
 	return *this;
 }

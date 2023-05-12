@@ -1,6 +1,9 @@
 #include "UpdateManager.hpp"
 #include "../../Essentials/GameObject.hpp"
+#include "../../Essentials/GmObjctPtr.hpp"
 #include "../Graphics/Renderer.hpp"
+#include "../Math/Vec2.hpp"
+
 
 UpdateManager::UpdateManager()
 {
@@ -28,23 +31,14 @@ void UpdateManager::update(GameObject* toUpdate)
 	std::vector<sf::Drawable*> drawables;
 
 	int parentRenderLayer = toUpdate->GetRenderLayer();
-	Vec2 transformation = GameObject::GetAllTransformations(toUpdate);
-	Vec2 scaleTransf = GameObject::GetAllScaleing(toUpdate);
 
 	for (int i = toUpdate->GetChildren().size() - 1; i >= 0; --i) {
 		GmObjctPtr gameObject = toUpdate->GetChildren()[i];
-		gameObject->globalScale = Vec2(gameObject->GetScale().x * scaleTransf.x, gameObject->GetScale().y * scaleTransf.y);
-		gameObject->globalPosition = Vec2(transformation.x + gameObject->localPosition.x * scaleTransf.x, transformation.y + gameObject->localPosition.y * scaleTransf.y);
-
 		this->update(gameObject);
 
 		if (gameObject->canRender)
 		{
 			sf::Sprite* sprite = gameObject->GetSprite();
-
-			sprite->setScale(gameObject->globalScale.x, gameObject->globalScale.y);
-			sprite->setPosition(gameObject->globalPosition.x, gameObject->globalPosition.y);
-
 			int currentRenderLayer = gameObject->GetRenderLayer();
 
 			if (parentRenderLayer == currentRenderLayer) drawables.push_back(sprite);

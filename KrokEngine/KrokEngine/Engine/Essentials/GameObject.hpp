@@ -3,16 +3,17 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include "Vec2.hpp"
-#include "GmObjctPtr.hpp"
+#include "Transform.hpp"
 
+struct Vec2;
+class GmObjctPtr;
 class Scene;
 
-class GameObject
+class GameObject : public Transform
 {
 public:
-	GameObject(Vec2 position = Vec2(0,0), std::string name = "GameObject", GameObject* parent = nullptr);
-	GameObject(float x, float y, std::string name = "GameObject", GameObject* parent = nullptr);
+	GameObject(Vec2 position, std::string name = "GameObject", GameObject* parent = nullptr);
+	GameObject(float x = 0.0f, float y = 0.0f, std::string name = "GameObject", GameObject* parent = nullptr);
 	virtual ~GameObject();
 
 	void ClearChildren();
@@ -30,21 +31,6 @@ public:
 	void AddChild(GmObjctPtr toAdd);
 	void RemoveChild(GmObjctPtr toRemove);
 
-	const Vec2 GetGlobaPosition();
-	void SetGlobalPosition(Vec2 position);
-
-	static const Vec2 GetAllTransformations(GameObject* parent, Vec2 transformation = Vec2(0, 0));
-
-	Vec2 localPosition;
-	Vec2 globalPosition;
-	Vec2 globalScale;
-
-	static const Vec2 GetAllScaleing(GameObject* parent, Vec2 startScale = Vec2(1, 1));
-
-	virtual void SetScale(float xScale, float yScale);
-	void SetScale(float uniformScale = 1.0f);
-	Vec2 GetScale();
-
 	int GetRenderLayer();
 	void SetRenderLayer(int renderLayer);
 	bool canRender = false;
@@ -58,13 +44,10 @@ public:
 protected:
 	int _renderLayer = -1;
 
-	GameObject* _parent = nullptr;
+	//GameObject* _parent = nullptr;
 	std::vector <GmObjctPtr> _children;
 
 	//int getPositionAsChild(GameObject* toFind);
-
-	Vec2 _scale = Vec2(1.0f, 1.0f);
-
 	Scene* _scene;
 };
 

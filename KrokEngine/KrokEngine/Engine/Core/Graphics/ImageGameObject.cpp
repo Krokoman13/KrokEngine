@@ -1,4 +1,5 @@
 #include "ImageGameObject.hpp"
+#include "../Math/Vec2.hpp"
 
 std::string ImageGameObject::ASSET_PATH = "";
 std::string ImageGameObject::FILE_TYPE = ".png";
@@ -52,27 +53,45 @@ void ImageGameObject::SetSize(float width, float height)
 {
 	if (width < 0 || height < 0) return;
 
-	this->SetScale(width / this->_width, height / this->_height);
+	this->SetLocalScale(width / this->_width, height / this->_height);
 }
 
 float ImageGameObject::GetWidth()
 {
-	return this->_width * this->_scale.x;
+	return this->_width * this->GetLocalScale().x;
 }
 
 float ImageGameObject::GetHeight()
 {
-	return this->_height * this->_scale.y;
+	return this->_height * this->GetLocalScale().y;
 }
 
 sf::Sprite* ImageGameObject::GetSprite()
-{
+{	
+	Matrix3 identity = GetGlobalMatrix();
+	//std::cout << identity;
+	Vec2 scale = identity.GetScale();
+	Vec2 pos = identity.GetPos();
+	float rot = identity.GetRotRad();
+
+	if (centered)
+	{
+		Vec2 diffrence = Vec2(scale.x * _width / 2, scale.y * _height / 2);
+		diffrence.RotateRadians(rot);
+		pos = pos - diffrence;
+	}
+
+	_sprite.setScale(scale.x, scale.y);
+	_sprite.setPosition(pos.x, pos.y);
+	_sprite.setRotation(Vec2::Rad2Deg(rot));
+
 	return &this->_sprite;
 }
 
 void ImageGameObject::CenterImageAround(Vec2 position)
 {
-	this->localPosition.SetXY(position.x - _width / 2, position.y - _height / 2);
+	Vec2 globalScale = GetGlobalScale();
+	this->SetLocalPosition(position.x - (globalScale.x * _width / 2), position.y - (globalScale.y *_height / 2));
 }
 
 const std::string ImageGameObject::GetFullPath()

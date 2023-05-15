@@ -36,7 +36,7 @@ void UpdateManager::update(GameObject* toUpdate)
 		GmObjctPtr gameObject = toUpdate->GetChildren()[i];
 		this->update(gameObject);
 
-		if (gameObject->canRender)
+		if (gameObject->CanRender())
 		{
 			sf::Sprite* sprite = gameObject->GetSprite();
 			int currentRenderLayer = gameObject->GetRenderLayer();

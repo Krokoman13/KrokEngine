@@ -11,14 +11,14 @@ public:
 	GmObjctPtr(GameObject* pPointer);
 	GmObjctPtr(const GmObjctPtr& pOther);
 	~GmObjctPtr();
-	GameObject* Get();
+	GameObject* Get() const;
 	void DeleteGameObject();
 
 	operator GameObject* ();
-	bool operator == (GmObjctPtr pOther);
+	bool operator == (GmObjctPtr pOther) const;
 	GmObjctPtr operator =(GmObjctPtr pOther);
 	//GameObject* operator =(GmObjctPtr pOther);
-	GameObject* operator ->();	
+	GameObject* operator ->() const;	
 
 	void* operator new (size_t size) = delete;
 };

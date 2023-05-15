@@ -30,7 +30,7 @@ void ImageGameObject::loadTexture(std::string path)
 	{
 		this->_sprite.setTexture(_texture);
 
-		this->canRender = true;
+		this->_canRender = true;
 		this->_fullpath = path;
 
 		this->_width = (float)_sprite.getTextureRect().width;

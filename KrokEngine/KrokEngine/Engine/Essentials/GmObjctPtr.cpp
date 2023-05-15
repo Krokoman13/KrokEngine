@@ -4,7 +4,7 @@
 
 GmObjctPtr::GmObjctPtr(GameObject* pPointer)
 {
-	if (pPointer == nullptr) std::invalid_argument("Cannot create a GmObjectPtr from a nullpointer");
+	if (pPointer == nullptr) throw std::invalid_argument("Cannot create a GmObjectPtr from a nullpointer");
 	_pointer = pPointer;
 	_destroyed = new bool(false);
 	_count = new unsigned int(1);
@@ -30,7 +30,7 @@ GmObjctPtr::~GmObjctPtr()
 	}
 }
 
-GameObject* GmObjctPtr::Get()
+GameObject* GmObjctPtr::Get() const
 {
 	return _pointer;
 }
@@ -38,6 +38,7 @@ GameObject* GmObjctPtr::Get()
 void GmObjctPtr::DeleteGameObject()
 {
 	(*_destroyed) = true;
+	if (_pointer == nullptr) return;
 	delete _pointer;
 }
 
@@ -46,7 +47,7 @@ GmObjctPtr::operator GameObject* ()
 	return _pointer;
 }
 
-bool GmObjctPtr::operator==(GmObjctPtr pOther)
+bool GmObjctPtr::operator==(GmObjctPtr pOther) const
 {
 	return this->Get() == pOther.Get();
 }
@@ -59,7 +60,7 @@ GmObjctPtr GmObjctPtr::operator=(GmObjctPtr pOther)
 	return *this;
 }
 
-GameObject* GmObjctPtr::operator->()
+GameObject* GmObjctPtr::operator->() const
 {
 	return _pointer;
 }

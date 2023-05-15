@@ -20,7 +20,7 @@ void Scene::Load()
 	ui->ClearUi();
 
 	OnLoad();
-	loadChildren(this);
+	load(this);
 	loaded = true;
 }
 
@@ -35,12 +35,12 @@ void Scene::OnClose()
 {
 }
 
-void Scene::loadChildren(GameObject* gameObject)
+void Scene::load(GameObject* gmObject)
 {
-	for (GmObjctPtr child : gameObject->GetChildren())
+	for (GmObjctPtr child : gmObject->GetChildren())
 	{
 		child->SetScene(this);
 		child->OnLoad();
-		loadChildren(child);
+		load(child);
 	}
 }

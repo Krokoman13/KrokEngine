@@ -10,7 +10,7 @@ MovingObject::MovingObject(float x, float y) : ImageGameObject("Smiley.jpg", x, 
 	//CenterImageAround(GetLocalPosition());
 }
 
-void MovingObject::Update()
+void MovingObject::update()
 {
 	i += 0.001f;
 	Vec2 scale = this->GetLocalScale();

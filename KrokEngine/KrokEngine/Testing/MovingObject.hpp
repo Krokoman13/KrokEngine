@@ -10,6 +10,6 @@ private:
 
 public:
     MovingObject(float x, float y);
-    virtual void Update() override;
+    virtual void update() override;
 };
 

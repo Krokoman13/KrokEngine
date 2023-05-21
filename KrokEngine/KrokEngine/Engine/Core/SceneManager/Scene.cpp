@@ -19,7 +19,7 @@ void Scene::Load()
 	ClearChildren();
 	ui->ClearUi();
 
-	OnLoad();
+	onLoad();
 
 	SetScene(this);
 

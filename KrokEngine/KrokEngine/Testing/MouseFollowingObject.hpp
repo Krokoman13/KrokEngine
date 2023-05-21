@@ -8,7 +8,7 @@ class MouseFollowingObject : public GameObject
 public:
 	MouseFollowingObject();
 
-	virtual void Update() override;
+	virtual void update() override;
 
 private:
 	ImageGameObject* redDot;

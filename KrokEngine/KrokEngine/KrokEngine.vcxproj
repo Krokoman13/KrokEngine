@@ -141,6 +141,7 @@
     <ClInclude Include="Engine\Core\UI\UI.hpp" />
     <ClInclude Include="Engine\Core\UI\UIElement.hpp" />
     <ClInclude Include="Engine\Core\UpdateManager\UpdateManager.hpp" />
+    <ClInclude Include="Engine\Essentials\Component.hpp" />
     <ClInclude Include="Engine\Essentials\Game.hpp" />
     <ClInclude Include="Engine\Essentials\GameObject.hpp" />
     <ClInclude Include="Engine\Essentials\Transform.hpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="Engine\Core\EventHandeler\EventHandeler.cpp" />
     <ClCompile Include="Engine\Core\Graphics\ImageGameObject.cpp" />
     <ClCompile Include="Engine\Core\Graphics\Renderer.cpp" />
+    <ClCompile Include="Engine\Essentials\Component.cpp" />
     <ClCompile Include="Engine\Util\DynamicFloatArray.cpp" />
     <ClCompile Include="Engine\Util\DynamicFloatArray.hpp" />
     <ClCompile Include="Engine\Core\Math\Matrix3.cpp" />

@@ -28,26 +28,19 @@ void UpdateManager::SetRenderer(Renderer& renderer)
 
 void UpdateManager::update(GameObject* toUpdate)
 {
+	if (!toUpdate->IsActive()) return;
+
 	toUpdate->Update();
 
-	std::vector<sf::Drawable*> drawables;
-
-	int parentRenderLayer = toUpdate->GetRenderLayer();
-
-	for (int i = toUpdate->ChildCount() - 1; i >= 0; --i) {
-		GameObject* gameObject = toUpdate->GetChild(i);
-		this->update(gameObject);
-
-		if (gameObject->CanRender())
-		{
-			sf::Sprite* sprite = gameObject->GetSprite();
-			int currentRenderLayer = gameObject->GetRenderLayer();
-
-			if (parentRenderLayer == currentRenderLayer) drawables.push_back(sprite);
-			_renderer->ToRender(sprite, currentRenderLayer);
-			continue;
-		}
+	if (toUpdate->CanRender())
+	{
+		sf::Sprite* sprite = toUpdate->GetSprite();
+		int currentRenderLayer = toUpdate->GetRenderLayer();
+		_renderer->ToRender(sprite, currentRenderLayer);
 	}
 
-	_renderer->ToRender(drawables, parentRenderLayer);
+	for (int i = toUpdate->ChildCount() - 1; i >= 0; --i) {
+		GameObject* child = toUpdate->GetChild(i);
+		this->update(child);
+	}
 }

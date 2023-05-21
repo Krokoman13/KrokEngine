@@ -2,6 +2,7 @@
 #include "Game.hpp"
 #include "GmObjctPtr.hpp"
 #include "../Core/Math/Vec2.hpp"
+#include "Component.hpp"
 
 GameObject::GameObject(Vec2 position, std::string name) : Transform(position)
 {
@@ -39,11 +40,11 @@ sf::Sprite* GameObject::GetSprite()
 	return nullptr;
 }
 
-void GameObject::Update()
+void GameObject::update()
 {
 }
 
-void GameObject::OnLoad()
+void GameObject::onLoad()
 {
 }
 
@@ -75,6 +76,69 @@ Scene* GameObject::GetScene() const
 {
 	return _scene;
 }
+
+void GameObject::SetActive(bool pEnabled)
+{
+	if (pEnabled == _enabled) return;
+
+	_enabled = pEnabled;
+
+	for (GmObjctPtr child : _children)
+	{
+		child->SetActive(_enabled);
+	}
+
+	if (_enabled) OnEnable();
+	else OnDisable();
+}
+
+bool GameObject::IsActive() const
+{
+	return _enabled;
+}
+
+void GameObject::Update()
+{
+	for (Component component : _components)
+	{
+		component.Update();
+	}
+
+	update();
+}
+
+void GameObject::OnLoad()
+{
+	for (Component component : _components)
+	{
+		component.OnLoad();
+	}
+
+	onLoad();
+}
+
+void GameObject::OnEnable()
+{
+	for (Component component : _components)
+	{
+		if (!component.IsActive()) continue;
+		component.OnEnable();
+	}
+
+	onEnable();
+}
+
+void GameObject::OnDisable()
+{
+	for (Component component : _components)
+	{
+		if (!component.IsActive()) continue;
+		component.OnDisable();
+	}
+
+	onDisable();
+}
+
 
 int GameObject::getChildIndex()
 {

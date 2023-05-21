@@ -5,6 +5,6 @@ class TestScene : public Scene
 {
 public:
 	TestScene();
-	virtual void OnLoad() override;
+	virtual void onLoad() override;
 };
 

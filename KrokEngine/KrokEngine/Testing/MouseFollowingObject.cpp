@@ -15,7 +15,7 @@ MouseFollowingObject::MouseFollowingObject() : GameObject("MouseFollowingObject"
 	redDot->SetVisible(false);
 }
 
-void MouseFollowingObject::Update()
+void MouseFollowingObject::update()
 {
 	Vec2 pos = Input::mousePosition;
 	SetGlobalPosition(pos);

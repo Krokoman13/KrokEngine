@@ -8,6 +8,7 @@
 struct Vec2;
 class GmObjctPtr;
 class Scene;
+class Component;
 
 class GameObject : public Transform
 {
@@ -40,11 +41,17 @@ public:
 	void SetRenderLayer(int renderLayer);
 
 	virtual sf::Sprite* GetSprite();
-	virtual void Update();
-	virtual void OnLoad();
 
 	void SetScene(Scene* scene);
 	Scene* GetScene() const;
+
+	void SetActive(bool pEnabled = true);
+	bool IsActive() const;
+
+	void Update();
+	void OnLoad();
+	void OnEnable();
+	void OnDisable();
 
 protected:
 	bool _canRender = false;
@@ -56,7 +63,15 @@ protected:
 	int getChildIndex();
 	Scene* _scene;
 
+	virtual void update();
+	virtual void onLoad();
+	virtual void onEnable();
+	virtual void onDisable();
+
 private:
 	void setParent(GameObject* pParent);
+	bool _enabled = true;
+
+	std::vector<Component> _components;
 };
 

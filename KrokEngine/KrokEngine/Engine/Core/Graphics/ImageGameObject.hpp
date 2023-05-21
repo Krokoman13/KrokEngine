@@ -23,7 +23,9 @@ public:
     bool centered = false;
 
     void CenterImageAround(Vec2 position);
-    const std::string GetFullPath();
+    std::string GetFullPath() const;
+
+    void SetVisible(bool pVisable);
 
 private:
     std::string _fullpath;

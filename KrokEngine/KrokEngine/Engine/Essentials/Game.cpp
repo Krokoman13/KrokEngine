@@ -31,7 +31,7 @@ void Game::Run()
 			HandleEvent(event, GetCurrentScene()->ui);
 		}
 
-		if (!Focus()) continue;
+		if (!Input::focus) continue;
 
 		_updateManger.Update(GetCurrentScene());
 

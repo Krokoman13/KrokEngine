@@ -10,12 +10,12 @@ EventHandeler::EventHandeler(sf::RenderWindow& renderWindow)
 
 void EventHandeler::HandleEvent(sf::Event& event, UI* ui)
 {
-	if (!_focus)
+	if (!Input::focus)
 	{
 		if (event.type == sf::Event::GainedFocus)
 		{
-			_focus = true;
-			_mouseInScreen = true;
+			Input::focus = true;
+			Input::mouseInScreen = true;
 			return;
 		}
 
@@ -29,72 +29,47 @@ void EventHandeler::HandleEvent(sf::Event& event, UI* ui)
 		break;
 
 	case sf::Event::LostFocus:
-		_focus = false;
+		Input::focus = false;
 		break;
 
 	case sf::Event::MouseLeft:
-		_mouseInScreen = false;
+		Input::mouseInScreen = false;
 		break;
 	case sf::Event::MouseEntered:
-		_mouseInScreen = true;
+		Input::mouseInScreen = true;
 		break;
 	case sf::Event::MouseMoved:
-		if (_mouseInScreen)
+		if (Input::mouseInScreen)
 		{
 			sf::Vector2i mousePosition = sf::Mouse::getPosition(*_renderWindow);
-			_mousePosition.SetXY((float)mousePosition.x, (float)mousePosition.y);
+			Input::mousePosition.SetXY((float)mousePosition.x, (float)mousePosition.y);
 			setHovering(ui->GetHoverables());
 		}
 		break;
 	case sf::Event::MouseButtonPressed:
-		if (_mouseInScreen)
+		if (Input::mouseInScreen)
 		{
-			_mouseButtons[event.mouseButton.button] = true;
+			Input::mouseButtons[event.mouseButton.button] = true;
 			HandleClicks(event.mouseButton.button);
 		}
 		break;
 	case sf::Event::MouseButtonReleased:
-		if (_mouseInScreen)
+		if (Input::mouseInScreen)
 		{
-			_mouseButtons[event.mouseButton.button] = false;
+			Input::mouseButtons[event.mouseButton.button] = false;
 		}
 		break;
 
 	case sf::Event::KeyPressed:
-		if (_mouseInScreen)
-		{
-			_key[event.key.code] = true;
-		}
+		Input::key[event.key.code] = true;
 		break;
 	case sf::Event::KeyReleased:
-		if (_mouseInScreen)
-		{
-			_key[event.key.code] = false;
-		}
+		Input::key[event.key.code] = false;
 		break;
+
 	default:
 		return;
 	}
-}
-
-const Vec2 EventHandeler::MousePosition()
-{
-	return _mousePosition;
-}
-
-const bool EventHandeler::IsPressed(sf::Keyboard::Key key)
-{
-	return _key[key];
-}
-
-const bool EventHandeler::IsPressed(sf::Mouse::Button mouseButton)
-{
-	return _mouseButtons[mouseButton];
-}
-
-const bool EventHandeler::Focus()
-{
-	return _focus;
 }
 
 void EventHandeler::HandleClicks(sf::Mouse::Button button)
@@ -116,7 +91,7 @@ void EventHandeler::HandleClicks(sf::Mouse::Button button)
 
 bool EventHandeler::ButtonDown(sf::Keyboard::Key pKey)
 {
-	return _key[pKey];
+	return Input::key[pKey];
 }
 
 void EventHandeler::setHovering(const std::vector<Hoverable*>& hoverables)
@@ -137,7 +112,7 @@ void EventHandeler::setHovering(const std::vector<Hoverable*>& hoverables)
 	{
 		if (hoverable == nullptr) continue;
 
-		if (hoverable->IsInside(_mousePosition.x, _mousePosition.y))
+		if (hoverable->IsInside(Input::mousePosition.x, Input::mousePosition.y))
 		{
 			hoverable->hovering = true;
 			_hoveringOver.push_back(hoverable);

@@ -1,11 +1,12 @@
 #include "SceneManager.hpp"
 
-SceneManager::SceneManager(Game* game = nullptr)
+SceneManager::SceneManager(Game* game)
 {
 	_game = game;
+	_currentScene = nullptr;
 }
 
-SceneManager::SceneManager(Scene* startScene, Game* game = nullptr) : SceneManager(game)
+SceneManager::SceneManager(Scene* startScene, Game* game) : SceneManager(game)
 {
 	_scenes.push_back(startScene);
 	openScene(startScene);
@@ -76,6 +77,7 @@ void SceneManager::AddScene(Scene* scene)
 		if (_scenes.size() > 0) throw std::logic_error("It should not be possible that there are scenes, but not an active scene");
 		_scenes.push_back(scene);
 		openScene(scene);
+		return;
 	}
 
 	if (scene->identifier == _scenes.size())

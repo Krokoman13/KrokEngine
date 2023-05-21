@@ -5,11 +5,10 @@
 
 GameObject::GameObject(Vec2 position, std::string name) : Transform(position)
 {
-	//this->SetLocalPosition(position);
 	this->name = name;
 }
 
-GameObject::GameObject(float x, float y, std::string name) : GameObject(Vec2(x, y), name)
+GameObject::GameObject(std::string name, float x, float y) : GameObject(Vec2(x, y), name)
 {
 }
 

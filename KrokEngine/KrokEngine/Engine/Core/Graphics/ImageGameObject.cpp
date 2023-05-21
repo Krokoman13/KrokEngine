@@ -97,7 +97,12 @@ void ImageGameObject::CenterImageAround(Vec2 position)
 	this->SetLocalPosition(position.x - (globalScale.x * _width / 2), position.y - (globalScale.y *_height / 2));
 }
 
-const std::string ImageGameObject::GetFullPath()
+std::string ImageGameObject::GetFullPath() const
 {
 	return this->_fullpath;
+}
+
+void ImageGameObject::SetVisible(bool pVisable)
+{
+	_canRender = pVisable;
 }

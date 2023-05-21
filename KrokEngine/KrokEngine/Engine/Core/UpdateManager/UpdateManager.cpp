@@ -1,9 +1,6 @@
 #include "UpdateManager.hpp"
-#include "../../Essentials/GameObject.hpp"
 #include "../../Essentials/GmObjctPtr.hpp"
-#include "../Graphics/Renderer.hpp"
 #include "../Math/Vec2.hpp"
-
 
 UpdateManager::UpdateManager()
 {
@@ -14,9 +11,14 @@ UpdateManager::~UpdateManager()
 }
 
 
-void UpdateManager::Update(GameObject* game)
+void UpdateManager::Update(Scene* scene)
 {
-	update(game);
+	for (GmObjctPtr gameObject : scene->ToLoad())
+	{
+		gameObject->OnLoad();
+	}
+
+	update(scene);
 }
 
 void UpdateManager::SetRenderer(Renderer& renderer)

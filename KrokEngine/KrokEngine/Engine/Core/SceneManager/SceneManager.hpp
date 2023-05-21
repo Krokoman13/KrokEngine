@@ -7,7 +7,8 @@ class Game;
 class SceneManager
 {
 public:
-	SceneManager(Scene* startScene, Game* game);
+	SceneManager(Game* pGame = nullptr);
+	SceneManager(Scene* startScene, Game* pGame = nullptr);
 	~SceneManager();
 
 	Scene* GetCurrentScene();

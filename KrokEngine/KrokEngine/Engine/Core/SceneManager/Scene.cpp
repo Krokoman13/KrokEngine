@@ -3,9 +3,9 @@
 
 Scene::Scene(std::string Name, bool reloadOnOpen) : GameObject(0, 0, "Scene")
 {
-	this->ui = new UI();
-	this->name = Name;
-	this->_reloadOnOpen = reloadOnOpen;
+	ui = new UI();
+	name = Name;
+	_reloadOnOpen = reloadOnOpen;
 }
 
 Scene::~Scene()
@@ -20,8 +20,30 @@ void Scene::Load()
 	ui->ClearUi();
 
 	OnLoad();
-	load(this);
+
+	SetScene(this);
+
 	loaded = true;
+}
+
+void Scene::Clean()
+{
+	_toLoad.clear();
+
+	unsigned int i = 0;
+
+	while (i < _inScene.size())
+	{
+		GmObjctPtr gameObject = _inScene[i];
+
+		if (gameObject.IsDestroyed())
+		{
+			_inScene.erase(_inScene.begin() + i);
+			continue;
+		}
+		
+		i++;
+	}
 }
 
 void Scene::Close()
@@ -35,14 +57,19 @@ void Scene::OnClose()
 {
 }
 
-void Scene::load(GameObject* gmObject)
+const std::vector<GmObjctPtr>& Scene::ToLoad() const
 {
+	return _toLoad;
+}
 
-	for (unsigned int i = 0; i < gmObject->ChildCount(); i++)
-	{
-		GmObjctPtr child = gmObject->GetChild(i);
-		child->SetScene(this);
-		child->OnLoad();
-		load(child);
-	}
+const std::vector<GmObjctPtr>& Scene::InScene() const
+{
+	return _inScene;
+}
+
+void Scene::AddToScene(GmObjctPtr pGameObject)
+{
+	_toLoad.push_back(pGameObject);
+	_inScene.push_back(pGameObject);
+	pGameObject->SetScene(this);
 }

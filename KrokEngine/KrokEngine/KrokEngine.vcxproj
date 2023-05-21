@@ -150,6 +150,7 @@
     <ClInclude Include="Engine\Essentials\GmObjctPtr.hpp" />
     <ClInclude Include="Engine\Core\Math\Matrix.hpp" />
     <ClInclude Include="Testing\MovingObject.hpp" />
+    <ClInclude Include="Testing\TestScene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\EventHandeler\EventHandeler.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="Engine\Core\Math\Matrix.cpp" />
     <ClCompile Include="Testing\MovingObject.cpp" />
     <ClCompile Include="Engine\Essentials\Transform.cpp" />
+    <ClCompile Include="Testing\TestScene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

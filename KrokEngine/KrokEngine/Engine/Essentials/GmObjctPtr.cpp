@@ -30,6 +30,11 @@ GmObjctPtr::~GmObjctPtr()
 	}
 }
 
+bool GmObjctPtr::IsDestroyed() const
+{
+	return *_destroyed;
+}
+
 GameObject* GmObjctPtr::Get() const
 {
 	return _pointer;

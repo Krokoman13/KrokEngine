@@ -17,7 +17,9 @@ ImageGameObject::ImageGameObject(std::string name, std::string path, float x, fl
 		else if (path[path.size() - 4] != '.') path += FILE_TYPE;;
 	}
 
-	this->loadTexture(path);
+	loadTexture(path);
+	this->_fullpath = path;
+	//OnLoad();
 }
 
 ImageGameObject::ImageGameObject(std::string name, float x, float y, int renderlayer) : ImageGameObject(name, ASSET_PATH, x, y, renderlayer)
@@ -28,6 +30,7 @@ void ImageGameObject::loadTexture(std::string path)
 {
 	if (this->_texture.loadFromFile(path))
 	{
+		std::cout << "Loading : " << path << '\n';
 		this->_sprite.setTexture(_texture);
 
 		this->_canRender = true;

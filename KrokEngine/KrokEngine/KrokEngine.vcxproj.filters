@@ -87,6 +87,9 @@
     <ClInclude Include="Engine\Core\Math\Matrix3.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Testing\TestScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -159,6 +162,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Util\DynamicFloatArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Testing\TestScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

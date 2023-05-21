@@ -54,7 +54,7 @@ void GameObject::SetScene(Scene* pScene)
 
 	for (GmObjctPtr child : _children)
 	{
-		child->SetScene(pScene);
+		pScene->AddToScene(child);
 	}
 
 	if (pScene == nullptr)
@@ -63,8 +63,13 @@ void GameObject::SetScene(Scene* pScene)
 		return;
 	}
 
+	if (_scene != nullptr)
+	{
+		throw std::logic_error("Changing the scene of an object is not currently possible.");
+		return;
+	}
+
 	_scene = pScene;
-	OnLoad();
 }
 
 Scene* GameObject::GetScene() const

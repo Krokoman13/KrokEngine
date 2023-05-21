@@ -11,6 +11,7 @@ public:
 	explicit GmObjctPtr(GameObject* pPointer);
 	GmObjctPtr(const GmObjctPtr& pOther);
 	~GmObjctPtr();
+	bool IsDestroyed() const;
 	GameObject* Get() const;
 	void DeleteGameObject();
 

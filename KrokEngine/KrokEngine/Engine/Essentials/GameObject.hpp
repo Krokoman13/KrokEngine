@@ -14,7 +14,7 @@ class GameObject : public Transform
 public:
 	GameObject(Vec2 pPosition, std::string pName = "GameObject");
 	GameObject(float pX = 0.0f, float pY = 0.0f, std::string pName = "GameObject");
-	virtual ~GameObject();
+	~GameObject();
 
 	void ClearChildren();
 

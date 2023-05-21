@@ -1,6 +1,6 @@
-class Renderer;
-class GameObject;
-class GmObjctPtr;
+#include "../../Essentials/GameObject.hpp"
+#include "../Graphics/Renderer.hpp"
+#include "../../Core/SceneManager/Scene.hpp"
 
 class UpdateManager
 {
@@ -8,7 +8,7 @@ public:
 	UpdateManager();
 	~UpdateManager();
 
-	void Update(GameObject* game);
+	void Update(Scene* scene);
 	void SetRenderer(Renderer& renderer);
 
 private:

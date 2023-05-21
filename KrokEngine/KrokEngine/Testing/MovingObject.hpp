@@ -6,7 +6,7 @@ class MovingObject :
     public ImageGameObject
 {
 private:
-    double i;
+    float i;
 
 public:
     MovingObject(float x, float y);

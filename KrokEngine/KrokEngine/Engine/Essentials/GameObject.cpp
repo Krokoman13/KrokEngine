@@ -25,11 +25,11 @@ GameObject::~GameObject()
 
 void GameObject::ClearChildren()
 {
-	while (_children.size() > 0)
+	while (ChildCount() > 0)
 	{
 		GmObjctPtr child = _children.back();
 		//_children.pop_back();
-		int i = _children.size() - 1;
+		int i = ChildCount() - 1;
 		RemoveChild(i);
 		child.DeleteGameObject();
 	}
@@ -74,11 +74,11 @@ Scene* GameObject::GetScene() const
 
 int GameObject::getChildIndex()
 {
-	const std::vector<GmObjctPtr> siblings = GetParent()->GetChildren();
+	GameObject* parent = GetParent();
 
-	for (unsigned int i = 0; i < siblings.size(); i++)
+	for (unsigned int i = 0; i < parent->ChildCount(); i++)
 	{
-		if (this == siblings[i].Get())
+		if (this == parent->GetChild(i))
 		{
 			return i;
 		}
@@ -135,14 +135,19 @@ bool GameObject::HasChild(GmObjctPtr pOther) const
 	return false;
 }
 
-const std::vector<GmObjctPtr> GameObject::GetChildren() const
+//const std::vector<GmObjctPtr> GameObject::GetChildren() const
+//{
+//	return _children;
+//}
+
+unsigned int GameObject::ChildCount() const
 {
-	return _children;
+	return static_cast<unsigned int>(_children.size());
 }
 
 GmObjctPtr GameObject::GetChild(unsigned int i) const
 {
-	if (i > _children.size()-1) return nullptr;
+	if (i > _children.size()-1) throw std::out_of_range("Child index is out of range");;
 
 	return _children[i];
 }
@@ -160,15 +165,24 @@ void GameObject::AddChild(GmObjctPtr pChild)
 	pChild->setParent(this);;
 }
 
-void GameObject::RemoveChild(int pChild)
+GmObjctPtr GameObject::AddChild(GameObject* pChild)
 {
+	GmObjctPtr child = GmObjctPtr(pChild);
+	AddChild(child);
+	return child;
+}
+
+void GameObject::RemoveChild(unsigned int pChild)
+{
+	if (pChild >= _children.size()) throw std::out_of_range("Child index is out of range");
+
 	_children[pChild]->_parent = nullptr;
 	_children.erase(_children.begin() + pChild);
 }
 
-void GameObject::RemoveChild(GmObjctPtr pChild)
+void GameObject::RemoveChild(GameObject* pChild)
 {
-	if (pChild.Get() == nullptr) return;
+	if (pChild == nullptr) return;
 
 	for (unsigned int i = 0; i < this->_children.size(); i++)
 	{

@@ -12,7 +12,7 @@ MovingObject::MovingObject(float x, float y) : ImageGameObject("Smiley.jpg", x, 
 
 void MovingObject::Update()
 {
-	i += 0.001;
+	i += 0.001f;
 	Vec2 scale = this->GetLocalScale();
 	float value = ((float)std::sin(i)) / 10.0f + 0.5f;
 	scale = value;

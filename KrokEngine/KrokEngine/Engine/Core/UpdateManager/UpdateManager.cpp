@@ -32,8 +32,8 @@ void UpdateManager::update(GameObject* toUpdate)
 
 	int parentRenderLayer = toUpdate->GetRenderLayer();
 
-	for (int i = toUpdate->GetChildren().size() - 1; i >= 0; --i) {
-		GmObjctPtr gameObject = toUpdate->GetChildren()[i];
+	for (int i = toUpdate->ChildCount() - 1; i >= 0; --i) {
+		GameObject* gameObject = toUpdate->GetChild(i);
 		this->update(gameObject);
 
 		if (gameObject->CanRender())

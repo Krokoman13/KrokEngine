@@ -26,12 +26,14 @@ public:
 	void ClearParent();
 
 	bool HasChild(GmObjctPtr pOther) const;
-	const std::vector <GmObjctPtr> GetChildren() const;
+	//const std::vector <GmObjctPtr> GetChildren() const;
+	unsigned int ChildCount() const;
 	GmObjctPtr GetChild(unsigned int i) const;
 
 	void AddChild(GmObjctPtr pChild);
-	void RemoveChild(int i);
-	void RemoveChild(GmObjctPtr pChild);
+	GmObjctPtr AddChild(GameObject* pChild);
+	void RemoveChild(unsigned int i);
+	void RemoveChild(GameObject* pChild);
 
 	int GetRenderLayer() const;
 	bool CanRender() const;

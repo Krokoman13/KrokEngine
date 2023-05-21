@@ -5,7 +5,7 @@ Transform::Transform(Vec2 pPos) : _identity()
 {
 	SetLocalPosition(pPos);
 
-	std::cout << _identity;
+	//std::cout << _identity;
 }
 
 Transform::Transform(float pX, float pY) : Transform(Vec2(pX, pY))

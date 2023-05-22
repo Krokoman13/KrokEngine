@@ -52,11 +52,11 @@ Vec2 operator *(float left, Vec2 right)
 {
 	return right * left;
 }
-Vec2 operator*=(Vec2 left, float right)
+Vec2 operator /(Vec2 left, float right)
 {
-	return left * right;
+	return Vec2(left.x/right, left.y/right);
 }
-Vec2 operator*=(float left, Vec2 right)
+Vec2 operator*=(Vec2 left, float right)
 {
 	return left * right;
 }
@@ -70,7 +70,7 @@ bool operator ==(Vec2 left, Vec2 right)
 }
 bool operator !=(Vec2 left, Vec2 right)
 {
-	return left.x != right.x && left.y != right.y;
+	return !(left == right);
 }
 
 //------------------------------------------------------------------------------------------------------------------------

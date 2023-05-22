@@ -19,16 +19,20 @@ void Scene::Load()
 	ClearChildren();
 	ui->ClearUi();
 
-	onLoad();
+	OnLoad();
 
 	SetScene(this);
 
 	loaded = true;
 }
 
-void Scene::Clean()
+void Scene::HandleObjectsInScene()
 {
-	_toLoad.clear();
+	while (!_toLoad.empty())
+	{
+		_inScene.push_back(_toLoad.front());
+		_toLoad.erase(_toLoad.begin());
+	}
 
 	unsigned int i = 0;
 
@@ -70,6 +74,6 @@ const std::vector<GmObjctPtr>& Scene::InScene() const
 void Scene::AddToScene(GmObjctPtr pGameObject)
 {
 	_toLoad.push_back(pGameObject);
-	_inScene.push_back(pGameObject);
+	//_inScene.push_back(pGameObject);
 	pGameObject->SetScene(this);
 }

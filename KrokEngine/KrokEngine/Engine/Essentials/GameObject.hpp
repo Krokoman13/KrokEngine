@@ -4,11 +4,11 @@
 #include <string>
 #include <iostream>
 #include "Transform.hpp"
+#include "../Core/Math/Vec2.hpp"
+#include "Component.hpp"
 
-struct Vec2;
 class GmObjctPtr;
 class Scene;
-class Component;
 
 class GameObject : public Transform
 {
@@ -22,6 +22,7 @@ public:
 	std::string name;
 
 	GameObject* GetParent() const;
+	void SetParent(Transform* pParent) = delete;
 	void SetParent(GameObject* pParent);
 
 	void ClearParent();
@@ -53,6 +54,9 @@ public:
 	void OnEnable();
 	void OnDisable();
 
+	Component* TryFindComponent(const std::type_info& pTypeId, bool& pFound);
+	void AddComponent(Component* pComponent);
+
 protected:
 	bool _canRender = false;
 	int _renderLayer = -1;
@@ -65,13 +69,11 @@ protected:
 
 	virtual void update();
 	virtual void onLoad();
-	virtual void onEnable();
-	virtual void onDisable();
 
 private:
 	void setParent(GameObject* pParent);
-	bool _enabled = true;
+	bool _enabled = false;
 
-	std::vector<Component> _components;
+	std::vector<Component*> _components;
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Essentials/GameObject.hpp"
 #include "../UI/UI.hpp"
+#include <queue>
 
 class SceneManager;
 
@@ -17,7 +18,7 @@ public:
 
 	void Load();
 	void AddToScene(GmObjctPtr gmObject);
-	void Clean();
+	void HandleObjectsInScene();
 	void Close();
 
 	SceneManager* sceneManager;

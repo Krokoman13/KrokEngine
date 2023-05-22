@@ -49,7 +49,7 @@ Matrix3 Matrix3::ScalingMatrix(const Vec2& pScale)
 	out.Set(0, 0, pScale.x);
 	out.Set(1, 0, 0);
 	out.Set(0, 1, 0);
-	out.Set(1, 1, pScale.x);
+	out.Set(1, 1, pScale.y);
 	return out;
 }
 

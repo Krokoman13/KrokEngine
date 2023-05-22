@@ -1,3 +1,5 @@
+#pragma once
+
 class GameObject;
 
 class GmObjctPtr

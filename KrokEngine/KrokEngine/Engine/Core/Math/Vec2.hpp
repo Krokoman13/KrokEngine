@@ -65,5 +65,7 @@ Vec2 operator *(float left, Vec2 right);
 
 Vec2 operator *(Vec2 left, Vec2 right);
 
+Vec2 operator /(Vec2 left, float right);
+
 bool operator ==(Vec2 left, Vec2 right);
 bool operator !=(Vec2 left, Vec2 right);

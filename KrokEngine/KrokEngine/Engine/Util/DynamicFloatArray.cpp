@@ -3,7 +3,7 @@
 
 DynamicFloatArray::DynamicFloatArray(const unsigned int pSize)
 {
-	this->_size = pSize;
+	_size = pSize;
 	_array = new float[pSize];
 }
 

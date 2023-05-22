@@ -1,17 +1,19 @@
 #pragma once
-#pragma once
-#include "../Engine/Core/Graphics/ImageGameObject.hpp"
-#include "../Engine/Core/Math/Vec2.hpp"
+#include "../Engine/KrokEngine.hpp"
 
 class MouseFollowingObject : public GameObject
 {
 public:
 	MouseFollowingObject();
-
-	virtual void update() override;
+	void update() override;
 
 private:
-	ImageGameObject* redDot;
-	ImageGameObject* blueDot;
+	void goRed();
+	void goBlue();
+
+	ImageGameObject* _redDot;
+	ImageGameObject* _blueDot;
+
+	TriggerColliderComponent* _triggerCollider;
 };
 

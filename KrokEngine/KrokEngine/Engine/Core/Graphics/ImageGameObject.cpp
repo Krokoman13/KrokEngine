@@ -52,11 +52,11 @@ void ImageGameObject::SetHeight(float height)
 	this->SetSize(this->_width, height);
 }
 
-void ImageGameObject::SetSize(float width, float height)
+void ImageGameObject::SetSize(float pWidth, float pHeight)
 {
-	if (width < 0 || height < 0) return;
+	if (pWidth < 0 || pHeight < 0) return;
 
-	this->SetLocalScale(width / this->_width, height / this->_height);
+	this->SetLocalScale(pWidth / this->_width, pHeight / this->_height);
 }
 
 float ImageGameObject::GetWidth()
@@ -72,7 +72,7 @@ float ImageGameObject::GetHeight()
 sf::Sprite* ImageGameObject::GetSprite()
 {	
 	Matrix3 identity = GetGlobalMatrix();
-	//std::cout << identity;
+
 	Vec2 scale = identity.GetScale();
 	Vec2 pos = identity.GetPos();
 	float rot = identity.GetRotRad();

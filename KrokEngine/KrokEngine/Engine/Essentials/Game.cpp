@@ -26,22 +26,25 @@ void Game::Run()
 
 	while (_renderWindow.isOpen())
 	{
+		Scene* currentScene = GetCurrentScene();
+
 		while (this->_renderWindow.pollEvent(event))
 		{
-			HandleEvent(event, GetCurrentScene()->ui);
+			HandleEvent(event, currentScene->ui);
 		}
 
 		if (!Input::focus) continue;
 
-		_updateManger.Update(GetCurrentScene());
+		_physicsManager.Update(currentScene);
+		_updateManger.Update(currentScene);
 
 		{
-			std::vector<sf::Drawable*> drawables = GetCurrentScene()->ui->GetDrawables();
+			std::vector<sf::Drawable*> drawables = currentScene->ui->GetDrawables();
 			_renderer.ToRender(drawables, INT_MAX);
 		}
 
 		_renderer.Render();
-		GetCurrentScene()->Clean();
+		currentScene->HandleObjectsInScene();
 	}
 }
 

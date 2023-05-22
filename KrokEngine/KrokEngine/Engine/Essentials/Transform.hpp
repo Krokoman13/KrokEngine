@@ -10,11 +10,14 @@ public:
 	Transform(float pX, float pY);
 	//~Transform();
 
+	Matrix3 identity;
+
 protected:
-	Matrix3 _identity;
 	Transform* _parent;
 
 public:
+	void SetParent(Transform* pParent);
+
 	void SetLocalPosition(Vec2 pPos);
 	void SetLocalPosition(float pX, float pY);
 	Vec2 GetLocalPosition() const;

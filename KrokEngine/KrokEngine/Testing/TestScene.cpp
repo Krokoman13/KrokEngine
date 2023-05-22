@@ -1,15 +1,20 @@
 #include "TestScene.hpp"
 #include "MovingObject.hpp"
 #include "MouseFollowingObject.hpp"
+#include "MouseFollowingBehaviour.hpp"
+#include "PhysicsLine.hpp"
 
 TestScene::TestScene() : Scene("TestScene")
 {
 }
 
-void TestScene::OnLoad()
+void TestScene::onLoad()
 {
-	MouseFollowingObject* mouseObject = new MouseFollowingObject();
-	AddChild(mouseObject);
+	AddChild(new MouseFollowingObject());
+	PhysicsLine* line = new PhysicsLine(Vec2(50.0f, 400.0f), Vec2(1000.0f, 700.0f));
+	//line->AddComponent(new MouseFollowingBehaviour());
+	AddChild(line);
+	
 
 	//MovingObject* movingObject = new MovingObject(0, 0);
 	//movingObject->SetLocalScale(0.5f);

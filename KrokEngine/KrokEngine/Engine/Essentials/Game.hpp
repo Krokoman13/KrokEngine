@@ -4,6 +4,7 @@
 #include "../Core/EventHandeler/EventHandeler.hpp"
 #include "../Core/Graphics/Renderer.hpp"
 #include "../Core/UpdateManager/UpdateManager.hpp"
+#include "../Core/Physics/PhysicsManager/PhysicsManager.hpp"
 
 class Game 
 	: public SceneManager, public EventHandeler
@@ -20,6 +21,7 @@ public:
 private:
 	Renderer _renderer;
 	UpdateManager _updateManger;
+	PhysicsManager _physicsManager;
 
 	sf::RenderWindow _renderWindow;
 };

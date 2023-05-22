@@ -1,8 +1,6 @@
 #include "GameObject.hpp"
 #include "Game.hpp"
 #include "GmObjctPtr.hpp"
-#include "../Core/Math/Vec2.hpp"
-#include "Component.hpp"
 
 GameObject::GameObject(Vec2 position, std::string name) : Transform(position)
 {
@@ -99,9 +97,9 @@ bool GameObject::IsActive() const
 
 void GameObject::Update()
 {
-	for (Component component : _components)
+	for (Component* component : _components)
 	{
-		component.Update();
+		component->Update();
 	}
 
 	update();
@@ -109,9 +107,12 @@ void GameObject::Update()
 
 void GameObject::OnLoad()
 {
-	for (Component component : _components)
+	SetActive(true);
+
+	for (Component* component : _components)
 	{
-		component.OnLoad();
+		component->SetGameObject(this);
+		component->OnLoad();
 	}
 
 	onLoad();
@@ -119,26 +120,42 @@ void GameObject::OnLoad()
 
 void GameObject::OnEnable()
 {
-	for (Component component : _components)
+	for (Component* component : _components)
 	{
-		if (!component.IsActive()) continue;
-		component.OnEnable();
+		if (!component->IsActive()) continue;
+		component->OnEnable();
 	}
 
-	onEnable();
+	//onEnable();
 }
 
 void GameObject::OnDisable()
 {
-	for (Component component : _components)
+	for (Component* component : _components)
 	{
-		if (!component.IsActive()) continue;
-		component.OnDisable();
+		if (!component->IsActive()) continue;
+		component->OnDisable();
 	}
-
-	onDisable();
+	//onDisable();
 }
 
+Component* GameObject::TryFindComponent(const std::type_info& pTypeId, bool& pFound)
+{
+	pFound = false;
+
+	for (Component* component : _components)
+	{
+		//std::cout << pTypeId.name() << " vs " << typeid(*component).name() << '\n';
+
+		if (pTypeId == typeid(*component))
+		{
+			pFound = true;
+			return component;
+		}
+	}
+
+	return nullptr;
+}
 
 int GameObject::getChildIndex()
 {
@@ -165,6 +182,18 @@ void GameObject::setParent(GameObject* pParent)
 
 	_parent = pParent;
 	SetScene(pParent->_scene);
+}
+
+void GameObject::AddComponent(Component* pComponent)
+{
+	if (pComponent->IsExclusive())
+	{
+		bool found = false;
+		TryFindComponent(typeid(*pComponent), found);
+		if (found) throw std::invalid_argument("Cannot add two of the same exclusive components");
+	}
+	
+	_components.push_back(pComponent);
 }
 
 GameObject* GameObject::GetParent() const

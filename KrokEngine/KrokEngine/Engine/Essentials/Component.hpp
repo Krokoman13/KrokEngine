@@ -1,10 +1,12 @@
 #pragma once
-#include "GameObject.hpp"
+
+class GameObject;
 
 class Component
 {
 public:
-	void SetGameObject(GameObject* pGameObject);
+	virtual void SetGameObject(GameObject* pGameObject);
+	GameObject* GetGameObject() const;
 
 	virtual void OnLoad();
 	virtual void Update();
@@ -14,8 +16,10 @@ public:
 	void SetActive(bool pEnabled = true);
 	bool IsActive() const;
 
+	virtual bool IsExclusive();
+
 protected:
-	GameObject* _gameObject;
+	GameObject* _gameObject = nullptr;
 
 private:
 	bool _enabled = true;

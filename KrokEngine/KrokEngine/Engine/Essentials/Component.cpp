@@ -1,11 +1,34 @@
 #include "Component.hpp"
+#include "GameObject.hpp"
 
 void Component::SetGameObject(GameObject* pGameObject)
 {
 	if (pGameObject == nullptr) throw std::invalid_argument("Component cannot be added to a nullptr");
+	if (pGameObject == _gameObject) return;
 	if (_gameObject != nullptr) throw std::logic_error("Components cannot switch gameobjects");
 
 	_gameObject = pGameObject;
+}
+
+GameObject* Component::GetGameObject() const
+{
+	return _gameObject;
+}
+
+void Component::OnLoad()
+{
+}
+
+void Component::Update()
+{
+}
+
+void Component::OnEnable()
+{
+}
+
+void Component::OnDisable()
+{
 }
 
 
@@ -24,5 +47,10 @@ void Component::SetActive(bool pEnabled)
 bool Component::IsActive() const
 {
 	return _enabled;
+}
+
+bool Component::IsExclusive()
+{
+	return false;
 }
 

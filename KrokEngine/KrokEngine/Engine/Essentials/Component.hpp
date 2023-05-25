@@ -1,12 +1,11 @@
 #pragma once
-
-class GameObject;
+#include "GmObjctPtr.hpp"
 
 class Component
 {
 public:
-	virtual void SetGameObject(GameObject* pGameObject);
-	GameObject* GetGameObject() const;
+	virtual void SetGameObject(GmObjctPtr pGameObject);
+	GmObjctPtr GetGameObject() const;
 
 	virtual void OnLoad();
 	virtual void Update();
@@ -19,7 +18,7 @@ public:
 	virtual bool IsExclusive();
 
 protected:
-	GameObject* _gameObject = nullptr;
+	GmObjctPtr _gameObject;
 
 private:
 	bool _enabled = true;

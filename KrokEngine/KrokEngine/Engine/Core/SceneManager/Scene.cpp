@@ -28,24 +28,15 @@ void Scene::Load()
 
 void Scene::HandleObjectsInScene()
 {
-	while (!_toLoad.empty())
-	{
-		_inScene.push_back(_toLoad.front());
-		_toLoad.erase(_toLoad.begin());
-	}
-
 	unsigned int i = 0;
-
-	while (i < _inScene.size())
+	while (i < _toLoad.size())
 	{
-		GmObjctPtr gameObject = _inScene[i];
-
-		if (gameObject.IsDestroyed())
+		if (_toLoad[i]->IsActive())
 		{
-			_inScene.erase(_inScene.begin() + i);
+			_toLoad.erase(_toLoad.begin() + i);
 			continue;
 		}
-		
+
 		i++;
 	}
 }
@@ -64,11 +55,6 @@ void Scene::OnClose()
 const std::vector<GmObjctPtr>& Scene::ToLoad() const
 {
 	return _toLoad;
-}
-
-const std::vector<GmObjctPtr>& Scene::InScene() const
-{
-	return _inScene;
 }
 
 void Scene::AddToScene(GmObjctPtr pGameObject)

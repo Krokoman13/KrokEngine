@@ -9,17 +9,12 @@ class ColliderComponent;
 class Collider
 {
 public: 
-	virtual bool Colliding(const CircleCollider* pOther) const = 0;
-	virtual bool Colliding(const LineCollider* pOther) const = 0;
-
-	bool Colliding(const Collider* pOther) const;
-
-	virtual void SetParent(GameObject* pParent);
+	virtual void SetParent(Transform* pParent) = 0;
 
 	void SetColliderComponent(ColliderComponent* pGameObject);
 	ColliderComponent* GetColliderComponent() const;
 
 private:
-	ColliderComponent* _colliderComponent;
+	ColliderComponent* _colliderComponent = nullptr;
 };
 

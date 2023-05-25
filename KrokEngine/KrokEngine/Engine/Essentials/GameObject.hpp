@@ -6,8 +6,8 @@
 #include "Transform.hpp"
 #include "../Core/Math/Vec2.hpp"
 #include "Component.hpp"
+#include "GmObjctPtr.hpp"
 
-class GmObjctPtr;
 class Scene;
 
 class GameObject : public Transform
@@ -57,6 +57,12 @@ public:
 	Component* TryFindComponent(const std::type_info& pTypeId, bool& pFound);
 	void AddComponent(Component* pComponent);
 
+	void SetPtr(GmObjctPtr pPtr);
+
+	void Delete();
+
+	operator GmObjctPtr();
+
 protected:
 	bool _canRender = false;
 	int _renderLayer = -1;
@@ -75,5 +81,7 @@ private:
 	bool _enabled = false;
 
 	std::vector<Component*> _components;
+
+	GmObjctPtr _ptr;
 };
 

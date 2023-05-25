@@ -90,7 +90,7 @@
     <ClInclude Include="Testing\TestScene.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Physics\ColliderComponent.hpp">
+    <ClInclude Include="Engine\Core\Physics\Components\ColliderComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\Input\Input.hpp">
@@ -111,16 +111,10 @@
     <ClInclude Include="Testing\MouseFollowingObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Physics\TriggerColliderComponent.hpp">
+    <ClInclude Include="Engine\Core\Physics\Components\TriggerColliderComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\PhysicsManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Core\Physics\PhysicsManager\TriggerObjct.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Core\Physics\PhysicsManager\StaticObjct.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Testing\MouseFollowingBehaviour.hpp">
@@ -130,6 +124,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Testing\PhysicsLine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Physics\Components\RigidBody.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Testing\Ball.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -209,7 +209,7 @@
     <ClCompile Include="Testing\TestScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\Physics\ColliderComponent.cpp">
+    <ClCompile Include="Engine\Core\Physics\Components\ColliderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\Physics\Colliders\CircleCollider.cpp">
@@ -230,7 +230,7 @@
     <ClCompile Include="Testing\MouseFollowingObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\Physics\TriggerColliderComponent.cpp">
+    <ClCompile Include="Engine\Core\Physics\Components\TriggerColliderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\Physics\PhysicsManager\PhysicsManager.cpp">
@@ -240,6 +240,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Testing\PhysicsLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Physics\Components\RigidBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Testing\Ball.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -13,8 +13,8 @@ const unsigned int Matrix::GetRows() const
 
 Matrix::Matrix(const unsigned int pX, const unsigned int pY) : _array(pX* pY)
 {
-	this->_rows = pX;
-	this->_columns = pY;
+	this->_columns = pX;
+	this->_rows = pY;
 }
 
 Matrix::Matrix(const Matrix& other) : Matrix(other.GetColumns(), other.GetRows())
@@ -132,7 +132,10 @@ std::ostream& operator<<(std::ostream& os, const Matrix& dt)
 
 Matrix operator*(const Matrix& left, const Matrix& right)
 {
-	if (right.GetColumns() != left.GetRows()) throw std::invalid_argument("Invalid size of Matrixes to multiply");
+	if (right.GetColumns() != left.GetRows())
+	{
+		throw std::invalid_argument("Invalid size of Matrixes to multiply");
+	}
 
 	Matrix out(left.GetColumns(), right.GetRows());
 
@@ -152,4 +155,10 @@ Matrix operator*(const Matrix& left, const Matrix& right)
 	}
 
 	return out;
+}
+
+Matrix operator*=(Matrix& left, const Matrix& right)
+{
+	left = left * right;
+	return left;
 }

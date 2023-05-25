@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 Game::Game(std::string name, unsigned int width, unsigned int height, unsigned int targetFPS) 
-	: SceneManager(this), EventHandeler(_renderWindow), _renderer(_renderWindow), _updateManger()
+	: SceneManager(this), EventHandeler(_renderWindow), _renderer(_renderWindow), _updateManger(), _physicsManager(this)
 {
 	_renderWindow.create(sf::VideoMode(width, height), name, sf::Style::Titlebar | sf::Style::Close);
 	_updateManger.SetRenderer(_renderer);
@@ -26,6 +26,7 @@ void Game::Run()
 
 	while (_renderWindow.isOpen())
 	{
+		Clear();
 		Scene* currentScene = GetCurrentScene();
 
 		while (this->_renderWindow.pollEvent(event))
@@ -35,16 +36,18 @@ void Game::Run()
 
 		if (!Input::focus) continue;
 
-		_physicsManager.Update(currentScene);
 		_updateManger.Update(currentScene);
+		_physicsManager.Update(currentScene);
 
 		{
 			std::vector<sf::Drawable*> drawables = currentScene->ui->GetDrawables();
 			_renderer.ToRender(drawables, INT_MAX);
 		}
 
-		_renderer.Render();
+		_renderer.Render(currentScene);
 		currentScene->HandleObjectsInScene();
+
+		deltaSeconds = timer.restart().asMicroseconds() / 1000000.0f;
 	}
 }
 

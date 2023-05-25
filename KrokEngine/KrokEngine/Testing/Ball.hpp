@@ -1,11 +1,14 @@
 #pragma once
 #include "../Engine/KrokEngine.hpp"
 
-class TestScene : public Scene
+class Ball : public ImageGameObject
 {
 public:
-	TestScene();
+	Ball(Vec2 pos);
+
 	void update() override;
-	virtual void onLoad() override;
+
+private:
+	RigidBody* rb;
 };
 

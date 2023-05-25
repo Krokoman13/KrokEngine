@@ -26,13 +26,11 @@ public:
 	virtual void OnClose();
 
 	const std::vector<GmObjctPtr>& ToLoad() const;
-	const std::vector<GmObjctPtr>& InScene() const;
 
 protected:
 	bool _reloadOnOpen;
 
 private:
 	std::vector<GmObjctPtr> _toLoad;
-	std::vector<GmObjctPtr> _inScene;
 };
 

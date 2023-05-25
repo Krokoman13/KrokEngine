@@ -10,6 +10,7 @@ private:
 	bool* _destroyed;
 
 public:
+	GmObjctPtr();
 	explicit GmObjctPtr(GameObject* pPointer);
 	GmObjctPtr(const GmObjctPtr& pOther);
 	~GmObjctPtr();

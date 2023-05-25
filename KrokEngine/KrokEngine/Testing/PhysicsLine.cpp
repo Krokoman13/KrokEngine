@@ -11,7 +11,9 @@ PhysicsLine::PhysicsLine(Vec2 pStart, Vec2 pEnd) : GameObject("PhysicsLine")
 	pEnd = pEnd - middle;
 	pStart = pStart - middle;
 
-	AddComponent(new ColliderComponent(new LineCollider(pStart, pEnd)));
+	ColliderComponent* colliderComp = new ColliderComponent();
+	colliderComp->Add(new LineCollider(pStart, pEnd));
+	AddComponent(colliderComp);
 
 	_start = new ImageGameObject("Debug/Bluecircle.png", pStart.x, pStart.y);
 	_start->centered = true;

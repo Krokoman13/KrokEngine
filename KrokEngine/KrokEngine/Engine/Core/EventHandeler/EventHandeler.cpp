@@ -50,6 +50,7 @@ void EventHandeler::HandleEvent(sf::Event& event, UI* ui)
 		if (Input::mouseInScreen)
 		{
 			Input::mouseButtons[event.mouseButton.button] = true;
+			Input::mouseButtonsDown[event.mouseButton.button] = true;
 			HandleClicks(event.mouseButton.button);
 		}
 		break;
@@ -57,18 +58,36 @@ void EventHandeler::HandleEvent(sf::Event& event, UI* ui)
 		if (Input::mouseInScreen)
 		{
 			Input::mouseButtons[event.mouseButton.button] = false;
+			Input::mouseButtonsUp[event.mouseButton.button] = true;
 		}
 		break;
 
 	case sf::Event::KeyPressed:
 		Input::key[event.key.code] = true;
+		Input::keyDown[event.key.code] = true;
 		break;
 	case sf::Event::KeyReleased:
 		Input::key[event.key.code] = false;
+		Input::keyUp[event.key.code] = true;
 		break;
 
 	default:
 		return;
+	}
+}
+
+void EventHandeler::Clear()
+{
+	for (unsigned int i = 0; i < sf::Keyboard::Key::KeyCount ; i++)
+	{
+		Input::keyDown[i] = false;
+		Input::keyUp[i] = false;
+	}
+
+	for (unsigned int i = 0; i < sf::Mouse::Button::ButtonCount; i++)
+	{
+		Input::mouseButtonsDown[i] = false;
+		Input::mouseButtonsUp[i] = false;
 	}
 }
 
@@ -87,11 +106,6 @@ void EventHandeler::HandleClicks(sf::Mouse::Button button)
 			}
 		}
 	}
-}
-
-bool EventHandeler::ButtonDown(sf::Keyboard::Key pKey)
-{
-	return Input::key[pKey];
 }
 
 void EventHandeler::setHovering(const std::vector<Hoverable*>& hoverables)

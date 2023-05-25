@@ -10,7 +10,7 @@
 class TriggerColliderComponent : public ColliderComponent
 {
 public:
-	TriggerColliderComponent(Collider* pToAdd = nullptr);
+	TriggerColliderComponent(CircleCollider* pToAdd = nullptr);
 
 	void OnTriggerEnter();
 	void OnTriggerExit();

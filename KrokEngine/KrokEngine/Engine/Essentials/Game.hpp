@@ -18,6 +18,8 @@ public:
 	unsigned int GetWitdth();
 	unsigned int GetHeight();
 
+	float deltaSeconds = 0;
+
 private:
 	Renderer _renderer;
 	UpdateManager _updateManger;

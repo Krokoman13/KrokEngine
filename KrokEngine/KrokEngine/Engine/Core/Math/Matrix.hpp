@@ -38,3 +38,4 @@ public:
 };
 
 Matrix operator*(const Matrix& left, const Matrix& right);
+Matrix operator*=(Matrix& left, const Matrix& right);

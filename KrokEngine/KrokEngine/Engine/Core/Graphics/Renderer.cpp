@@ -1,6 +1,7 @@
 #include "Renderer.hpp"
 #include "ImageGameObject.hpp"
 #include <iostream>
+#include "../SceneManager/Scene.hpp"
 
 Renderer::Renderer(sf::RenderWindow& window)
 {
@@ -15,9 +16,43 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::Render()
+void Renderer::Render(Scene* scene)
 {
-	this->_window->clear();
+	for (GmObjctPtr toUpdate : scene->ToLoad())
+	{
+		if (toUpdate->CanRender())
+		{
+			_toRender.push_back(toUpdate);
+		}
+	}
+
+	unsigned int i = 0;
+
+	while (i < _toRender.size())
+	{
+		GmObjctPtr toRender = _toRender[i];
+
+		if (toRender.IsDestroyed())
+		{
+			_toRender.erase(_toRender.begin() + i);
+			continue;
+		}
+
+		i++;
+
+		if (!toRender->IsActive()) continue;
+
+		sf::Sprite* sprite = toRender->GetSprite();
+		int currentRenderLayer = toRender->GetRenderLayer();
+		ToRender(sprite, currentRenderLayer);
+	}
+
+	render();
+}
+
+void Renderer::render()
+{
+	_window->clear();
 
 	for (RenderLayer& renderLayer : _renderLayers)
 	{
@@ -36,7 +71,7 @@ void Renderer::Render()
 		}
 	}
 
-	this->_window->display();
+	_window->display();
 }
 
 void Renderer::ToRender(const std::vector<sf::Drawable*>& drawables, int layer)
@@ -74,7 +109,7 @@ void Renderer::ToRender(sf::Drawable* drawable, int layer)
 {
 	if (layer < 0) layer = 1;
 
-	if (layer > this->_renderLayers[this->_renderLayers.size() - 1].layer)
+	if (layer > _renderLayers[_renderLayers.size() - 1].layer)
 	{
 		RenderLayer newLayer(layer, drawable);
 

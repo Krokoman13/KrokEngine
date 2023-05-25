@@ -13,6 +13,6 @@ public:
 
 private:
 	Renderer* _renderer = nullptr;
-	void update(GameObject* toUpdate);
+	void update(GmObjctPtr toUpdate);
 };
 

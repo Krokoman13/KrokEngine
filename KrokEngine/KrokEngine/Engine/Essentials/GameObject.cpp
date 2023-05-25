@@ -1,5 +1,5 @@
 #include "GameObject.hpp"
-#include "Game.hpp"
+#include "../Core/SceneManager/Scene.hpp"
 #include "GmObjctPtr.hpp"
 
 GameObject::GameObject(Vec2 position, std::string name) : Transform(position)
@@ -38,6 +38,26 @@ sf::Sprite* GameObject::GetSprite()
 	return nullptr;
 }
 
+void GameObject::SetPtr(GmObjctPtr pPtr)
+{
+	_ptr = pPtr;
+
+	for (Component* component : _components)
+	{
+		component->SetGameObject(_ptr);
+	}
+}
+
+void GameObject::Delete()
+{
+	_ptr.DeleteGameObject();
+}
+
+GameObject::operator GmObjctPtr()
+{
+	return _ptr;
+}
+
 void GameObject::update()
 {
 }
@@ -49,11 +69,6 @@ void GameObject::onLoad()
 void GameObject::SetScene(Scene* pScene)
 {
 	if (pScene == _scene) return;
-
-	for (GmObjctPtr child : _children)
-	{
-		pScene->AddToScene(child);
-	}
 
 	if (pScene == nullptr)
 	{
@@ -67,7 +82,16 @@ void GameObject::SetScene(Scene* pScene)
 		return;
 	}
 
+	for (GmObjctPtr child : _children)
+	{
+		child->SetScene(pScene);
+	}
+
 	_scene = pScene;
+
+	if (pScene == this) return;
+
+	_scene->AddToScene(_ptr);
 }
 
 Scene* GameObject::GetScene() const
@@ -111,7 +135,6 @@ void GameObject::OnLoad()
 
 	for (Component* component : _components)
 	{
-		component->SetGameObject(this);
 		component->OnLoad();
 	}
 

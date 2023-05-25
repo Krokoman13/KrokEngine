@@ -6,17 +6,7 @@ LineCollider::LineCollider(Vec2 pStart, Vec2 pEnd) : _start(pStart), _end(pEnd)
 {
 }
 
-bool LineCollider::Colliding(const CircleCollider* pOther) const
-{
-	return pOther->Colliding(this);
-}
-
-bool LineCollider::Colliding(const LineCollider* pOther) const
-{
-	return false;
-}
-
-void LineCollider::SetParent(GameObject* pParent)
+void LineCollider::SetParent(Transform* pParent)
 {
 	_start.SetParent(pParent);
 	_end.SetParent(pParent);

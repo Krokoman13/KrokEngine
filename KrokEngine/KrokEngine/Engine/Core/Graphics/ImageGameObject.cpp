@@ -4,7 +4,7 @@
 std::string ImageGameObject::ASSET_PATH = "";
 std::string ImageGameObject::FILE_TYPE = ".png";
 
-ImageGameObject::ImageGameObject(std::string name, std::string path, float x, float y, int renderlayer) : GameObject(Vec2(x, y), name)
+ImageGameObject::ImageGameObject(std::string name, std::string path, Vec2 pPos, int renderlayer) : GameObject(pPos, name)
 {
 	this->name = name;
 	this->_renderLayer = renderlayer;
@@ -22,7 +22,16 @@ ImageGameObject::ImageGameObject(std::string name, std::string path, float x, fl
 	//OnLoad();
 }
 
-ImageGameObject::ImageGameObject(std::string name, float x, float y, int renderlayer) : ImageGameObject(name, ASSET_PATH, x, y, renderlayer)
+ImageGameObject::ImageGameObject(std::string name, Vec2 pPos, int renderlayer) : ImageGameObject(name, ASSET_PATH, pPos, renderlayer)
+{
+}
+
+ImageGameObject::ImageGameObject(std::string name, std::string path, float x, float y, int renderlayer) : ImageGameObject(name , path, Vec2(x, y), renderlayer)
+{
+
+}
+
+ImageGameObject::ImageGameObject(std::string name, float x, float y, int renderlayer) : ImageGameObject(name, Vec2(x, y), renderlayer)
 {
 }
 

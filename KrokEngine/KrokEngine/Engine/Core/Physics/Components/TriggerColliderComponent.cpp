@@ -1,17 +1,17 @@
 #include "TriggerColliderComponent.hpp"
 
-TriggerColliderComponent::TriggerColliderComponent(Collider* pToAdd) : ColliderComponent(pToAdd)
+TriggerColliderComponent::TriggerColliderComponent(CircleCollider* pToAdd) : ColliderComponent(pToAdd)
 {
 }
 
 void TriggerColliderComponent::OnTriggerEnter()
 {
-	//onTriggerEnterAction();
+	onTriggerEnterAction();
 }
 
 void TriggerColliderComponent::OnTriggerExit()
 {
-	//onTriggerExitAction();
+	onTriggerExitAction();
 }
 
 bool TriggerColliderComponent::GetTriggering() const

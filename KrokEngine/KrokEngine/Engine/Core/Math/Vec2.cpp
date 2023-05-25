@@ -9,11 +9,12 @@
 /// <summary>
 /// Returns the result of adding two vectors(without modifying either of them)
 /// </summary>
-Vec2 operator +(Vec2 left, Vec2 right)
+Vec2 operator +(const Vec2& left, const Vec2& right)
 {
 	return Vec2(left.x + right.x, left.y + right.y);
 }
-Vec2 operator +=(Vec2 left, Vec2 right) {
+Vec2 operator+=(Vec2& left, const Vec2& right)
+{
 	left.x += right.x;
 	left.y += right.y;
 	return left;
@@ -26,12 +27,12 @@ Vec2 operator +=(Vec2 left, Vec2 right) {
 /// <summary>
 /// Returns the result of subtracting two vectors(without modifying either of them)
 /// </summary>
-Vec2 operator -(Vec2 left, Vec2 right)
+Vec2 operator -(const Vec2& left, const Vec2& right)
 {
 	return Vec2(left.x - right.x, left.y - right.y);
 }
 
-Vec2 operator-=(Vec2 left, Vec2 right) {
+Vec2 operator-=(Vec2& left, const Vec2& right) {
 	left.x -= right.x;
 	left.y -= right.y;
 	return left;
@@ -44,33 +45,50 @@ Vec2 operator-=(Vec2 left, Vec2 right) {
 /// <summary>
 /// Returns the result of multiplying a vector by a float(without modifying either of them)
 /// </summary>
-Vec2 operator *(Vec2 left, float right)
+Vec2 operator *(const Vec2& left, const float& right)
 {
 	return Vec2(left.x * right, left.y * right);
 }
-Vec2 operator *(float left, Vec2 right)
+Vec2 operator *(const float& left, const Vec2& right)
 {
 	return right * left;
 }
-Vec2 operator /(Vec2 left, float right)
+Vec2 operator /(const Vec2& left, const float& right)
 {
 	return Vec2(left.x/right, left.y/right);
 }
-Vec2 operator*=(Vec2 left, float right)
+Vec2 operator*=(Vec2& left, const float& right)
 {
-	return left * right;
+	left = left * right;
+	return left;
 }
-Vec2 operator*(Vec2 left, Vec2 right)
+Vec2 operator*(const Vec2& left, const Vec2& right)
 {
 	return Vec2(left.x * right.x, left.y * right.y);
 }
-bool operator ==(Vec2 left, Vec2 right)
+Vec2 operator*=(Vec2& left, const Vec2& right)
+{
+	left = left * right;
+	return left;
+}
+
+//------------------------------------------------------------------------------------------------------------------------
+//														== operator
+//------------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Returns a bool that indicates if the two vectors are the same
+/// </summary>
+bool operator ==(const Vec2& left, const Vec2& right)
 {
 	return left.x == right.x && left.y == right.y;
 }
-bool operator !=(Vec2 left, Vec2 right)
+bool operator !=(const Vec2& left, const Vec2& right)
 {
 	return !(left == right);
+}
+
+Vec2::Vec2() : Vec2(0.0f, 0.0f)
+{
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -134,7 +152,7 @@ Vec2& Vec2::operator*=(const float& other)
 /// <summary>
 /// Returns the length of the current vector
 /// </summary>
-float Vec2::GetLength()
+float Vec2::GetLength() const
 {
 	float _length = sqrt((x * x) + (y * y));     //Using Pythagorean theorem to calculate the length of the vector
 	return _length;
@@ -146,7 +164,7 @@ float Vec2::GetLength()
 /// <summary>
 /// Returns a normalized version of the current vector without modifying it
 /// </summary>
-Vec2 Vec2::Normalized()
+Vec2 Vec2::Normalized() const
 {
 	float pX = x;
 	float pY = y;
@@ -422,7 +440,7 @@ void Vec2::RotateTowardsDegrees(float targetDegrees, float stepDegrees)
 /// <summary>
 /// Will calculate the dot product of a given vector and itself
 /// </summary>
-float Vec2::Dot(Vec2 other)
+float Vec2::Dot(Vec2 other) const
 {
 	return x * other.x + y * other.y; ;
 }
@@ -456,9 +474,18 @@ Vec2 Vec2::Normal()
 /// <summary>
 /// Reflects the vector of another vector based on that other vector's normal
 /// </summary>
+
+Vec2 Vec2::Reflected(const Vec2& pNormal, float pBounciness) const
+{
+	Vec2 normal = pNormal.Normalized();
+	Vec2 outp = *this;
+	outp = *this - (1 + pBounciness) * (this->Dot(normal) * normal);
+	return outp;
+}
+
 void Vec2::Reflect(Vec2 pNormal, float pBounciness)
 {
-	*this -= (1 + pBounciness) * (Dot(pNormal) * pNormal);
+	*this = this->Reflected(pNormal, pBounciness) ;
 }
 
 std::ostream& operator<<(std::ostream& out, const Vec2& vec)

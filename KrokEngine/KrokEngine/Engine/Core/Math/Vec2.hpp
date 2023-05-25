@@ -11,15 +11,16 @@ struct Vec2
 	float x;
 	float y;
 
-	Vec2(float pX = 0, float pY = 0);
+	Vec2();
+	Vec2(float pX, float pY);
 	Vec2(float pX, float pY, bool normalized);
 	explicit Vec2(const Matrix& other);
 
 	Vec2& operator =(const Vec2& other);
 	Vec2& operator *=(const float& other);
 
-	float GetLength();
-	Vec2 Normalized();
+	float GetLength() const;
+	Vec2 Normalized() const;
 	void Normalize();
 
 	void SetLength(float length);
@@ -45,27 +46,29 @@ struct Vec2
 
 	void RotateTowardsDegrees(float targetDegrees, float stepDegrees);
 
-	float Dot(Vec2 other);
+	float Dot(Vec2 other) const;
 	static float VectorDotProduct(Vec2 a, Vec2 b);
 
 	Vec2 Normal();
+	Vec2 Reflected(const Vec2& pNormal, float pBounciness = 1) const;
 	void Reflect(Vec2 pNormal, float pBounciness = 1);
 
 	friend std::ostream& operator << (std::ostream& out, const Vec2& vec);
 };
 
-Vec2 operator +(Vec2 left, Vec2 right);
-Vec2 operator +=(Vec2 left, Vec2 right);
+Vec2 operator +(const Vec2& left, const Vec2& right);
+Vec2 operator +=(Vec2& left, const Vec2& right);
 
-Vec2 operator -(Vec2 left, Vec2 right);
-Vec2 operator-=(Vec2 left, Vec2 right);
+Vec2 operator -(const Vec2& left, const Vec2& right);
+Vec2 operator-=(Vec2& left, const Vec2& right);
 
-Vec2 operator *(Vec2 left, float right);
-Vec2 operator *(float left, Vec2 right);
+Vec2 operator *(const Vec2& left, const float& right);
+Vec2 operator *(const float& left, const Vec2& right);
 
-Vec2 operator *(Vec2 left, Vec2 right);
+Vec2 operator *(const Vec2& left, const Vec2& right);
+Vec2 operator *=(Vec2& left, const Vec2& right);
 
-Vec2 operator /(Vec2 left, float right);
+Vec2 operator /(const Vec2& left, const float& right);
 
-bool operator ==(Vec2 left, Vec2 right);
-bool operator !=(Vec2 left, Vec2 right);
+bool operator ==(const Vec2& left, const Vec2& right);
+bool operator !=(const Vec2& left, const Vec2& right);

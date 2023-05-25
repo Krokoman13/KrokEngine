@@ -1,35 +1,12 @@
 #include "Collider.hpp"
 #include "LineCollider.hpp"
 #include "CircleCollider.hpp"
-#include "../ColliderComponent.hpp"
+#include "../Components/ColliderComponent.hpp"
 
-bool Collider::Colliding(const CircleCollider* pOther) const
+void Collider::SetParent(Transform* pParent)
 {
-    return false;
-}
+    if (pParent == nullptr) return;
 
-bool Collider::Colliding(const LineCollider* pOther) const
-{
-    return false;
-}
-
-
-bool Collider::Colliding(const Collider* pOther) const
-{
-    if (const CircleCollider* circle = dynamic_cast<const CircleCollider*>(pOther)) {
-        return Colliding(circle);
-    }
-
-    if (const LineCollider* line = dynamic_cast<const LineCollider*>(pOther)) {
-        return Colliding(line);
-    }
-
-    return false;
-}
-
-void Collider::SetParent(GameObject* pGameObject)
-{
-    if (pGameObject == nullptr) return;
 }
 
 void Collider::SetColliderComponent(ColliderComponent* pGameObject)

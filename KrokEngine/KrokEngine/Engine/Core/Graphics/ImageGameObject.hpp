@@ -5,8 +5,10 @@ class ImageGameObject : public GameObject
 {
 
 public:
-    ImageGameObject(std::string name, std::string path, float x = 0, float y = 0, int renderlayer = -1);
-    ImageGameObject(std::string name, float x = 0, float y = 0, int renderlayer = -1);
+    ImageGameObject(std::string name, std::string path, Vec2 pPos = Vec2(), int renderlayer = -1);
+    ImageGameObject(std::string name, Vec2 pPos = Vec2(), int renderlayer = -1);
+    ImageGameObject(std::string name, std::string path, float x, float y, int renderlayer = -1);
+    ImageGameObject(std::string name, float x, float y, int renderlayer = -1);
 
     static std::string ASSET_PATH;
     static std::string FILE_TYPE;

@@ -127,7 +127,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Core\Physics\ColliderComponent.hpp" />
+    <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionCalculator.hpp" />
+    <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionInfo.hpp" />
+    <ClInclude Include="Testing\Ball.hpp" />
+    <ClInclude Include="Engine\Core\Physics\Components\ColliderComponent.hpp" />
     <ClInclude Include="Engine\Core\EventHandeler\EventHandeler.hpp" />
     <ClInclude Include="Engine\Core\Graphics\ImageGameObject.hpp" />
     <ClInclude Include="Engine\Core\Graphics\Renderer.hpp" />
@@ -138,8 +141,6 @@
     <ClInclude Include="Engine\Core\Physics\Colliders\Collider.hpp" />
     <ClInclude Include="Engine\Core\Physics\Colliders\CollisionInfo.hpp" />
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\PhysicsManager.hpp" />
-    <ClInclude Include="Engine\Core\Physics\PhysicsManager\StaticObjct.hpp" />
-    <ClInclude Include="Engine\Core\Physics\PhysicsManager\TriggerObjct.hpp" />
     <ClInclude Include="Engine\Core\SceneManager\Scene.hpp" />
     <ClInclude Include="Engine\Core\SceneManager\SceneManager.hpp" />
     <ClInclude Include="Engine\Core\UI\Button.hpp" />
@@ -159,15 +160,18 @@
     <ClInclude Include="Engine\Essentials\GmObjctPtr.hpp" />
     <ClInclude Include="Engine\Core\Math\Matrix.hpp" />
     <ClInclude Include="Engine\Core\Physics\Colliders\LineCollider.hpp" />
+    <ClInclude Include="Engine\Core\Physics\Components\RigidBody.hpp" />
     <ClInclude Include="Testing\MouseFollowingBehaviour.hpp" />
     <ClInclude Include="Testing\MouseFollowingObject.hpp" />
     <ClInclude Include="Testing\MovingObject.hpp" />
     <ClInclude Include="Testing\PhysicsLine.hpp" />
     <ClInclude Include="Testing\TestScene.hpp" />
-    <ClInclude Include="Engine\Core\Physics\TriggerColliderComponent.hpp" />
+    <ClInclude Include="Engine\Core\Physics\Components\TriggerColliderComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Core\Physics\ColliderComponent.cpp" />
+    <ClCompile Include="Engine\Core\Physics\PhysicsManager\CollisionCalculator.cpp" />
+    <ClCompile Include="Testing\Ball.cpp" />
+    <ClCompile Include="Engine\Core\Physics\Components\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Core\EventHandeler\EventHandeler.cpp" />
     <ClCompile Include="Engine\Core\Graphics\ImageGameObject.cpp" />
     <ClCompile Include="Engine\Core\Graphics\Renderer.cpp" />
@@ -196,13 +200,14 @@
     <ClCompile Include="Engine\Core\Physics\Colliders\LineCollider.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Engine\Core\Math\Matrix.cpp" />
+    <ClCompile Include="Engine\Core\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="Testing\MouseFollowingBehaviour.cpp" />
     <ClCompile Include="Testing\MouseFollowingObject.cpp" />
     <ClCompile Include="Testing\MovingObject.cpp" />
     <ClCompile Include="Engine\Essentials\Transform.cpp" />
     <ClCompile Include="Testing\PhysicsLine.cpp" />
     <ClCompile Include="Testing\TestScene.cpp" />
-    <ClCompile Include="Engine\Core\Physics\TriggerColliderComponent.cpp" />
+    <ClCompile Include="Engine\Core\Physics\Components\TriggerColliderComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

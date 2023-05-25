@@ -2,12 +2,22 @@
 #include "GameObject.hpp"
 #include <stdexcept>
 
+GmObjctPtr::GmObjctPtr()
+{
+	_pointer = nullptr;
+	_destroyed = new bool(true);
+	_count = new unsigned int(1);
+}
+
 GmObjctPtr::GmObjctPtr(GameObject* pPointer)
 {
 	if (pPointer == nullptr) throw std::invalid_argument("Cannot create a GmObjectPtr from a nullpointer");
+
 	_pointer = pPointer;
 	_destroyed = new bool(false);
 	_count = new unsigned int(1);
+
+	pPointer->SetPtr(*this);
 }
 
 GmObjctPtr::GmObjctPtr(const GmObjctPtr& pOther)

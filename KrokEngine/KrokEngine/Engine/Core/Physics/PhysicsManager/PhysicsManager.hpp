@@ -18,15 +18,16 @@ private:
 	void cleanStatics();
 	void cleanRigids();
 
-	void updateRigids(float pDuration = 1.0f);
-	void applyVelocity(float pMultiplier = 1.0f);
-	CollisionInfo updateRigid(RigidBody* pRigidBody, float pMultiplier = 1.0f);
+	void calculateVelocities();
+	void moveRidgids(float pDuration = 1.0f);
+	void applyVelocities(float pMultiplier = 1.0f);
+	CollisionInfo moveRigid(RigidBody* pRigidBody, float pMultiplier = 1.0f);
 	CollisionInfo getCollision(RigidBody* pRigidBody, ColliderComponent* collider, Vec2& desiredTranslation);
 
 	Game* _game;
 	float _physicsSpeed = 10.0f;
 	float _cycleSpeed;
-	const float _minToi = 0.01f;
+	const float _minToi = 0.1f;
 
 	std::vector<TriggerColliderComponent*> _triggerObjects;
 	std::vector<ColliderComponent*> _staticObjects;

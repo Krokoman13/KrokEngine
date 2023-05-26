@@ -13,13 +13,14 @@ void PhysicsManager::Update(Scene* pScene)
 {
 	_cycleSpeed = _physicsSpeed * _game->deltaSeconds;
 
-		cleanTriggers();
+	cleanTriggers();
 	cleanStatics();
 	cleanRigids();
 
 	Load(pScene->ToLoad());
 
-	updateRigids();
+	calculateVelocities();
+	moveRidgids();
 }
 
 void PhysicsManager::Load(const std::vector<GmObjctPtr>& toLoad)
@@ -106,19 +107,13 @@ void PhysicsManager::cleanRigids()
 	}
 }
 
-void PhysicsManager::updateRigids(float pMultiplier)
+void PhysicsManager::moveRidgids(float pMultiplier)
 {
 	CollisionInfo shortest;
 
 	for (RigidBody* rigidBody : _rigidObjects)
 	{
-		CollisionInfo info = updateRigid(rigidBody);
-
-		if (info.TOI < _minToi)
-		{
-			rigidBody->velocity = info.aVelocity / _cycleSpeed;
-			continue;
-		}
+		CollisionInfo info = moveRigid(rigidBody);
 		
 		if (info.TOI < shortest.TOI)
 		{
@@ -126,23 +121,34 @@ void PhysicsManager::updateRigids(float pMultiplier)
 		}
 	}
 
-	if (shortest.collided)
+	if (shortest.TOI < 1.0f)
 	{
 		float relativeTOI = shortest.TOI * pMultiplier;
-		applyVelocity(shortest.TOI);
+		applyVelocities(shortest.TOI);
 
 		shortest.aRigidBody->velocity = shortest.aVelocity / _cycleSpeed;
 
 		float newMultiplier = pMultiplier - relativeTOI;
 		if (newMultiplier < _minToi) return;
-		updateRigids(newMultiplier);
+		moveRidgids(newMultiplier);
 		return;
 	}
 
-	applyVelocity(pMultiplier);
+	applyVelocities(pMultiplier);
 }
 
-void PhysicsManager::applyVelocity(float pMultiplier)
+void PhysicsManager::calculateVelocities()
+{
+	for (RigidBody* rigidBody : _rigidObjects)
+	{
+		GmObjctPtr gameObject = rigidBody->GetGameObject();
+		rigidBody->acceleration = Vec2(0, 9.81f);
+		rigidBody->velocity += rigidBody->acceleration * _cycleSpeed;
+		rigidBody->acceleration = Vec2();
+	}
+}
+
+void PhysicsManager::applyVelocities(float pMultiplier)
 {
 	for (RigidBody* rigidBody : _rigidObjects)
 	{
@@ -152,13 +158,8 @@ void PhysicsManager::applyVelocity(float pMultiplier)
 	}
 }
 
-CollisionInfo PhysicsManager::updateRigid(RigidBody* pRigidBody, float pMultiplier)
+CollisionInfo PhysicsManager::moveRigid(RigidBody* pRigidBody, float pMultiplier)
 {
-	GmObjctPtr gameObject = pRigidBody->GetGameObject();
-	pRigidBody->acceleration = Vec2(0, 9.81f);
-	pRigidBody->velocity += pRigidBody->acceleration * _cycleSpeed;
-	pRigidBody->acceleration = Vec2();
-
 	Vec2 desiredTranslation = pRigidBody->velocity * _cycleSpeed * pMultiplier;
 
 	CollisionInfo shortest;
@@ -166,6 +167,8 @@ CollisionInfo PhysicsManager::updateRigid(RigidBody* pRigidBody, float pMultipli
 	for (ColliderComponent* staticCollider : _staticObjects)
 	{
 		CollisionInfo info = getCollision(pRigidBody, staticCollider, desiredTranslation);
+
+
 
 		if (info.TOI < shortest.TOI)
 		{
@@ -186,6 +189,30 @@ CollisionInfo PhysicsManager::getCollision(RigidBody* pRigidBody, ColliderCompon
 		for (LineCollider* line : pStaticCollider->GetLines())
 		{
 			CollisionInfo info = CollisionCalculator::CalculateCollision(circle, desiredTranslation, line);
+
+			if (info.TOI < _minToi)
+			{
+				pRigidBody->velocity = info.aVelocity / _cycleSpeed;
+				pRigidBody->GetGameObject()->SetGlobalPosition(info.aPOI);
+				continue;
+			}
+
+			if (info.TOI < shortest.TOI)
+			{
+				shortest = info;
+			}
+		}
+
+		for (CircleCollider* circle2 : pStaticCollider->GetCircles())
+		{
+			CollisionInfo info = CollisionCalculator::CalculateCollision(circle, desiredTranslation, circle2);
+
+			if (info.TOI < _minToi)
+			{
+				pRigidBody->velocity = info.aVelocity / _cycleSpeed;
+				pRigidBody->GetGameObject()->SetGlobalPosition(info.aPOI);
+				continue;
+			}
 
 			if (info.TOI < shortest.TOI)
 			{

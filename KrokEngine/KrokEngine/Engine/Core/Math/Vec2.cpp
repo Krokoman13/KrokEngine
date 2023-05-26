@@ -9,17 +9,17 @@
 /// <summary>
 /// Returns the result of adding two vectors(without modifying either of them)
 /// </summary>
-Vec2 operator +(const Vec2& left, const Vec2& right)
+Vec2 Vec2::operator+(const Vec2& other) const
 {
-	return Vec2(left.x + right.x, left.y + right.y);
-}
-Vec2 operator+=(Vec2& left, const Vec2& right)
-{
-	left.x += right.x;
-	left.y += right.y;
-	return left;
+	return Vec2(x + other.x, y + other.y);
 }
 
+Vec2& Vec2::operator+=(const Vec2& other)
+{
+	x += other.x;
+	y += other.y;
+	return *this;
+}
 
 //------------------------------------------------------------------------------------------------------------------------
 //														- operator
@@ -27,17 +27,22 @@ Vec2 operator+=(Vec2& left, const Vec2& right)
 /// <summary>
 /// Returns the result of subtracting two vectors(without modifying either of them)
 /// </summary>
-Vec2 operator -(const Vec2& left, const Vec2& right)
+Vec2 Vec2::operator-(const Vec2& other) const
 {
-	return Vec2(left.x - right.x, left.y - right.y);
+	return Vec2(x - other.x, y - other.y);
 }
 
-Vec2 operator-=(Vec2& left, const Vec2& right) {
-	left.x -= right.x;
-	left.y -= right.y;
-	return left;
+Vec2 operator-(const Vec2& other)
+{
+	return Vec2(-other.x, -other.y);
 }
 
+Vec2& Vec2::operator-=(const Vec2& other)
+{
+	x -= other.x;
+	y -= other.y;
+	return *this;
+}
 
 //------------------------------------------------------------------------------------------------------------------------
 //														* operator
@@ -45,31 +50,50 @@ Vec2 operator-=(Vec2& left, const Vec2& right) {
 /// <summary>
 /// Returns the result of multiplying a vector by a float(without modifying either of them)
 /// </summary>
-Vec2 operator *(const Vec2& left, const float& right)
+Vec2 Vec2::operator*(float scalar) const
 {
-	return Vec2(left.x * right, left.y * right);
+	return Vec2(x * scalar, y * scalar);
 }
-Vec2 operator *(const float& left, const Vec2& right)
+
+Vec2 operator*(float scalar, const Vec2& vec)
 {
-	return right * left;
+	return vec * scalar;
 }
-Vec2 operator /(const Vec2& left, const float& right)
+
+Vec2& Vec2::operator*=(float scalar)
 {
-	return Vec2(left.x/right, left.y/right);
+	*this = *this * scalar;
+	return *this;
 }
-Vec2 operator*=(Vec2& left, const float& right)
+
+//------------------------------------------------------------------------------------------------------------------------
+//														* operator
+//------------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Returns the result of deviding a vector by a float(without modifying either of them)
+/// </summary>
+
+Vec2 Vec2::operator/(float scalar) const
 {
-	left = left * right;
-	return left;
+	// Check for division by zero
+	if (scalar == 0.0f)
+	{
+		std::cerr << "Error: Division by zero in Vec2::operator/!" << std::endl;
+		return *this;
+	}
+
+	return Vec2(x / scalar, y / scalar);
 }
-Vec2 operator*(const Vec2& left, const Vec2& right)
+
+Vec2 operator/(float scalar, const Vec2& vec)
 {
-	return Vec2(left.x * right.x, left.y * right.y);
+	return vec / scalar;
 }
-Vec2 operator*=(Vec2& left, const Vec2& right)
+
+Vec2& Vec2::operator/=(float scalar)
 {
-	left = left * right;
-	return left;
+	*this = *this / scalar;
+	return *this;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -78,72 +102,14 @@ Vec2 operator*=(Vec2& left, const Vec2& right)
 /// <summary>
 /// Returns a bool that indicates if the two vectors are the same
 /// </summary>
-bool operator ==(const Vec2& left, const Vec2& right)
+bool Vec2::operator==(const Vec2& other) const
 {
-	return left.x == right.x && left.y == right.y;
-}
-bool operator !=(const Vec2& left, const Vec2& right)
-{
-	return !(left == right);
+	return (x == other.x) && (y == other.y);
 }
 
-Vec2::Vec2() : Vec2(0.0f, 0.0f)
+bool Vec2::operator!=(const Vec2& other) const
 {
-}
-
-//------------------------------------------------------------------------------------------------------------------------
-//														Vec2()
-//------------------------------------------------------------------------------------------------------------------------
-/// <summary>
-/// Initializes a new instance of the <see cref="Vec2"/> class.
-/// </summary>
-Vec2::Vec2(float pX, float pY)
-{
-	x = pX;
-	y = pY;
-}
-
-//------------------------------------------------------------------------------------------------------------------------
-//														Vec2()
-//------------------------------------------------------------------------------------------------------------------------
-/// <summary>
-/// Initializes a new instance of the <see cref="Vec2"/> class.
-/// </summary>
-Vec2::Vec2(float pX, float pY, bool normalized)
-{
-	x = pX;
-	y = pY;
-
-	if (normalized)
-	{
-		Normalize();
-	}
-}
-
-Vec2::Vec2(const Matrix& other)
-{
-	if (other.GetRows() != 2 && other.GetColumns() != 1) throw std::invalid_argument("Invalid size Matrix to convert to Vec2");
-
-	x = other.Get(0, 0);
-	y = other.Get(0, 1);
-}
-
-Vec2& Vec2::operator=(const Vec2& other)
-{
-	this->x = other.x;
-	this->y = other.y;
-
-	return *this;
-}
-
-Vec2& Vec2::operator*=(const float& other)
-{
-	Vec2 temp = (*this) * other;
-
-	this->x = temp.x;
-	this->y = temp.y;
-
-	return *this;
+	return !(*this == other);
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -152,10 +118,14 @@ Vec2& Vec2::operator*=(const float& other)
 /// <summary>
 /// Returns the length of the current vector
 /// </summary>
-float Vec2::GetLength() const
+float Vec2::Length() const
 {
-	float _length = sqrt((x * x) + (y * y));     //Using Pythagorean theorem to calculate the length of the vector
-	return _length;
+	return sqrt((x * x) + (y * y));     //Using Pythagorean theorem to calculate the length of the vector
+}
+
+float Vec2::LengthSquared() const
+{
+	return x * x + y * y;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -166,20 +136,11 @@ float Vec2::GetLength() const
 /// </summary>
 Vec2 Vec2::Normalized() const
 {
-	float pX = x;
-	float pY = y;
-
-	float length = GetLength();
-
-	if (length != 0)
-	{
-		pX /= length;        //Calculate the normalized X value
-		pY /= length;        //Calculate the normalized Y value
-	}
-
-	Vec2 temp(pX, pY);       //Create a new vector with the normalized X and Y value
-
-	return temp;
+	float len = Length();
+	if (len != 0.0f)
+		return *this / len;
+	else
+		return *this;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -196,8 +157,7 @@ void Vec2::Normalize()
 void Vec2::SetLength(float length)
 {
 	this->Normalize();
-	this->x *= length;
-	this->y *= length;
+	*this *= length;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -206,7 +166,7 @@ void Vec2::SetLength(float length)
 /// <summary>
 /// Sets the x & y of the current vector to the given two floats
 /// </summary>
-void Vec2::SetXY(float pX, float pY)
+void Vec2::Set(float pX, float pY)
 {
 	x = pX;
 	y = pY;
@@ -305,7 +265,7 @@ void Vec2::SetAngleDegrees(float degrees)
 void Vec2::SetAngleRadians(float radians)
 {
 	Vec2 temp = Vec2::GetUnitVectorRad(radians);
-	temp.SetLength(this->GetLength());
+	temp.SetLength(this->Length());
 
 	*this = temp;
 }
@@ -469,6 +429,23 @@ Vec2 Vec2::Normal()
 }
 
 //------------------------------------------------------------------------------------------------------------------------
+//														Project()
+//------------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Reflects the vector of another vector based on that other vector's normal
+/// </summary>
+Vec2 Vec2::Project(const Vec2& other) const
+{
+	float dot = Dot(other);
+	float lenSquared = other.LengthSquared();
+
+	if (lenSquared != 0.0f)
+		return other * (dot / lenSquared);
+	else
+		return Vec2();
+}
+
+//------------------------------------------------------------------------------------------------------------------------
 //														Reflect()
 //------------------------------------------------------------------------------------------------------------------------
 /// <summary>
@@ -486,6 +463,31 @@ Vec2 Vec2::Reflected(const Vec2& pNormal, float pBounciness) const
 void Vec2::Reflect(Vec2 pNormal, float pBounciness)
 {
 	*this = this->Reflected(pNormal, pBounciness) ;
+}
+
+Vec2 Vec2::Zero()
+{
+	return Vec2(0.0f, 0.0f);
+}
+
+Vec2 Vec2::Up()
+{
+	return Vec2(0.0f, 1.0f);
+}
+
+Vec2 Vec2::Down()
+{
+	return Vec2(0.0f, -1.0f);
+}
+
+Vec2 Vec2::Left()
+{
+	return Vec2(-1.0f, 0.0f);
+}
+
+Vec2 Vec2::Right()
+{
+	return Vec2(1.0f, 0.0f);
 }
 
 std::ostream& operator<<(std::ostream& out, const Vec2& vec)

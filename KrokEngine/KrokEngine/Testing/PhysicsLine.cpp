@@ -28,6 +28,6 @@ PhysicsLine::PhysicsLine(Vec2 pStart, Vec2 pEnd) : GameObject("PhysicsLine")
 	_inbetween = new ImageGameObject("Debug/Greensquare.png");
 	_inbetween->centered = true;
 	_inbetween->SetLocalRotation(line.GetAngleRadians());
-	_inbetween->SetSize(line.GetLength(), thickness);
+	_inbetween->SetSize(line.Length(), thickness);
 	AddChild(_inbetween);
 }

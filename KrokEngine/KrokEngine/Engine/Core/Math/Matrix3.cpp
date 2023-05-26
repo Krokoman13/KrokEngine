@@ -21,7 +21,7 @@ Vec2 Matrix3::GetScale() const
 {
 	Vec2 xAxis = Vec2(Get(0, 0), Get(1, 0));
 	Vec2 yAxis = Vec2(Get(0, 1), Get(1, 1));
-	return Vec2(xAxis.GetLength(), yAxis.GetLength());
+	return Vec2(xAxis.Length(), yAxis.Length());
 }
 
 Vec2 Matrix3::GetRotVec() const

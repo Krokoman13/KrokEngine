@@ -35,17 +35,19 @@ void EventHandeler::HandleEvent(sf::Event& event, UI* ui)
 	case sf::Event::MouseLeft:
 		Input::mouseInScreen = false;
 		break;
+
 	case sf::Event::MouseEntered:
 		Input::mouseInScreen = true;
 		break;
+
 	case sf::Event::MouseMoved:
-		if (Input::mouseInScreen)
 		{
 			sf::Vector2i mousePosition = sf::Mouse::getPosition(*_renderWindow);
-			Input::mousePosition.SetXY((float)mousePosition.x, (float)mousePosition.y);
+			Input::mousePosition.Set((float)mousePosition.x, (float)mousePosition.y);
 			setHovering(ui->GetHoverables());
 		}
 		break;
+
 	case sf::Event::MouseButtonPressed:
 		if (Input::mouseInScreen)
 		{
@@ -54,6 +56,7 @@ void EventHandeler::HandleEvent(sf::Event& event, UI* ui)
 			HandleClicks(event.mouseButton.button);
 		}
 		break;
+
 	case sf::Event::MouseButtonReleased:
 		if (Input::mouseInScreen)
 		{
@@ -66,6 +69,7 @@ void EventHandeler::HandleEvent(sf::Event& event, UI* ui)
 		Input::key[event.key.code] = true;
 		Input::keyDown[event.key.code] = true;
 		break;
+
 	case sf::Event::KeyReleased:
 		Input::key[event.key.code] = false;
 		Input::keyUp[event.key.code] = true;

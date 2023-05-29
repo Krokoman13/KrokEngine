@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionCalculator.hpp" />
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionInfo.hpp" />
+    <ClInclude Include="Engine\Core\SmartPointers\CoPtr.hpp" />
     <ClInclude Include="Testing\Ball.hpp" />
     <ClInclude Include="Engine\Core\Physics\Components\ColliderComponent.hpp" />
     <ClInclude Include="Engine\Core\EventHandeler\EventHandeler.hpp" />

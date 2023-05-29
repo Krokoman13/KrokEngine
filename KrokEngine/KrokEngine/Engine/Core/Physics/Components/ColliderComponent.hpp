@@ -14,7 +14,7 @@ public:
 
 	void Add(LineCollider* pCollider);
 	void Add(CircleCollider* pCollider);
-	virtual void SetGameObject(GmObjctPtr pGameObject) override;
+	virtual void SetGameObject(GameObject* pGameObject) override;
 
 	void SetBounciness(float pBouncyness);	//1.0f is 100% bouncy
 	float GetBounciness() const;

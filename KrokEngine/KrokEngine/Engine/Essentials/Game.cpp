@@ -39,10 +39,10 @@ void Game::Run()
 		_updateManger.Update(currentScene);
 		_physicsManager.Update(currentScene);
 
-		{
-			std::vector<sf::Drawable*> drawables = currentScene->ui->GetDrawables();
-			_renderer.ToRender(drawables, INT_MAX);
-		}
+		//{
+		//	std::vector<sf::Drawable*> drawables = currentScene->ui->GetDrawables();
+		//	_renderer.ToRender(drawables, INT_MAX);
+		//}
 
 		_renderer.Render(currentScene);
 		currentScene->HandleObjectsInScene();

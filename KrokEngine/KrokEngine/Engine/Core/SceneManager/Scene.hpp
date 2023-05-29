@@ -18,7 +18,6 @@ public:
 
 	void Load();
 	void AddToScene(GmObjctPtr gmObject);
-	void IsParentless(GameObject* gmObject);
 	void HandleObjectsInScene();
 	void Close();
 
@@ -33,6 +32,5 @@ protected:
 
 private:
 	std::vector<GmObjctPtr> _toLoad;
-	std::vector<GameObject*> _parentLess;
 };
 

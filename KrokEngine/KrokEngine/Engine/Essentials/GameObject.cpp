@@ -2,7 +2,7 @@
 #include "../Core/SceneManager/Scene.hpp"
 #include "GmObjctPtr.hpp"
 
-GameObject::GameObject(Vec2 position, std::string name) : Transform(position)
+GameObject::GameObject(Vec2 position, std::string name) : Transform(position), _ptr(this)
 {
 	this->name = name;
 }
@@ -36,16 +36,6 @@ void GameObject::ClearChildren()
 sf::Sprite* GameObject::GetSprite()
 {
 	return nullptr;
-}
-
-void GameObject::SetPtr(GmObjctPtr pPtr)
-{
-	_ptr = pPtr;
-
-	for (unsigned int i = 0; i < _components.size(); i++)
-	{
-		_components[i]->SetGameObject(_ptr);
-	}
 }
 
 void GameObject::Delete()
@@ -195,6 +185,7 @@ void GameObject::setParent(GameObject* pParent)
 
 void GameObject::AddComponent(Component* pComponent)
 {	
+	pComponent->SetGameObject(_ptr);
 	_components.push_back(std::unique_ptr<Component>(pComponent));
 }
 

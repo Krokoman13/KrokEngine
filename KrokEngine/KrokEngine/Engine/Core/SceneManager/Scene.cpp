@@ -39,18 +39,6 @@ void Scene::HandleObjectsInScene()
 
 		i++;
 	}
-
-	while (_parentLess.size() > 0)
-	{
-		GameObject* currnent = _parentLess.back();
-		_parentLess.pop_back();
-
-		if (currnent == nullptr) continue;
-		if (currnent->GetParent() != nullptr) continue;
-
-		std::cout << "Removing parentless GameObject: " << currnent->name << '\n';
-		delete currnent;
-	}
 }
 
 void Scene::Close()
@@ -74,11 +62,4 @@ void Scene::AddToScene(GmObjctPtr pGameObject)
 	_toLoad.push_back(pGameObject);
 	//_inScene.push_back(pGameObject);
 	pGameObject->SetScene(this);
-}
-
-void Scene::IsParentless(GameObject* pGameObject)
-{
-	if (pGameObject == nullptr) throw std::invalid_argument("gameObject is a nullpointer");
-
-	_parentLess.push_back(pGameObject);
 }

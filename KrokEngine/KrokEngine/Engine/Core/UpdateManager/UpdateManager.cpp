@@ -13,7 +13,7 @@ UpdateManager::~UpdateManager()
 
 void UpdateManager::Update(Scene* scene)
 {
-	update((GmObjctPtr)scene);
+	update(*scene);
 
 	for (GmObjctPtr gameObject : scene->ToLoad())
 	{

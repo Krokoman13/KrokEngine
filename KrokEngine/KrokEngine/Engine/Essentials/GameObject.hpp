@@ -77,8 +77,6 @@ public:
 
 	void AddComponent(Component* pComponent);
 
-	void SetPtr(GmObjctPtr pPtr);
-
 	void Delete();
 
 	operator GmObjctPtr();

@@ -135,7 +135,7 @@ void PhysicsManager::calculateVelocities()
 {
 	for (RigidBody* rigidBody : _rigidObjects)
 	{
-		GmObjctPtr gameObject = rigidBody->GetGameObject();
+		GameObject* gameObject = rigidBody->GetGameObject();
 		rigidBody->acceleration = Vec2(0, 9.81f);
 		rigidBody->velocity += rigidBody->acceleration * _cycleSpeed;
 		rigidBody->acceleration = Vec2();
@@ -146,7 +146,7 @@ void PhysicsManager::applyVelocities(float pMultiplier)
 {
 	for (RigidBody* rigidBody : _rigidObjects)
 	{
-		GmObjctPtr gameObject = rigidBody->GetGameObject();
+		GameObject* gameObject = rigidBody->GetGameObject();
 		Vec2 translation = rigidBody->velocity * _cycleSpeed * pMultiplier;
 		gameObject->identity.Translate(translation);
 	}

@@ -7,6 +7,7 @@ class ColliderComponent : public Component
 {
 public:
 	ColliderComponent(CircleCollider* toAdd = nullptr);
+	virtual ~ColliderComponent();
 
 	const std::vector<CircleCollider*>& GetCircles() const;
 	const std::vector<LineCollider*>& GetLines() const;
@@ -14,8 +15,6 @@ public:
 	void Add(LineCollider* pCollider);
 	void Add(CircleCollider* pCollider);
 	virtual void SetGameObject(GmObjctPtr pGameObject) override;
-
-	bool IsExclusive() override;
 
 	void SetBounciness(float pBouncyness);	//1.0f is 100% bouncy
 	float GetBounciness() const;

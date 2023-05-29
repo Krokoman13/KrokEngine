@@ -5,6 +5,19 @@ ColliderComponent::ColliderComponent(CircleCollider* pToAdd)
 	Add(pToAdd);
 }
 
+ColliderComponent::~ColliderComponent()
+{
+	for (LineCollider* line : _lines)
+	{
+		delete line;
+	}
+
+	for (CircleCollider* circle : _circles)
+	{
+		delete circle;
+	}
+}
+
 const std::vector<CircleCollider*>& ColliderComponent::GetCircles() const
 {
 	return _circles;
@@ -46,11 +59,6 @@ void ColliderComponent::SetGameObject(GmObjctPtr pGameObject)
 	{
 		collider->SetParent(pGameObject);
 	}
-}
-
-bool ColliderComponent::IsExclusive()
-{
-	return true;
 }
 
 void ColliderComponent::SetBounciness(float pBouncyness)

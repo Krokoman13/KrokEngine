@@ -50,9 +50,3 @@ bool Component::IsActive() const
 {
 	return _enabled;
 }
-
-bool Component::IsExclusive()
-{
-	return false;
-}
-

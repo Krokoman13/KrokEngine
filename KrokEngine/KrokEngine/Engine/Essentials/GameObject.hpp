@@ -54,7 +54,27 @@ public:
 	void OnEnable();
 	void OnDisable();
 
-	Component* TryFindComponent(const std::type_info& pTypeId, bool& pFound);
+	template<typename T>
+	bool TryGetComponent(T*& outp)
+	{
+		static_assert(std::is_base_of<Component, T>::value, "T must be a derived class of Component");
+
+		for (unsigned int i = 0; i < _components.size(); i++)
+		{
+			Component* component = _components[i].get();
+
+			T* current = dynamic_cast<T*>(component);
+
+			if (current != nullptr)
+			{
+				outp = current;
+				return true;
+			}
+		}
+
+		return false;
+	};
+
 	void AddComponent(Component* pComponent);
 
 	void SetPtr(GmObjctPtr pPtr);
@@ -80,7 +100,7 @@ private:
 	void setParent(GameObject* pParent);
 	bool _enabled = false;
 
-	std::vector<Component*> _components;
+	std::vector<std::unique_ptr<Component>> _components;
 
 	GmObjctPtr _ptr;
 };

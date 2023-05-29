@@ -27,28 +27,22 @@ void PhysicsManager::Load(const std::vector<GmObjctPtr>& toLoad)
 {
 	for (GmObjctPtr gameObject : toLoad)
 	{
-		Component* component = nullptr;
-		bool found = false;
-
-		component = gameObject->TryFindComponent(typeid(RigidBody), found);
-		if (found)
+		RigidBody* rb;
+		if (gameObject->TryGetComponent(rb))
 		{
-			RigidBody* rigidBody = static_cast<RigidBody*>(component);
-			_rigidObjects.push_back(rigidBody);
+			_rigidObjects.push_back(rb);
 		}
 
-		component = gameObject->TryFindComponent(typeid(TriggerColliderComponent), found);
-		if (found)
+		TriggerColliderComponent* tc;
+		if (gameObject->TryGetComponent(tc))
 		{
-			TriggerColliderComponent* triggerCollider = static_cast<TriggerColliderComponent*>(component);
-			_triggerObjects.push_back(triggerCollider);
+			_triggerObjects.push_back(tc);
 		}
 
-		component = gameObject->TryFindComponent(typeid(ColliderComponent), found);
-		if (found)
+		ColliderComponent* col;
+		if (gameObject->TryGetComponent(col))
 		{
-			ColliderComponent* collider = static_cast<ColliderComponent*>(component);
-			_staticObjects.push_back(collider);
+			_staticObjects.push_back(col);
 		}
 	}
 }
@@ -61,7 +55,7 @@ void PhysicsManager::cleanTriggers()
 	{
 		TriggerColliderComponent* triggerObject = _triggerObjects[i];
 
-		if (triggerObject->GetGameObject().IsDestroyed())
+		if (triggerObject == nullptr)
 		{
 			_triggerObjects.erase(_triggerObjects.begin() + i);
 			continue;
@@ -77,9 +71,9 @@ void PhysicsManager::cleanStatics()
 
 	while (i < _staticObjects.size())
 	{
-		ColliderComponent *staticObject = _staticObjects[i];
+		ColliderComponent* staticObject = _staticObjects[i];
 
-		if (staticObject->GetGameObject().IsDestroyed())
+		if (staticObject == nullptr)
 		{
 			_staticObjects.erase(_staticObjects.begin() + i);
 			continue;
@@ -97,7 +91,7 @@ void PhysicsManager::cleanRigids()
 	{
 		RigidBody* rigidObject = _rigidObjects[i];
 
-		if (rigidObject->GetGameObject().IsDestroyed())
+		if (rigidObject == nullptr)
 		{
 			_rigidObjects.erase(_rigidObjects.begin() + i);
 			continue;

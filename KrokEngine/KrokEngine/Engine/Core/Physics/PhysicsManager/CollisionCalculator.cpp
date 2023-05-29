@@ -1,6 +1,6 @@
 #include "CollisionCalculator.hpp"
 #include "../Components/ColliderComponent.hpp"
-#include <cmath>;
+#include <cmath>
 
 CollisionInfo CollisionCalculator::CalculateCollision(CircleCollider* pCircle, const Vec2& pTranslation, LineCollider* pLine)
 {

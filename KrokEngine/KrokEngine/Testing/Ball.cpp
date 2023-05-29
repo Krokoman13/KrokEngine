@@ -14,6 +14,6 @@ void Ball::update()
 
 	if (Input::WentDown(sf::Mouse::Left))
 	{
-		//Delete();
+		Delete();
 	}
 }

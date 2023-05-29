@@ -64,14 +64,14 @@ GmObjctPtr::operator GameObject* ()
 
 bool GmObjctPtr::operator==(GmObjctPtr pOther) const
 {
-	return this->Get() == pOther.Get();
+	return Get() == pOther.Get();
 }
 
 GmObjctPtr GmObjctPtr::operator=(GmObjctPtr pOther)
 {
-	this->_pointer = pOther._pointer;
-	this->_count = pOther._count;
-	this->_destroyed = pOther._destroyed;
+	_pointer = pOther._pointer;
+	_count = pOther._count;
+	_destroyed = pOther._destroyed;
 	return *this;
 }
 

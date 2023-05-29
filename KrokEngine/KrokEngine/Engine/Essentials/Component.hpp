@@ -15,8 +15,6 @@ public:
 	void SetActive(bool pEnabled = true);
 	bool IsActive() const;
 
-	virtual bool IsExclusive();
-
 protected:
 	GmObjctPtr _gameObject;
 

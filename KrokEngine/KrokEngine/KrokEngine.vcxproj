@@ -129,7 +129,9 @@
   <ItemGroup>
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionCalculator.hpp" />
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionInfo.hpp" />
-    <ClInclude Include="Engine\Core\SmartPointers\CoPtr.hpp" />
+    <ClInclude Include="Engine\Essentials\GameObject.hpp" />
+    <ClInclude Include="Engine\Essentials\ManagedPtr.hpp" />
+    <ClInclude Include="Engine\Essentials\SlavePtr.hpp" />
     <ClInclude Include="Testing\Ball.hpp" />
     <ClInclude Include="Engine\Core\Physics\Components\ColliderComponent.hpp" />
     <ClInclude Include="Engine\Core\EventHandeler\EventHandeler.hpp" />
@@ -152,13 +154,11 @@
     <ClInclude Include="Engine\Core\UpdateManager\UpdateManager.hpp" />
     <ClInclude Include="Engine\Essentials\Component.hpp" />
     <ClInclude Include="Engine\Essentials\Game.hpp" />
-    <ClInclude Include="Engine\Essentials\GameObject.hpp" />
     <ClInclude Include="Engine\Essentials\Transform.hpp" />
     <ClInclude Include="Engine\Core\Math\Vec2.hpp" />
     <ClInclude Include="Engine\KrokEngine.hpp" />
     <ClInclude Include="Engine\Util\FileIO.hpp" />
     <ClInclude Include="Engine\Util\StringUtil.hpp" />
-    <ClInclude Include="Engine\Essentials\GmObjctPtr.hpp" />
     <ClInclude Include="Engine\Core\Math\Matrix.hpp" />
     <ClInclude Include="Engine\Core\Physics\Colliders\LineCollider.hpp" />
     <ClInclude Include="Engine\Core\Physics\Components\RigidBody.hpp" />
@@ -196,7 +196,6 @@
     <ClCompile Include="Engine\Core\Math\Vec2.cpp" />
     <ClCompile Include="Engine\Util\FileIO.cpp" />
     <ClCompile Include="Engine\Util\StringUtil.cpp" />
-    <ClCompile Include="Engine\Essentials\GmObjctPtr.cpp" />
     <ClCompile Include="Engine\Core\Input\Input.cpp" />
     <ClCompile Include="Engine\Core\Physics\Colliders\LineCollider.cpp" />
     <ClCompile Include="Main.cpp" />

@@ -8,7 +8,7 @@ class SceneManager;
 class Scene : public GameObject
 {
 public:
-	Scene(std::string pName, bool reloadOnOpen = false);
+	Scene(std::string pName, bool pReloadOnOpen = false);
 	virtual ~Scene();
 
 	bool loaded = false;
@@ -17,20 +17,23 @@ public:
 	UI* ui;
 
 	void Load();
-	void AddToScene(GmObjctPtr gmObject);
+	void AddToScene(ManagedPtr<GameObject>  pGmObject);
 	void HandleObjectsInScene();
 	void Close();
+
+	void LateRemove(ManagedPtr<GameObject> pToRemove);
 
 	SceneManager* sceneManager;
 
 	virtual void OnClose();
 
-	const std::vector<GmObjctPtr>& ToLoad() const;
+	const std::vector<ManagedPtr<GameObject> >& ToLoad() const;
 
 protected:
 	bool _reloadOnOpen;
 
 private:
-	std::vector<GmObjctPtr> _toLoad;
+	std::vector<ManagedPtr<GameObject>> _toLoad;
+	std::queue<ManagedPtr<GameObject>> _toRemove;
 };
 

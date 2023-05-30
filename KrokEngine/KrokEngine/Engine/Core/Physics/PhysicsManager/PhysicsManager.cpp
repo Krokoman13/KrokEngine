@@ -23,28 +23,26 @@ void PhysicsManager::Update(Scene* pScene)
 	moveRidgids();
 }
 
-void PhysicsManager::Load(const std::vector<GmObjctPtr>& toLoad)
+void PhysicsManager::Load(const std::vector<ManagedPtr<GameObject> >& toLoad)
 {
-	for (GmObjctPtr gameObject : toLoad)
+	/*for (ManagedPtr<GameObject> gameObject : toLoad)
 	{
-		RigidBody* rb;
-		if (gameObject->TryGetComponent(rb))
+		SlavePtr<Component> component;
+		if (gameObject->TryGetComponent<RigidBody>(component))
 		{
-			_rigidObjects.push_back(rb);
+			_rigidObjects.push_back(component.TryCast<RigidBody>());
 		}
 
-		TriggerColliderComponent* tc;
-		if (gameObject->TryGetComponent(tc))
+		if (gameObject->TryGetComponent<TriggerColliderComponent>(component))
 		{
-			_triggerObjects.push_back(tc);
+			_triggerObjects.push_back(component.TryCast<TriggerColliderComponent>());
 		}
 
-		ColliderComponent* col;
-		if (gameObject->TryGetComponent(col))
+		if (gameObject->TryGetComponent<ColliderComponent>(component))
 		{
-			_staticObjects.push_back(col);
+			_staticObjects.push_back(component.TryCast<ColliderComponent>());
 		}
-	}
+	}*/
 }
 
 void PhysicsManager::cleanTriggers()
@@ -53,9 +51,9 @@ void PhysicsManager::cleanTriggers()
 
 	while (i < _triggerObjects.size())
 	{
-		TriggerColliderComponent* triggerObject = _triggerObjects[i];
+		SlavePtr<TriggerColliderComponent> triggerObject = _triggerObjects[i];
 
-		if (triggerObject == nullptr)
+		if (triggerObject.IsDestroyed())
 		{
 			_triggerObjects.erase(_triggerObjects.begin() + i);
 			continue;
@@ -71,9 +69,9 @@ void PhysicsManager::cleanStatics()
 
 	while (i < _staticObjects.size())
 	{
-		ColliderComponent* staticObject = _staticObjects[i];
+		SlavePtr<ColliderComponent> staticObject = _staticObjects[i];
 
-		if (staticObject == nullptr)
+		if (staticObject.IsDestroyed())
 		{
 			_staticObjects.erase(_staticObjects.begin() + i);
 			continue;
@@ -89,9 +87,9 @@ void PhysicsManager::cleanRigids()
 
 	while (i < _rigidObjects.size())
 	{
-		RigidBody* rigidObject = _rigidObjects[i];
+		SlavePtr<RigidBody> rigidObject = _rigidObjects[i];
 
-		if (rigidObject == nullptr)
+		if (rigidObject.IsDestroyed())
 		{
 			_rigidObjects.erase(_rigidObjects.begin() + i);
 			continue;

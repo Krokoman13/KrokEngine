@@ -4,6 +4,10 @@ TriggerColliderComponent::TriggerColliderComponent(CircleCollider* pToAdd) : Col
 {
 }
 
+TriggerColliderComponent::~TriggerColliderComponent()
+{
+}
+
 void TriggerColliderComponent::OnTriggerEnter()
 {
 	onTriggerEnterAction();

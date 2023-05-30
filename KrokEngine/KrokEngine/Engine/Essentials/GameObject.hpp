@@ -6,7 +6,7 @@
 #include "Transform.hpp"
 #include "../Core/Math/Vec2.hpp"
 #include "Component.hpp"
-#include "GmObjctPtr.hpp"
+#include "ManagedPtr.hpp"
 
 class Scene;
 
@@ -15,7 +15,7 @@ class GameObject : public Transform
 public:
 	GameObject(Vec2 pPosition, std::string pName = "GameObject");
 	GameObject(std::string pName = "GameObject", float pX = 0.0f, float pY = 0.0f);
-	~GameObject();
+	virtual ~GameObject();
 
 	void ClearChildren();
 
@@ -23,17 +23,17 @@ public:
 
 	GameObject* GetParent() const;
 	void SetParent(Transform* pParent) = delete;
-	void SetParent(GameObject* pParent);
 
 	void ClearParent();
 
-	bool HasChild(GmObjctPtr pOther) const;
+	bool HasChild(GameObject* pOther) const;
 	//const std::vector <GmObjctPtr> GetChildren() const;
 	unsigned int ChildCount() const;
-	GmObjctPtr GetChild(unsigned int i) const;
+	ManagedPtr<GameObject> GetChild(unsigned int i) const;
 
-	void AddChild(GmObjctPtr pChild);
-	GmObjctPtr AddChild(GameObject* pChild);
+	void AddChild(ManagedPtr<GameObject> pChild);
+	ManagedPtr<GameObject> AddChild(GameObject* pChild);
+
 	void RemoveChild(unsigned int i);
 	void RemoveChild(GameObject* pChild);
 
@@ -55,22 +55,21 @@ public:
 	void OnDisable();
 
 	template<typename T>
-	bool TryGetComponent(T*& outp)
+	bool TryGetComponent(SlavePtr<Component>& outp)
 	{
 		static_assert(std::is_base_of<Component, T>::value, "T must be a derived class of Component");
 
-		for (unsigned int i = 0; i < _components.size(); i++)
-		{
-			Component* component = _components[i].get();
+		//for (unsigned int i = 0; i < _components.size(); i++)
+		//{
+		//	Component* component = _components[i].Get();
+		//	T* current = dynamic_cast<T*>(component);
 
-			T* current = dynamic_cast<T*>(component);
-
-			if (current != nullptr)
-			{
-				outp = current;
-				return true;
-			}
-		}
+		//	if (current != nullptr)
+		//	{
+		//		outp = _components[i];
+		//		return true;
+		//	}
+		//}
 
 		return false;
 	};
@@ -79,16 +78,13 @@ public:
 
 	void Delete();
 
-	operator GmObjctPtr();
-
 protected:
 	bool _canRender = false;
 	int _renderLayer = -1;
 
 	//GameObject* _parent = nullptr;
-	std::vector <GmObjctPtr> _children;
+	std::vector <ManagedPtr<GameObject>> _children;
 
-	int getChildIndex();
 	Scene* _scene;
 
 	virtual void update();
@@ -98,8 +94,10 @@ private:
 	void setParent(GameObject* pParent);
 	bool _enabled = false;
 
-	std::vector<std::unique_ptr<Component>> _components;
+	unsigned int* _countPtr;
+	bool* _destroyedPtr;
 
-	GmObjctPtr _ptr;
+	ManagedPtr<GameObject> getPtr();
+	//std::vector<ManagedPtr<Component>> _components;
 };
 

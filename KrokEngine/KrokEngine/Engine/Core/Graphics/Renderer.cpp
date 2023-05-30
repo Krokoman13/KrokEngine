@@ -18,7 +18,7 @@ Renderer::~Renderer()
 
 void Renderer::Render(Scene* scene)
 {
-	for (GmObjctPtr toUpdate : scene->ToLoad())
+	for (ManagedPtr<GameObject>  toUpdate : scene->ToLoad())
 	{
 		if (toUpdate->CanRender())
 		{
@@ -30,7 +30,7 @@ void Renderer::Render(Scene* scene)
 
 	while (i < _toRender.size())
 	{
-		GmObjctPtr toRender = _toRender[i];
+		ManagedPtr<GameObject>  toRender = _toRender[i];
 
 		if (toRender.IsDestroyed())
 		{

@@ -11,6 +11,7 @@ class TriggerColliderComponent : public ColliderComponent
 {
 public:
 	TriggerColliderComponent(CircleCollider* pToAdd = nullptr);
+	virtual ~TriggerColliderComponent();
 
 	void OnTriggerEnter();
 	void OnTriggerExit();

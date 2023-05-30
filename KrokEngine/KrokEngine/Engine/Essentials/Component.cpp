@@ -2,6 +2,10 @@
 #include "GameObject.hpp"
 #include <stdexcept>
 
+Component::~Component()
+{
+}
+
 void Component::SetGameObject(GameObject* pGameObject)
 {
 	if (pGameObject == nullptr) throw std::invalid_argument("Component cannot be added to a nullptr");

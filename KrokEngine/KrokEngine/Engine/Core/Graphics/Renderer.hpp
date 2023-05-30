@@ -1,8 +1,9 @@
 #pragma once
 #include "RenderLayer.hpp"
+#include "../../Essentials/ManagedPtr.hpp"
 
 class Scene;
-class GmObjctPtr;
+class GameObject;
 
 class Renderer
 {
@@ -16,7 +17,7 @@ public :
 	void ToRender(sf::Drawable* sprite, int layer);
 
 private :
-	std::vector<GmObjctPtr> _toRender;
+	std::vector<ManagedPtr<GameObject>> _toRender;
 
 	void render();
 	sf::RenderWindow* _window;

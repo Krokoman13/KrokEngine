@@ -24,9 +24,6 @@
     <ClInclude Include="Engine\Essentials\Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Essentials\GameObject.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Core\Math\Vec2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -70,9 +67,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\UpdateManager\UpdateManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Essentials\GmObjctPtr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Testing\MovingObject.hpp">
@@ -138,7 +132,13 @@
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionInfo.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\SmartPointers\CoPtr.hpp">
+    <ClInclude Include="Engine\Essentials\ManagedPtr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Essentials\GameObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Essentials\SlavePtr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -192,9 +192,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\UpdateManager\UpdateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Essentials\GmObjctPtr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Testing\MovingObject.cpp">

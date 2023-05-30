@@ -1,5 +1,5 @@
 #include "Scene.hpp"
-#include "../../Essentials/GmObjctPtr.hpp"
+#include "../../Essentials/ManagedPtr.hpp"
 
 Scene::Scene(std::string Name, bool reloadOnOpen) : GameObject(name)
 {
@@ -39,6 +39,16 @@ void Scene::HandleObjectsInScene()
 
 		i++;
 	}
+
+	while (_toRemove.size() > 0)
+	{
+		ManagedPtr<GameObject> toRemove = _toRemove.front();
+		_toRemove.pop();
+
+		if (toRemove.IsDestroyed()) continue;
+		std::cout << "Removing: " << toRemove->name;
+		toRemove.Destroy();
+	}
 }
 
 void Scene::Close()
@@ -48,16 +58,21 @@ void Scene::Close()
 	if (_reloadOnOpen) loaded = false;
 }
 
+void Scene::LateRemove(ManagedPtr<GameObject> pToRemove)
+{
+	_toRemove.push(pToRemove);
+}
+
 void Scene::OnClose()
 {
 }
 
-const std::vector<GmObjctPtr>& Scene::ToLoad() const
+const std::vector<ManagedPtr<GameObject> >& Scene::ToLoad() const
 {
 	return _toLoad;
 }
 
-void Scene::AddToScene(GmObjctPtr pGameObject)
+void Scene::AddToScene(ManagedPtr<GameObject>  pGameObject)
 {
 	_toLoad.push_back(pGameObject);
 	//_inScene.push_back(pGameObject);

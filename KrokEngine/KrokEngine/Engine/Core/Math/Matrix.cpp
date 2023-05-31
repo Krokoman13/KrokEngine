@@ -13,8 +13,8 @@ const unsigned int Matrix::GetRows() const
 
 Matrix::Matrix(const unsigned int pX, const unsigned int pY) : _array(pX* pY)
 {
-	this->_columns = pX;
-	this->_rows = pY;
+	_columns = pX;
+	_rows = pY;
 }
 
 Matrix::Matrix(const Matrix& other) : Matrix(other.GetColumns(), other.GetRows())

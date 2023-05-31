@@ -1,7 +1,8 @@
 #pragma once
+#include "../Engine/Add-on/Physics.hpp"
 #include "../Engine/KrokEngine.hpp"
 
-class TestScene : public Scene
+class TestScene : public PhysicsScene
 {
 public:
 	TestScene();

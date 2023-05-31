@@ -50,6 +50,8 @@ public:
 	void OnEnable();
 	void OnDisable();
 
+	const std::vector<std::unique_ptr<Component>>& GetComponents() const;
+
 	template<typename T>
 	bool TryGetComponent(T*& outp)
 	{

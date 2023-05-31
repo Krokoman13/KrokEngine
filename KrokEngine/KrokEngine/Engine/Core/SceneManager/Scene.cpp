@@ -1,4 +1,5 @@
 #include "Scene.hpp"
+#include "SceneManager.hpp"
 
 Scene::Scene(std::string Name, bool reloadOnOpen) : GameObject(name)
 {
@@ -42,7 +43,7 @@ void Scene::HandleObjectsInScene()
 
 	while (_toDestroy.size() > 0)
 	{
-		_toDestroy.pop();
+		_toDestroy.pop_back();
 	}
 }
 
@@ -55,7 +56,7 @@ void Scene::Close()
 
 void Scene::Parentless(std::unique_ptr<GameObject>& pToRemove)
 {
-	_toDestroy.push(std::move(pToRemove));
+	_toDestroy.push_back(std::move(pToRemove));
 }
 
 void Scene::OnClose()
@@ -65,6 +66,11 @@ void Scene::OnClose()
 const std::vector<GameObject*>& Scene::ToLoad() const
 {
 	return _toLoad;
+}
+
+const std::vector<std::unique_ptr<GameObject>>& Scene::ToDestroy() const
+{
+	return _toDestroy;
 }
 
 void Scene::AddToScene(GameObject* pGameObject)

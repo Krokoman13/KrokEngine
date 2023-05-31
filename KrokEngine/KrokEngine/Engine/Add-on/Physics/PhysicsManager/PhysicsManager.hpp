@@ -9,20 +9,23 @@ class Game;
 class PhysicsManager
 {
 public:
-	PhysicsManager(Game* pGame);
+	PhysicsManager();
 	void Update(Scene* pScene);
-	void Load(const std::vector<GameObject*>& pToLoad);
+
+	float physicsSpeed = 10.0f;
+	float cycleSpeed;
 
 private:
+	void load(const std::vector<GameObject*>& pToLoad);
+	void handleDestroyed(const std::vector<std::unique_ptr<GameObject>>& pToDestroy);
+	void handleDestroyed(Component* component);
+
 	void calculateVelocities();
 	void moveRidgids(float pDuration = 1.0f);
 	void applyVelocities(float pMultiplier = 1.0f);
 	CollisionInfo moveRigid(RigidBody* pRigidBody, float pMultiplier = 1.0f);
 	CollisionInfo getCollision(RigidBody* pRigidBody, ColliderComponent* collider, Vec2& desiredTranslation);
 
-	Game* _game;
-	float _physicsSpeed = 10.0f;
-	float _cycleSpeed;
 	const float _minToi = 0.1f;
 
 	std::vector<TriggerColliderComponent*> _triggerObjects;

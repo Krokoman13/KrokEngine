@@ -5,7 +5,7 @@
 #include "PhysicsLine.hpp"
 #include "Ball.hpp"
 
-TestScene::TestScene() : Scene("TestScene")
+TestScene::TestScene() : PhysicsScene("TestScene")
 {
 }
 

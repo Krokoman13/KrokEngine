@@ -1,6 +1,6 @@
 #include "LineCollider.hpp"
 #include "CircleCollider.hpp"
-#include "../../Math/Vec2.hpp"
+#include "../../../Core/Math/Vec2.hpp"
 
 LineCollider::LineCollider(Vec2 pStart, Vec2 pEnd) : _start(pStart), _end(pEnd)
 {

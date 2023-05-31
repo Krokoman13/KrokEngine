@@ -12,7 +12,12 @@ GameObject::GameObject(std::string name, float x, float y) : GameObject(Vec2(x, 
 
 GameObject::~GameObject()
 {
+	if (!_scene) return;
 
+	for (unsigned int i = 0; i < _children.size(); i++)
+	{
+		_scene->Parentless(_children[i]);
+	}
 }
 
 sf::Sprite* GameObject::GetSprite()
@@ -142,6 +147,11 @@ void GameObject::OnDisable()
 		component->OnDisable();
 	}
 	//onDisable();
+}
+
+const std::vector<std::unique_ptr<Component>>& GameObject::GetComponents() const
+{
+	return _components;
 }
 
 void GameObject::AddComponent(Component* pComponent)

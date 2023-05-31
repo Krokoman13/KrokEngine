@@ -1,7 +1,6 @@
 #pragma once
 #include "../../Essentials/GameObject.hpp"
 #include "../UI/UI.hpp"
-#include <queue>
 
 class SceneManager;
 
@@ -16,9 +15,9 @@ public:
 
 	UI* ui;
 
-	void Load();
+	virtual void Load();
 	void AddToScene(GameObject*  pGmObject);
-	void HandleObjectsInScene();
+	virtual void HandleObjectsInScene();
 	void Close();
 
 	void Parentless(std::unique_ptr<GameObject>& pToRemove);
@@ -28,12 +27,13 @@ public:
 	virtual void OnClose();
 
 	const std::vector<GameObject*>& ToLoad() const;
+	const std::vector<std::unique_ptr<GameObject>>& ToDestroy() const;
 
 protected:
 	bool _reloadOnOpen;
 
 private:
 	std::vector<GameObject*> _toLoad;
-	std::queue<std::unique_ptr<GameObject>> _toDestroy;
+	std::vector<std::unique_ptr<GameObject>> _toDestroy;
 };
 

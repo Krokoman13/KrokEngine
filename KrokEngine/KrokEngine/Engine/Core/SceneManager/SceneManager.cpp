@@ -1,4 +1,5 @@
 #include "SceneManager.hpp"
+#include "../../Essentials/Game.hpp"
 
 SceneManager::SceneManager(Game* game)
 {

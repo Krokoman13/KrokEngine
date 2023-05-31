@@ -1,6 +1,6 @@
 #pragma once
 #include "Collider.hpp"
-#include "../../Math/Vec2.hpp"
+#include "../../../Core/Math/Vec2.hpp"
 
 class CircleCollider : public Collider
 {

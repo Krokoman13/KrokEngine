@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Math/Vec2.hpp"
+#include "../../../Core/Math/Vec2.hpp"
 
 class Collider;
 class RigidBody;

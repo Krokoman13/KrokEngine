@@ -1,24 +1,22 @@
 #include "PhysicsManager.hpp"
-#include "../../SceneManager/Scene.hpp"
+#include "../../../Core/SceneManager/Scene.hpp"
 #include "../../../Essentials/Game.hpp"
 
-PhysicsManager::PhysicsManager(Game* pGame)
+PhysicsManager::PhysicsManager()
 {
-	_game = pGame;
-	_cycleSpeed = _physicsSpeed;
+	cycleSpeed = physicsSpeed;
 }
 
 void PhysicsManager::Update(Scene* pScene)
 {
-	_cycleSpeed = _physicsSpeed * _game->deltaSeconds;
-
-	Load(pScene->ToLoad());
+	handleDestroyed(pScene->ToDestroy());
+	load(pScene->ToLoad());
 
 	calculateVelocities();
 	moveRidgids();
 }
 
-void PhysicsManager::Load(const std::vector<GameObject*>& toLoad)
+void PhysicsManager::load(const std::vector<GameObject*>& toLoad)
 {
 	for (GameObject* gameObject : toLoad)
 	{
@@ -42,6 +40,49 @@ void PhysicsManager::Load(const std::vector<GameObject*>& toLoad)
 	}
 }
 
+void PhysicsManager::handleDestroyed(const std::vector<std::unique_ptr<GameObject>>& pToDestroy)
+{
+	for (unsigned int i = 0; i < pToDestroy.size(); i++)
+	{
+		const std::vector<std::unique_ptr<Component>>& components = pToDestroy[i]->GetComponents();
+		
+		for (unsigned int j = 0; j < components.size(); j++)
+		{
+			handleDestroyed(components[j].get());
+		}
+	}
+}
+
+void PhysicsManager::handleDestroyed(Component* component)
+{
+	for (unsigned int i = 0; i < _rigidObjects.size(); i++)
+	{
+		if (component == _rigidObjects[i])
+		{
+			_rigidObjects.erase(_rigidObjects.begin() + i);
+			return;
+		}
+	}
+
+	for (unsigned int i = 0; i < _triggerObjects.size(); i++)
+	{
+		if (component == _triggerObjects[i])
+		{
+			_triggerObjects.erase(_triggerObjects.begin() + i);
+			return;
+		}
+	}
+
+	for (unsigned int i = 0; i < _staticObjects.size(); i++)
+	{
+		if (component == _staticObjects[i])
+		{
+			_staticObjects.erase(_staticObjects.begin() + i);
+			return;
+		}
+	}
+}
+
 void PhysicsManager::moveRidgids(float pMultiplier)
 {
 	CollisionInfo shortest;
@@ -61,7 +102,7 @@ void PhysicsManager::moveRidgids(float pMultiplier)
 		float relativeTOI = shortest.TOI * pMultiplier;
 		applyVelocities(shortest.TOI);
 
-		shortest.aRigidBody->velocity = shortest.aVelocity / _cycleSpeed;
+		shortest.aRigidBody->velocity = shortest.aVelocity / cycleSpeed;
 
 		float newMultiplier = pMultiplier - relativeTOI;
 		if (newMultiplier < _minToi) return;
@@ -80,7 +121,7 @@ void PhysicsManager::calculateVelocities()
 		GameObject* gameObject = rigidBody->GetGameObject();
 
 		rigidBody->acceleration = Vec2(0, 9.81f);
-		rigidBody->velocity += rigidBody->acceleration * _cycleSpeed;
+		rigidBody->velocity += rigidBody->acceleration * cycleSpeed;
 		rigidBody->acceleration = Vec2();
 	}
 }
@@ -92,14 +133,14 @@ void PhysicsManager::applyVelocities(float pMultiplier)
 		RigidBody* rigidBody = _rigidObjects[i];
 		GameObject* gameObject = rigidBody->GetGameObject();
 
-		Vec2 translation = rigidBody->velocity * _cycleSpeed * pMultiplier;
+		Vec2 translation = rigidBody->velocity * cycleSpeed * pMultiplier;
 		gameObject->identity.Translate(translation);
 	}
 }
 
 CollisionInfo PhysicsManager::moveRigid(RigidBody* pRigidBody, float pMultiplier)
 {
-	Vec2 desiredTranslation = pRigidBody->velocity * _cycleSpeed * pMultiplier;
+	Vec2 desiredTranslation = pRigidBody->velocity * cycleSpeed * pMultiplier;
 
 	CollisionInfo shortest;
 
@@ -130,7 +171,7 @@ CollisionInfo PhysicsManager::getCollision(RigidBody* pRigidBody, ColliderCompon
 
 			if (info.TOI < _minToi)
 			{
-				pRigidBody->velocity = info.aVelocity / _cycleSpeed;
+				pRigidBody->velocity = info.aVelocity / cycleSpeed;
 				pRigidBody->GetGameObject()->SetGlobalPosition(info.aPOI);
 				continue;
 			}
@@ -147,7 +188,7 @@ CollisionInfo PhysicsManager::getCollision(RigidBody* pRigidBody, ColliderCompon
 
 			if (info.TOI < _minToi)
 			{
-				pRigidBody->velocity = info.aVelocity / _cycleSpeed;
+				pRigidBody->velocity = info.aVelocity / cycleSpeed;
 				pRigidBody->GetGameObject()->SetGlobalPosition(info.aPOI);
 				continue;
 			}

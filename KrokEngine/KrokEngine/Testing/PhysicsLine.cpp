@@ -1,4 +1,5 @@
 #include "PhysicsLine.hpp"
+#include "../Engine/Add-on/Physics.hpp"
 
 PhysicsLine::PhysicsLine(Vec2 pStart, Vec2 pEnd) : GameObject("PhysicsLine")
 {

@@ -2,7 +2,6 @@
 #include "../../Core/SceneManager/Scene.hpp"
 #include "../../Essentials/Game.hpp"
 
-
 void PhysicsScene::PhysicsUpdate(Scene* pScene)
 {
 	handleDestroyed(pScene->ToDestroy());
@@ -16,25 +15,38 @@ void PhysicsScene::PhysicsUpdate(Scene* pScene)
 
 void PhysicsScene::load(const std::vector<GameObject*>& toLoad)
 {
-	for (GameObject* gameObject : toLoad)
+	for (unsigned int i = 0; i < toLoad.size(); i++)
 	{
-		RigidBody* rb;
-		if (gameObject->TryGetComponent<RigidBody>(rb))
-		{
-			_rigidObjects.push_back(rb);
-		}
+		const std::vector<std::unique_ptr<Component>>& components = toLoad[i]->GetComponents();
 
-		TriggerColliderComponent* tc;
-		if (gameObject->TryGetComponent<TriggerColliderComponent>(tc))
+		for (unsigned int j = 0; j < components.size(); j++)
 		{
-			_triggerObjects.push_back(tc);
+			load(components[j].get());
 		}
+	}
+}
 
-		ColliderComponent* col;
-		if (gameObject->TryGetComponent<ColliderComponent>(col))
-		{
-			_staticObjects.push_back(col);
-		}
+void PhysicsScene::load(Component* pComponent)
+{
+	RigidBody* rb = dynamic_cast<RigidBody*>(pComponent);
+	if (rb)
+	{
+		_rigidObjects.push_back(rb);
+		return;
+	}
+
+	TriggerColliderComponent* tc = dynamic_cast<TriggerColliderComponent*>(pComponent);
+	if (tc)
+	{
+		_triggerObjects.push_back(tc);
+		return;
+	}
+
+	ColliderComponent* stat = dynamic_cast<ColliderComponent*>(pComponent);
+	if (stat)
+	{
+		_staticObjects.push_back(stat);
+		return;
 	}
 }
 
@@ -53,31 +65,46 @@ void PhysicsScene::handleDestroyed(const std::vector<std::unique_ptr<GameObject>
 
 void PhysicsScene::handleDestroyed(Component* component)
 {
-	for (unsigned int i = 0; i < _rigidObjects.size(); i++)
+	if (dynamic_cast<RigidBody*>(component))
 	{
-		if (component == _rigidObjects[i])
+		for (unsigned int i = 0; i < _rigidObjects.size(); i++)
 		{
-			_rigidObjects.erase(_rigidObjects.begin() + i);
-			return;
+			if (component == _rigidObjects[i])
+			{
+				_rigidObjects.erase(_rigidObjects.begin() + i);
+				return;
+			}
 		}
+
+		return;
 	}
 
-	for (unsigned int i = 0; i < _triggerObjects.size(); i++)
+	if (dynamic_cast<TriggerColliderComponent*>(component))
 	{
-		if (component == _triggerObjects[i])
+		for (unsigned int i = 0; i < _triggerObjects.size(); i++)
 		{
-			_triggerObjects.erase(_triggerObjects.begin() + i);
-			return;
+			if (component == _triggerObjects[i])
+			{
+				_triggerObjects.erase(_triggerObjects.begin() + i);
+				return;
+			}
 		}
+
+		return;
 	}
 
-	for (unsigned int i = 0; i < _staticObjects.size(); i++)
+	if (dynamic_cast<ColliderComponent*>(component))
 	{
-		if (component == _staticObjects[i])
+		for (unsigned int i = 0; i < _staticObjects.size(); i++)
 		{
-			_staticObjects.erase(_staticObjects.begin() + i);
-			return;
+			if (component == _staticObjects[i])
+			{
+				_staticObjects.erase(_staticObjects.begin() + i);
+				return;
+			}
 		}
+
+		return;
 	}
 }
 

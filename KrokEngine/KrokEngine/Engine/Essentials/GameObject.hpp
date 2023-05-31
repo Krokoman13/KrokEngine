@@ -52,25 +52,6 @@ public:
 
 	const std::vector<std::unique_ptr<Component>>& GetComponents() const;
 
-	template<typename T>
-	bool TryGetComponent(T*& outp)
-	{
-		static_assert(std::is_base_of<Component, T>::value, "T must be a derived class of Component");
-
-		for (unsigned int i = 0; i < _components.size(); i++)
-		{
-			T* current = dynamic_cast<T*>(_components[i].get());
-
-			if (current != nullptr)
-			{
-				outp = current;
-				return true;
-			}
-		}
-
-		return false;
-	};
-
 	void AddComponent(Component* pComponent);
 
 	void LateDestroy();

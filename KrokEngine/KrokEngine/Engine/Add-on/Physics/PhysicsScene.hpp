@@ -24,6 +24,7 @@ public:
 
 private:
 	void load(const std::vector<GameObject*>& pToLoad);
+	void load(Component* pToLoad);
 	void handleDestroyed(const std::vector<std::unique_ptr<GameObject>>& pToDestroy);
 	void handleDestroyed(Component* component);
 

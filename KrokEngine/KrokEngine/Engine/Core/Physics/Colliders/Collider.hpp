@@ -1,9 +1,6 @@
 #pragma once
 #include "../../../Essentials/GameObject.hpp"
-//#include "CollisionInfo.hpp"
 
-class LineCollider;
-class CircleCollider;
 class ColliderComponent;
 
 class Collider

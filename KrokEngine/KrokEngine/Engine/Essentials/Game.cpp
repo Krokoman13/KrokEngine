@@ -44,7 +44,7 @@ void Game::Run()
 		//	_renderer.ToRender(drawables, INT_MAX);
 		//}
 
-		_renderer.Render(currentScene);
+		_renderer.Render();
 		currentScene->HandleObjectsInScene();
 
 		deltaSeconds = timer.restart().asMicroseconds() / 1000000.0f;

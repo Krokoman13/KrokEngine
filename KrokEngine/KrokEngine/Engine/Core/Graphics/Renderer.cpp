@@ -16,38 +16,8 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::Render(Scene* scene)
+void Renderer::Render()
 {
-	std::vector<borrow_ptr<GameObject>> toLoad = scene->ToLoad();
-	for (unsigned int i = 0; i < toLoad.size(); i++)
-	{
-		if (toLoad[i]->CanRender())
-		{
-			_toRender.push_back(toLoad[i]);
-		}
-	}
-
-	unsigned int i = 0;
-
-	while (i < _toRender.size())
-	{
-		borrow_ptr<GameObject>  toRender = _toRender[i];
-
-		if (!toRender)
-		{
-			_toRender.erase(_toRender.begin() + i);
-			continue;
-		}
-
-		i++;
-
-		if (!toRender->IsActive()) continue;
-
-		sf::Sprite* sprite = toRender->GetSprite();
-		int currentRenderLayer = toRender->GetRenderLayer();
-		ToRender(sprite, currentRenderLayer);
-	}
-
 	render();
 }
 

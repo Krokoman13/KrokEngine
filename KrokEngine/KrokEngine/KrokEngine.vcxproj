@@ -130,7 +130,6 @@
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionCalculator.hpp" />
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionInfo.hpp" />
     <ClInclude Include="Engine\Essentials\GameObject.hpp" />
-    <ClInclude Include="Engine\Essentials\OB_SmartPointers.hpp" />
     <ClInclude Include="Testing\Ball.hpp" />
     <ClInclude Include="Engine\Core\Physics\Components\ColliderComponent.hpp" />
     <ClInclude Include="Engine\Core\EventHandeler\EventHandeler.hpp" />
@@ -141,7 +140,6 @@
     <ClInclude Include="Engine\Core\Math\Matrix3.hpp" />
     <ClInclude Include="Engine\Core\Physics\Colliders\CircleCollider.hpp" />
     <ClInclude Include="Engine\Core\Physics\Colliders\Collider.hpp" />
-    <ClInclude Include="Engine\Core\Physics\Colliders\CollisionInfo.hpp" />
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\PhysicsManager.hpp" />
     <ClInclude Include="Engine\Core\SceneManager\Scene.hpp" />
     <ClInclude Include="Engine\Core\SceneManager\SceneManager.hpp" />

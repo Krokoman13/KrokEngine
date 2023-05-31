@@ -11,13 +11,9 @@ class PhysicsManager
 public:
 	PhysicsManager(Game* pGame);
 	void Update(Scene* pScene);
-	void Load(const std::vector<borrow_ptr<GameObject> >& pToLoad);
+	void Load(const std::vector<GameObject*>& pToLoad);
 
 private:
-	void cleanTriggers();
-	void cleanStatics();
-	void cleanRigids();
-
 	void calculateVelocities();
 	void moveRidgids(float pDuration = 1.0f);
 	void applyVelocities(float pMultiplier = 1.0f);
@@ -29,8 +25,8 @@ private:
 	float _cycleSpeed;
 	const float _minToi = 0.1f;
 
-	std::vector<borrow_ptr<TriggerColliderComponent>> _triggerObjects;
-	std::vector<borrow_ptr<ColliderComponent>> _staticObjects;
-	std::vector<borrow_ptr<RigidBody>> _rigidObjects;
+	std::vector<TriggerColliderComponent*> _triggerObjects;
+	std::vector<ColliderComponent*> _staticObjects;
+	std::vector<RigidBody*> _rigidObjects;
 };
 

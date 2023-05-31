@@ -1,6 +1,5 @@
 #include "GameObject.hpp"
 #include "../Core/SceneManager/Scene.hpp"
-#include "OB_SmartPointers.hpp"
 
 GameObject::GameObject(Vec2 position, std::string name) : Transform(position)
 {
@@ -13,15 +12,7 @@ GameObject::GameObject(std::string name, float x, float y) : GameObject(Vec2(x, 
 
 GameObject::~GameObject()
 {
-	if (_parent != nullptr)
-	{
-		GetParent()->RemoveChild(this);
-	}
 
-	while (!_children.empty())
-	{
-		deleteChildImm(_children.back() - 1);
-	}
 }
 
 sf::Sprite* GameObject::GetSprite()
@@ -40,7 +31,7 @@ int GameObject::childIndex(GameObject* pChild)
 
 	for (unsigned int i = 0; i < _children.size(); i++)
 	{
-		if (_children[i].Get() == pChild)
+		if (_children[i].get() == pChild)
 		{
 			return i;
 		}
@@ -132,7 +123,7 @@ void GameObject::OnEnable()
 {
 	for (unsigned int i = 0; i < _components.size(); i++)
 	{
-		Component* component = _components[i].Get();
+		Component* component = _components[i].get();
 
 		if (!component->IsActive()) continue;
 		component->OnEnable();
@@ -145,7 +136,7 @@ void GameObject::OnDisable()
 {
 	for (unsigned int i = 0; i < _components.size(); i++)
 	{
-		Component* component = _components[i].Get();
+		Component* component = _components[i].get();
 
 		if (!component->IsActive()) continue;
 		component->OnDisable();
@@ -156,7 +147,7 @@ void GameObject::OnDisable()
 void GameObject::AddComponent(Component* pComponent)
 {	
 	pComponent->SetGameObject(this);
-	owning_ptr<Component> componentPtr(pComponent);
+	std::unique_ptr<Component> componentPtr(pComponent);
 	_components.push_back(std::move(componentPtr));
 }
 
@@ -180,7 +171,7 @@ bool GameObject::HasChild(GameObject* pOther) const
 
 	for (unsigned int i = 0; i < this->_children.size(); i++)
 	{
-		if (pOther == _children[i].Get())
+		if (pOther == _children[i].get())
 		{
 			return true;
 		}
@@ -194,41 +185,33 @@ unsigned int GameObject::ChildCount() const
 	return static_cast<unsigned int>(_children.size());
 }
 
-borrow_ptr<GameObject> GameObject::GetChild(unsigned int i) const
+GameObject* GameObject::GetChild(unsigned int i) const
 {
 	if (i > _children.size()-1) throw std::out_of_range("Child index is out of range");;
-	return _children[i].borrow();
+	return _children[i].get();
 }
 
-void GameObject::AddChild(owning_ptr<GameObject>&& pChild)
+void GameObject::AddChild(GameObject* pChild)
 {
-	if (pChild.Get() == this)
-		throw std::invalid_argument("Cannot add a GameObject to itself");
+	if (pChild == this) throw std::invalid_argument("Cannot add a GameObject to itself");
 
-	if (HasChild(pChild.Get()))
-		return;
+	if (pChild->GetParent() == this) return;
 
 	GameObject* currentParent = pChild->GetParent();
 	if (currentParent)
 	{
-		currentParent->migrateChild(pChild.Get(), this);
+		currentParent->migrateChild(pChild, this);
 		return;
 	}
 
 	if (_scene)
 	{
-		_scene->AddToScene(pChild.borrow());
+		_scene->AddToScene(pChild);
 	}
 
 	pChild->_parent = this;
-	_children.push_back(std::move(pChild));
+	_children.push_back(std::unique_ptr<GameObject>(pChild));
 }
-
-//void GameObject::AddChild(GameObject* pChild)
-//{
-//	owning_ptr<GameObject> child(pChild);
-//	AddChild(pChild);
-//}
 
 void GameObject::removeChild(unsigned int pChildIndex)
 {
@@ -245,30 +228,18 @@ void GameObject::RemoveChild(GameObject* pChild)
 	removeChild(i);
 }
 
-void GameObject::deleteChildImm(unsigned int pChildIndex)
-{
-	if (pChildIndex >= _children.size()) throw std::out_of_range("Child index is out of range");
-
-	_children[pChildIndex]->_parent = nullptr;
-	_children[pChildIndex].destroy();
-	_children.erase(_children.begin() + pChildIndex);
-}
-
-void GameObject::deleteChildImm(GameObject* pChild)
-{
-	int i = childIndex(pChild);
-	if (i < 0) 	throw std::invalid_argument("Could not remove a non-existent child");
-	deleteChildImm(i);
-}
-
 void GameObject::migrateChild(unsigned int pChildIndex, GameObject* pNewParent)
 {
 	_children[pChildIndex]->_parent = pNewParent;
 
 	if (!pNewParent)
 	{
-		if (!_scene) _children[pChildIndex].destroy();
-		else _scene->Parentless(std::move(_children[pChildIndex]));
+		if (_scene)
+		{
+			_scene->Parentless(_children[pChildIndex]);
+			_children.erase(_children.begin() + pChildIndex);
+		}
+		else removeChild(pChildIndex);
 		return;
 	}
 

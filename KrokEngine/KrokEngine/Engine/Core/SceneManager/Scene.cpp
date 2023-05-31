@@ -1,11 +1,11 @@
 #include "Scene.hpp"
-#include "../../Essentials/OB_SmartPointers.hpp"
 
 Scene::Scene(std::string Name, bool reloadOnOpen) : GameObject(name)
 {
 	ui = new UI();
 	name = Name;
 	_reloadOnOpen = reloadOnOpen;
+	_scene = this;
 }
 
 Scene::~Scene()
@@ -19,12 +19,9 @@ void Scene::Load()
 	{
 		_children.back()->LateDestroy();
 	}
-
 	ui->ClearUi();
 
 	OnLoad();
-
-	SetScene(this);
 
 	loaded = true;
 }
@@ -43,15 +40,9 @@ void Scene::HandleObjectsInScene()
 		i++;
 	}
 
-	while (_parentLess.size() > 0)
+	while (_toDestroy.size() > 0)
 	{
-		if (_parentLess.front())
-		{
-			std::cout << "Removing: " << _parentLess.front()->name;
-			_parentLess.front().destroy();
-		}
-
-		_parentLess.pop();
+		_toDestroy.pop();
 	}
 }
 
@@ -62,23 +53,22 @@ void Scene::Close()
 	if (_reloadOnOpen) loaded = false;
 }
 
-void Scene::Parentless(owning_ptr<GameObject>&& pToRemove)
+void Scene::Parentless(std::unique_ptr<GameObject>& pToRemove)
 {
-	_parentLess.push(pToRemove);
+	_toDestroy.push(std::move(pToRemove));
 }
 
 void Scene::OnClose()
 {
 }
 
-const std::vector<borrow_ptr<GameObject> >& Scene::ToLoad() const
+const std::vector<GameObject*>& Scene::ToLoad() const
 {
 	return _toLoad;
 }
 
-void Scene::AddToScene(borrow_ptr<GameObject>  pGameObject)
+void Scene::AddToScene(GameObject* pGameObject)
 {
 	_toLoad.push_back(pGameObject);
-	//_inScene.push_back(pGameObject);
 	pGameObject->SetScene(this);
 }

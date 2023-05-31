@@ -17,23 +17,23 @@ public:
 	UI* ui;
 
 	void Load();
-	void AddToScene(borrow_ptr<GameObject>  pGmObject);
+	void AddToScene(GameObject*  pGmObject);
 	void HandleObjectsInScene();
 	void Close();
 
-	void Parentless(owning_ptr<GameObject>&& pToRemove);
+	void Parentless(std::unique_ptr<GameObject>& pToRemove);
 
 	SceneManager* sceneManager;
 
 	virtual void OnClose();
 
-	const std::vector<borrow_ptr<GameObject> >& ToLoad() const;
+	const std::vector<GameObject*>& ToLoad() const;
 
 protected:
 	bool _reloadOnOpen;
 
 private:
-	std::vector<borrow_ptr<GameObject>> _toLoad;
-	std::queue<owning_ptr<GameObject>> _parentLess;
+	std::vector<GameObject*> _toLoad;
+	std::queue<std::unique_ptr<GameObject>> _toDestroy;
 };
 

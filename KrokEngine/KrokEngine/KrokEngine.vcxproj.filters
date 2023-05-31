@@ -114,9 +114,6 @@
     <ClInclude Include="Testing\MouseFollowingBehaviour.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Physics\Colliders\CollisionInfo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Testing\PhysicsLine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -133,9 +130,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Essentials\GameObject.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Essentials\OB_SmartPointers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

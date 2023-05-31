@@ -17,8 +17,6 @@ public:
 	GameObject(std::string pName = "GameObject", float pX = 0.0f, float pY = 0.0f);
 	virtual ~GameObject();
 
-	void ClearChildren();
-
 	std::string name;
 
 	GameObject* GetParent() const;
@@ -31,10 +29,9 @@ public:
 	unsigned int ChildCount() const;
 	borrow_ptr<GameObject> GetChild(unsigned int i) const;
 
-	void AddChild(borrow_ptr<GameObject> pChild);
-	void AddChild(GameObject* pChild);
+	void AddChild(owning_ptr<GameObject>&& pChild);
+	//void AddChild(GameObject* pChild);
 
-	void RemoveChild(unsigned int i);
 	void RemoveChild(GameObject* pChild);
 
 	int GetRenderLayer() const;
@@ -54,8 +51,6 @@ public:
 	void OnEnable();
 	void OnDisable();
 
-	borrow_ptr<GameObject> GetBorrowPtr() const;
-
 	template<typename T>
 	bool TryGetComponent(borrow_ptr<T>& outp)
 	{
@@ -68,7 +63,7 @@ public:
 
 			if (current != nullptr)
 			{
-				outp = _components[i].TryCast<T>();
+				outp = _components[i].try_cast<T>();
 				return true;
 			}
 		}
@@ -78,24 +73,30 @@ public:
 
 	void AddComponent(Component* pComponent);
 
-	void Delete();
+	void LateDestroy();
 
 protected:
 	bool _canRender = false;
 	int _renderLayer = -1;
 
-	std::vector<borrow_ptr<GameObject>> _children;
+	std::vector<owning_ptr<GameObject>> _children;
+	int childIndex(GameObject* pChild);
 
 	Scene* _scene;
 
 	virtual void update();
 	virtual void onLoad();
 
+	void removeChild(unsigned int i);
+
 private:
-	void setParent(GameObject* pParent);
+	void deleteChildImm(unsigned int pChildIndex);
+	void deleteChildImm(GameObject* pChild);
+	void migrateChild(unsigned int pChildIndex, GameObject* newParent);
+	void migrateChild(GameObject* pChild, GameObject* newParent);
+
 	bool _enabled = false;
 
-	owning_ptr<GameObject> _ptr;
 	std::vector<owning_ptr<Component>> _components;
 };
 

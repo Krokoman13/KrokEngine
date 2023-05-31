@@ -1,8 +1,6 @@
 #include "Engine/KrokEngine.hpp"
 #include "Testing/TestScene.hpp"
-
-#include <chrono>
-#include <thread>
+#include <vector>
 
 int main()
 {
@@ -15,6 +13,6 @@ int main()
 	myGame.GoToScene("TestScene");
 
 	myGame.Run();
-	
+
 	return 0;
 }

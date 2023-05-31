@@ -21,7 +21,7 @@ public:
 	void HandleObjectsInScene();
 	void Close();
 
-	void Parentless(borrow_ptr<GameObject> pToRemove);
+	void Parentless(owning_ptr<GameObject>&& pToRemove);
 
 	SceneManager* sceneManager;
 
@@ -34,6 +34,6 @@ protected:
 
 private:
 	std::vector<borrow_ptr<GameObject>> _toLoad;
-	std::queue<borrow_ptr<GameObject>> _parentLess;
+	std::queue<owning_ptr<GameObject>> _parentLess;
 };
 

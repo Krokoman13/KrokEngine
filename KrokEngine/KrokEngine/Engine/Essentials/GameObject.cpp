@@ -2,7 +2,7 @@
 #include "../Core/SceneManager/Scene.hpp"
 #include "OB_SmartPointers.hpp"
 
-GameObject::GameObject(Vec2 position, std::string name) : Transform(position), _ptr(this)
+GameObject::GameObject(Vec2 position, std::string name) : Transform(position)
 {
 	this->name = name;
 }
@@ -18,16 +18,9 @@ GameObject::~GameObject()
 		GetParent()->RemoveChild(this);
 	}
 
-	ClearChildren();
-}
-
-void GameObject::ClearChildren()
-{
-	while (ChildCount() > 0)
+	while (!_children.empty())
 	{
-		borrow_ptr<GameObject> child = _children.back();
-		RemoveChild(ChildCount() - 1);
-		child->Delete();
+		deleteChildImm(_children.back() - 1);
 	}
 }
 
@@ -36,9 +29,24 @@ sf::Sprite* GameObject::GetSprite()
 	return nullptr;
 }
 
-void GameObject::Delete()
+void GameObject::LateDestroy()
 {
-	_ptr.destroy();
+	GetParent()->migrateChild(this, nullptr);
+}
+
+int GameObject::childIndex(GameObject* pChild)
+{
+	if (!pChild) return -1;
+
+	for (unsigned int i = 0; i < _children.size(); i++)
+	{
+		if (_children[i].Get() == pChild)
+		{
+			return i;
+		}
+	}
+
+	return -1;
 }
 
 void GameObject::update()
@@ -71,10 +79,6 @@ void GameObject::SetScene(Scene* pScene)
 	}
 
 	_scene = pScene;
-
-	if (pScene == this) return;
-
-	_scene->AddToScene(_ptr.borrow());
 }
 
 Scene* GameObject::GetScene() const
@@ -149,27 +153,6 @@ void GameObject::OnDisable()
 	//onDisable();
 }
 
-borrow_ptr<GameObject> GameObject::GetBorrowPtr() const
-{
-	return _ptr.borrow();
-}
-
-void GameObject::setParent(GameObject* pParent)
-{
-	if (pParent == GetParent()) return;
-
-	ClearParent();
-	_parent = pParent;
-
-	if (_parent == nullptr)
-	{
-		_scene->Parentless(_ptr.borrow());
-		return;
-	}
-
-	SetScene(pParent->_scene);
-}
-
 void GameObject::AddComponent(Component* pComponent)
 {	
 	pComponent->SetGameObject(this);
@@ -214,48 +197,90 @@ unsigned int GameObject::ChildCount() const
 borrow_ptr<GameObject> GameObject::GetChild(unsigned int i) const
 {
 	if (i > _children.size()-1) throw std::out_of_range("Child index is out of range");;
-	return _children[i];
+	return _children[i].borrow();
 }
 
-void GameObject::AddChild(borrow_ptr<GameObject> pChild)
+void GameObject::AddChild(owning_ptr<GameObject>&& pChild)
 {
-	if (pChild.Get() == this) throw std::invalid_argument("Cannot add a GameObject to itself");
+	if (pChild.Get() == this)
+		throw std::invalid_argument("Cannot add a GameObject to itself");
 
-	pChild->ClearParent();
+	if (HasChild(pChild.Get()))
+		return;
 
-	if (HasChild(pChild.Get())) return;
-	_children.push_back(pChild);
-	pChild->setParent(this);;
+	GameObject* currentParent = pChild->GetParent();
+	if (currentParent)
+	{
+		currentParent->migrateChild(pChild.Get(), this);
+		return;
+	}
+
+	if (_scene)
+	{
+		_scene->AddToScene(pChild.borrow());
+	}
+
+	pChild->_parent = this;
+	_children.push_back(std::move(pChild));
 }
 
-void GameObject::AddChild(GameObject* pChild)
-{
-	borrow_ptr<GameObject> child = pChild->GetBorrowPtr();
-	AddChild(child);
-}
+//void GameObject::AddChild(GameObject* pChild)
+//{
+//	owning_ptr<GameObject> child(pChild);
+//	AddChild(pChild);
+//}
 
-void GameObject::RemoveChild(unsigned int pChild)
+void GameObject::removeChild(unsigned int pChildIndex)
 {
-	if (pChild >= _children.size()) throw std::out_of_range("Child index is out of range");
+	if (pChildIndex >= _children.size()) throw std::out_of_range("Child index is out of range");
 
-	_children[pChild]->_parent = nullptr;
-	_children.erase(_children.begin() + pChild);
+	_children[pChildIndex]->_parent = nullptr;
+	_children.erase(_children.begin() + pChildIndex);
 }
 
 void GameObject::RemoveChild(GameObject* pChild)
 {
-	if (pChild == nullptr) return;
+	int i = childIndex(pChild);
+	if (i < 0) 	throw std::invalid_argument("Could not remove a non-existent child");
+	removeChild(i);
+}
 
-	for (unsigned int i = 0; i < _children.size(); i++)
+void GameObject::deleteChildImm(unsigned int pChildIndex)
+{
+	if (pChildIndex >= _children.size()) throw std::out_of_range("Child index is out of range");
+
+	_children[pChildIndex]->_parent = nullptr;
+	_children[pChildIndex].destroy();
+	_children.erase(_children.begin() + pChildIndex);
+}
+
+void GameObject::deleteChildImm(GameObject* pChild)
+{
+	int i = childIndex(pChild);
+	if (i < 0) 	throw std::invalid_argument("Could not remove a non-existent child");
+	deleteChildImm(i);
+}
+
+void GameObject::migrateChild(unsigned int pChildIndex, GameObject* pNewParent)
+{
+	_children[pChildIndex]->_parent = pNewParent;
+
+	if (!pNewParent)
 	{
-		if (_children[i].Get() == pChild)
-		{
-			RemoveChild(i);
-			return;
-		}
+		if (!_scene) _children[pChildIndex].destroy();
+		else _scene->Parentless(std::move(_children[pChildIndex]));
+		return;
 	}
 
-	throw std::invalid_argument("Could not remove a non-existent child");
+	pNewParent->_children.push_back(std::move(_children[pChildIndex]));
+}
+
+void GameObject::migrateChild(GameObject* pChild, GameObject* pNewParent)
+{
+	int i = childIndex(pChild);
+	if (i < 0) 	throw std::invalid_argument("Could not migrate a non-existent child");
+	migrateChild(i, pNewParent);
+
 }
 
 int GameObject::GetRenderLayer() const

@@ -68,7 +68,7 @@ private:
 
 public:
     owning_ptr() = default;
-    owning_ptr(std::nullptr_t) { swap(nullptr); }
+    //owning_ptr(std::nullptr_t) { swap(nullptr); }
     owning_ptr(T* pPtr) { swap(pPtr); }
     //template<typename... Args>
     //explicit owning_ptr(std::in_place_t, Args&&... args) {
@@ -80,7 +80,7 @@ public:
     owning_ptr(owning_ptr&& other) noexcept { _ctx = other._ctx; other._ctx = nullptr; }
 
     owning_ptr& operator=(const owning_ptr& other) = delete;
-    owning_ptr& operator=(owning_ptr&& other) { _ctx = other._ctx; other._ctx = nullptr; return *this; }
+    owning_ptr& operator=(owning_ptr&& other) noexcept { _ctx = other._ctx; other._ctx = nullptr; return *this; }
     owning_ptr& operator=(std::nullptr_t) { swap(nullptr); return *this; }
 
     operator bool() const { if (_ctx) { return _ctx->ptr; } return false; }
@@ -93,16 +93,16 @@ public:
 
     void swap(T* ptr) {
         if (_ctx) {
-            if (_ctx->ptr) {
-                delete _ctx->ptr;
+            _ctx->counter--;
+            T* ptr = _ctx->ptr;
+
+            if (_ctx->counter == 0) {
+                delete _ctx;
             }
 
-            if (_ctx->counter == 1) {
-                _ctx->ptr = ptr;
-                return;
-            }
-            else {
-                _ctx->counter--;
+            if (_ctx->ptr) {
+                _ctx->ptr = nullptr;
+                delete ptr;
             }
         }
 
@@ -115,20 +115,14 @@ public:
     T* Get() const { return _ctx->ptr; }
 
     template<typename Y>
-    borrow_ptr<Y> TryCast()
-    {
+    borrow_ptr<Y> try_cast() {
         static_assert(std::is_base_of<T, Y>::value, "Y must be a derived class of T");
 
-        Y* newPointer = dynamic_cast<Y*>(_ctx->ptr);
-
-        if (newPointer == nullptr) {
+        if (dynamic_cast<Y*>(_ctx->ptr) == nullptr) {
             return borrow_ptr<Y>();
         }
 
-        contextPtr<Y>* outCon = new contextPtr<Y>();
-        outCon->ptr = newPointer;
-        outCon->counter = _ctx->counter;
-        return borrow_ptr<Y>(outCon);
+        return borrow_ptr<Y>(reinterpret_cast<contextPtr<Y>*>(_ctx));
     }
 
     borrow_ptr<T> borrow() { return borrow_ptr<T>(_ctx); }

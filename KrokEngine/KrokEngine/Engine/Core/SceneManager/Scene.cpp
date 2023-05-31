@@ -10,13 +10,16 @@ Scene::Scene(std::string Name, bool reloadOnOpen) : GameObject(name)
 
 Scene::~Scene()
 {
-	ClearChildren();
 	delete ui;
 }
 
 void Scene::Load()
 {
-	ClearChildren();
+	while (!_children.empty())
+	{
+		_children.back()->LateDestroy();
+	}
+
 	ui->ClearUi();
 
 	OnLoad();
@@ -42,13 +45,13 @@ void Scene::HandleObjectsInScene()
 
 	while (_parentLess.size() > 0)
 	{
-		borrow_ptr<GameObject> toRemove = _parentLess.front();
+		if (_parentLess.front())
+		{
+			std::cout << "Removing: " << _parentLess.front()->name;
+			_parentLess.front().destroy();
+		}
+
 		_parentLess.pop();
-
-		if (!toRemove || toRemove->GetParent() != nullptr) continue;
-
-		std::cout << "Removing: " << toRemove->name;
-		toRemove->Delete();
 	}
 }
 
@@ -59,7 +62,7 @@ void Scene::Close()
 	if (_reloadOnOpen) loaded = false;
 }
 
-void Scene::Parentless(borrow_ptr<GameObject> pToRemove)
+void Scene::Parentless(owning_ptr<GameObject>&& pToRemove)
 {
 	_parentLess.push(pToRemove);
 }

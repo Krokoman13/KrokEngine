@@ -42,5 +42,4 @@ void UpdateManager::update(borrow_ptr<GameObject>  toUpdate)
 	{
 		update(toUpdate->GetChild(i));
 	}
-
 }

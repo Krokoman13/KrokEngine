@@ -1,6 +1,6 @@
 #pragma once
 #include "RenderLayer.hpp"
-#include "../../Essentials/ManagedPtr.hpp"
+#include "../../Essentials/OB_SmartPointers.hpp"
 
 class Scene;
 class GameObject;
@@ -17,7 +17,7 @@ public :
 	void ToRender(sf::Drawable* sprite, int layer);
 
 private :
-	std::vector<ManagedPtr<GameObject>> _toRender;
+	std::vector<borrow_ptr<GameObject>> _toRender;
 
 	void render();
 	sf::RenderWindow* _window;

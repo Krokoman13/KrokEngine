@@ -1,13 +1,10 @@
 #include "GameObject.hpp"
 #include "../Core/SceneManager/Scene.hpp"
-#include "ManagedPtr.hpp"
+#include "OB_SmartPointers.hpp"
 
-GameObject::GameObject(Vec2 position, std::string name) : Transform(position)
+GameObject::GameObject(Vec2 position, std::string name) : Transform(position), _ptr(this)
 {
 	this->name = name;
-
-	_countPtr = new unsigned int(0);
-	_destroyedPtr = new bool(false);
 }
 
 GameObject::GameObject(std::string name, float x, float y) : GameObject(Vec2(x, y), name)
@@ -22,24 +19,15 @@ GameObject::~GameObject()
 	}
 
 	ClearChildren();
-
-	//while (_components.size() > 0)
-	//{
-	//	ManagedPtr<Component> component = _components.back();
-	//	component.Destroy();
-	//	_components.pop_back();
-	//}
 }
 
 void GameObject::ClearChildren()
 {
 	while (ChildCount() > 0)
 	{
-		ManagedPtr<GameObject>  child = _children.back();
-		//_children.pop_back();
-		int i = ChildCount() - 1;
-		RemoveChild(i);
-		child.Destroy();
+		borrow_ptr<GameObject> child = _children.back();
+		RemoveChild(ChildCount() - 1);
+		child->Delete();
 	}
 }
 
@@ -50,17 +38,7 @@ sf::Sprite* GameObject::GetSprite()
 
 void GameObject::Delete()
 {
-	if (_scene == nullptr)
-	{
-		delete _countPtr;
-		delete _destroyedPtr;
-	}
-	else _scene->LateRemove(getPtr());
-}
-
-ManagedPtr<GameObject> GameObject::getPtr()
-{
-	return ManagedPtr<GameObject>(this, _countPtr, _destroyedPtr);
+	_ptr.destroy();
 }
 
 void GameObject::update()
@@ -87,16 +65,16 @@ void GameObject::SetScene(Scene* pScene)
 		return;
 	}
 
-	for (ManagedPtr<GameObject>  child : _children)
+	for (unsigned int i = 0; i < _children.size(); i++)
 	{
-		child->SetScene(pScene);
+		_children[i]->SetScene(pScene);
 	}
 
 	_scene = pScene;
 
 	if (pScene == this) return;
 
-	_scene->AddToScene(getPtr());
+	_scene->AddToScene(_ptr.borrow());
 }
 
 Scene* GameObject::GetScene() const
@@ -110,9 +88,9 @@ void GameObject::SetActive(bool pEnabled)
 
 	_enabled = pEnabled;
 
-	for (ManagedPtr<GameObject>  child : _children)
+	for (unsigned int i = 0; i < _children.size(); i++)
 	{
-		child->SetActive(_enabled);
+		_children[i]->SetActive(_enabled);
 	}
 
 	if (_enabled) OnEnable();
@@ -126,10 +104,10 @@ bool GameObject::IsActive() const
 
 void GameObject::Update()
 {
-	//for (unsigned int i = 0; i < _components.size(); i++)
-	//{
-	//	_components[i]->Update();
-	//}
+	for (unsigned int i = 0; i < _components.size(); i++)
+	{
+		_components[i]->Update();
+	}
 
 	update();
 }
@@ -138,37 +116,42 @@ void GameObject::OnLoad()
 {
 	SetActive(true);
 
-	//for (unsigned int i = 0; i < _components.size(); i++)
-	//{
-	//	_components[i]->OnLoad();
-	//}
+	for (unsigned int i = 0; i < _components.size(); i++)
+	{
+		_components[i]->OnLoad();
+	}
 
 	onLoad();
 }
 
 void GameObject::OnEnable()
 {
-	//for (unsigned int i = 0; i < _components.size(); i++)
-	//{
-	//	Component* component = _components[i].Get();
+	for (unsigned int i = 0; i < _components.size(); i++)
+	{
+		Component* component = _components[i].Get();
 
-	//	if (!component->IsActive()) continue;
-	//	component->OnEnable();
-	//}
+		if (!component->IsActive()) continue;
+		component->OnEnable();
+	}
 
 	//onEnable();
 }
 
 void GameObject::OnDisable()
 {
-	//for (unsigned int i = 0; i < _components.size(); i++)
-	//{
-	//	Component* component = _components[i].Get();
+	for (unsigned int i = 0; i < _components.size(); i++)
+	{
+		Component* component = _components[i].Get();
 
-	//	if (!component->IsActive()) continue;
-	//	component->OnDisable();
-	//}
+		if (!component->IsActive()) continue;
+		component->OnDisable();
+	}
 	//onDisable();
+}
+
+borrow_ptr<GameObject> GameObject::GetBorrowPtr() const
+{
+	return _ptr.borrow();
 }
 
 void GameObject::setParent(GameObject* pParent)
@@ -178,9 +161,9 @@ void GameObject::setParent(GameObject* pParent)
 	ClearParent();
 	_parent = pParent;
 
-	if (pParent == nullptr)
+	if (_parent == nullptr)
 	{
-		_scene->LateRemove(getPtr());
+		_scene->Parentless(_ptr.borrow());
 		return;
 	}
 
@@ -190,7 +173,8 @@ void GameObject::setParent(GameObject* pParent)
 void GameObject::AddComponent(Component* pComponent)
 {	
 	pComponent->SetGameObject(this);
-	//_components.push_back(ManagedPtr<Component>(pComponent));
+	owning_ptr<Component> componentPtr(pComponent);
+	_components.push_back(std::move(componentPtr));
 }
 
 GameObject* GameObject::GetParent() const
@@ -213,7 +197,7 @@ bool GameObject::HasChild(GameObject* pOther) const
 
 	for (unsigned int i = 0; i < this->_children.size(); i++)
 	{
-		if (pOther == this->_children[i].Get())
+		if (pOther == _children[i].Get())
 		{
 			return true;
 		}
@@ -222,39 +206,32 @@ bool GameObject::HasChild(GameObject* pOther) const
 	return false;
 }
 
-//const std::vector<ManagedPtr<GameObject> > GameObject::GetChildren() const
-//{
-//	return _children;
-//}
-
 unsigned int GameObject::ChildCount() const
 {
 	return static_cast<unsigned int>(_children.size());
 }
 
-ManagedPtr<GameObject> GameObject::GetChild(unsigned int i) const
+borrow_ptr<GameObject> GameObject::GetChild(unsigned int i) const
 {
 	if (i > _children.size()-1) throw std::out_of_range("Child index is out of range");;
-
 	return _children[i];
 }
 
-void GameObject::AddChild(ManagedPtr<GameObject> pChild)
+void GameObject::AddChild(borrow_ptr<GameObject> pChild)
 {
-	pChild->ClearParent();
-
 	if (pChild.Get() == this) throw std::invalid_argument("Cannot add a GameObject to itself");
 
-	if (HasChild(pChild)) return;
+	pChild->ClearParent();
+
+	if (HasChild(pChild.Get())) return;
 	_children.push_back(pChild);
 	pChild->setParent(this);;
 }
 
-ManagedPtr<GameObject> GameObject::AddChild(GameObject* pChild)
+void GameObject::AddChild(GameObject* pChild)
 {
-	ManagedPtr<GameObject> child(pChild);
+	borrow_ptr<GameObject> child = pChild->GetBorrowPtr();
 	AddChild(child);
-	return child;
 }
 
 void GameObject::RemoveChild(unsigned int pChild)

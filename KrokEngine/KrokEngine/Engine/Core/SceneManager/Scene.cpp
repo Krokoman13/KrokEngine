@@ -1,5 +1,5 @@
 #include "Scene.hpp"
-#include "../../Essentials/ManagedPtr.hpp"
+#include "../../Essentials/OB_SmartPointers.hpp"
 
 Scene::Scene(std::string Name, bool reloadOnOpen) : GameObject(name)
 {
@@ -40,14 +40,15 @@ void Scene::HandleObjectsInScene()
 		i++;
 	}
 
-	while (_toRemove.size() > 0)
+	while (_parentLess.size() > 0)
 	{
-		ManagedPtr<GameObject> toRemove = _toRemove.front();
-		_toRemove.pop();
+		borrow_ptr<GameObject> toRemove = _parentLess.front();
+		_parentLess.pop();
 
-		if (toRemove.IsDestroyed()) continue;
+		if (!toRemove || toRemove->GetParent() != nullptr) continue;
+
 		std::cout << "Removing: " << toRemove->name;
-		toRemove.Destroy();
+		toRemove->Delete();
 	}
 }
 
@@ -58,21 +59,21 @@ void Scene::Close()
 	if (_reloadOnOpen) loaded = false;
 }
 
-void Scene::LateRemove(ManagedPtr<GameObject> pToRemove)
+void Scene::Parentless(borrow_ptr<GameObject> pToRemove)
 {
-	_toRemove.push(pToRemove);
+	_parentLess.push(pToRemove);
 }
 
 void Scene::OnClose()
 {
 }
 
-const std::vector<ManagedPtr<GameObject> >& Scene::ToLoad() const
+const std::vector<borrow_ptr<GameObject> >& Scene::ToLoad() const
 {
 	return _toLoad;
 }
 
-void Scene::AddToScene(ManagedPtr<GameObject>  pGameObject)
+void Scene::AddToScene(borrow_ptr<GameObject>  pGameObject)
 {
 	_toLoad.push_back(pGameObject);
 	//_inScene.push_back(pGameObject);

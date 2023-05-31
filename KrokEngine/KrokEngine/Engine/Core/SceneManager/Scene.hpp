@@ -17,23 +17,23 @@ public:
 	UI* ui;
 
 	void Load();
-	void AddToScene(ManagedPtr<GameObject>  pGmObject);
+	void AddToScene(borrow_ptr<GameObject>  pGmObject);
 	void HandleObjectsInScene();
 	void Close();
 
-	void LateRemove(ManagedPtr<GameObject> pToRemove);
+	void Parentless(borrow_ptr<GameObject> pToRemove);
 
 	SceneManager* sceneManager;
 
 	virtual void OnClose();
 
-	const std::vector<ManagedPtr<GameObject> >& ToLoad() const;
+	const std::vector<borrow_ptr<GameObject> >& ToLoad() const;
 
 protected:
 	bool _reloadOnOpen;
 
 private:
-	std::vector<ManagedPtr<GameObject>> _toLoad;
-	std::queue<ManagedPtr<GameObject>> _toRemove;
+	std::vector<borrow_ptr<GameObject>> _toLoad;
+	std::queue<borrow_ptr<GameObject>> _parentLess;
 };
 

@@ -18,11 +18,12 @@ Renderer::~Renderer()
 
 void Renderer::Render(Scene* scene)
 {
-	for (ManagedPtr<GameObject>  toUpdate : scene->ToLoad())
+	std::vector<borrow_ptr<GameObject>> toLoad = scene->ToLoad();
+	for (unsigned int i = 0; i < toLoad.size(); i++)
 	{
-		if (toUpdate->CanRender())
+		if (toLoad[i]->CanRender())
 		{
-			_toRender.push_back(toUpdate);
+			_toRender.push_back(toLoad[i]);
 		}
 	}
 
@@ -30,9 +31,9 @@ void Renderer::Render(Scene* scene)
 
 	while (i < _toRender.size())
 	{
-		ManagedPtr<GameObject>  toRender = _toRender[i];
+		borrow_ptr<GameObject>  toRender = _toRender[i];
 
-		if (toRender.IsDestroyed())
+		if (!toRender)
 		{
 			_toRender.erase(_toRender.begin() + i);
 			continue;

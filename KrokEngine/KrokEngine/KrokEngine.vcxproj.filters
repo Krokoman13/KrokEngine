@@ -132,13 +132,10 @@
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionInfo.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Essentials\ManagedPtr.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Essentials\GameObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Essentials\SlavePtr.hpp">
+    <ClInclude Include="Engine\Essentials\OB_SmartPointers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

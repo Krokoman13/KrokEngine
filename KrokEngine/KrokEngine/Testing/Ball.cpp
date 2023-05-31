@@ -3,9 +3,9 @@
 Ball::Ball(Vec2 pPos) : ImageGameObject("Debug/Bluecircle.png", pPos.x, pPos.y)
 {
 	centered = true;
-	rb = nullptr;
-	//rb = new RigidBody(new CircleCollider(GetWidth() / 2));
-	//AddComponent(rb);
+	//rb = nullptr;
+	rb = new RigidBody(new CircleCollider(GetWidth() / 2));
+	AddComponent(rb);
 }
 
 void Ball::update()

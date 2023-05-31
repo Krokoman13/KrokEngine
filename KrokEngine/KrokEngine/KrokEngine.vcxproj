@@ -130,8 +130,7 @@
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionCalculator.hpp" />
     <ClInclude Include="Engine\Core\Physics\PhysicsManager\CollisionInfo.hpp" />
     <ClInclude Include="Engine\Essentials\GameObject.hpp" />
-    <ClInclude Include="Engine\Essentials\ManagedPtr.hpp" />
-    <ClInclude Include="Engine\Essentials\SlavePtr.hpp" />
+    <ClInclude Include="Engine\Essentials\OB_SmartPointers.hpp" />
     <ClInclude Include="Testing\Ball.hpp" />
     <ClInclude Include="Engine\Core\Physics\Components\ColliderComponent.hpp" />
     <ClInclude Include="Engine\Core\EventHandeler\EventHandeler.hpp" />

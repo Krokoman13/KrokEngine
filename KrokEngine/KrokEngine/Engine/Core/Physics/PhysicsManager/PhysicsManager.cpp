@@ -23,26 +23,28 @@ void PhysicsManager::Update(Scene* pScene)
 	moveRidgids();
 }
 
-void PhysicsManager::Load(const std::vector<ManagedPtr<GameObject> >& toLoad)
+void PhysicsManager::Load(const std::vector<borrow_ptr<GameObject> >& toLoad)
 {
-	/*for (ManagedPtr<GameObject> gameObject : toLoad)
+	for (borrow_ptr<GameObject> gameObject : toLoad)
 	{
-		SlavePtr<Component> component;
-		if (gameObject->TryGetComponent<RigidBody>(component))
+		borrow_ptr<RigidBody> rb;
+		if (gameObject->TryGetComponent<RigidBody>(rb))
 		{
-			_rigidObjects.push_back(component.TryCast<RigidBody>());
+			_rigidObjects.push_back(rb);
 		}
 
-		if (gameObject->TryGetComponent<TriggerColliderComponent>(component))
+		borrow_ptr<TriggerColliderComponent> tc;
+		if (gameObject->TryGetComponent<TriggerColliderComponent>(tc))
 		{
-			_triggerObjects.push_back(component.TryCast<TriggerColliderComponent>());
+			_triggerObjects.push_back(tc);
 		}
 
-		if (gameObject->TryGetComponent<ColliderComponent>(component))
+		borrow_ptr<ColliderComponent> col;
+		if (gameObject->TryGetComponent<ColliderComponent>(col))
 		{
-			_staticObjects.push_back(component.TryCast<ColliderComponent>());
+			_staticObjects.push_back(col);
 		}
-	}*/
+	}
 }
 
 void PhysicsManager::cleanTriggers()
@@ -51,9 +53,9 @@ void PhysicsManager::cleanTriggers()
 
 	while (i < _triggerObjects.size())
 	{
-		SlavePtr<TriggerColliderComponent> triggerObject = _triggerObjects[i];
+		borrow_ptr<TriggerColliderComponent> triggerObject = _triggerObjects[i];
 
-		if (triggerObject.IsDestroyed())
+		if (!triggerObject)
 		{
 			_triggerObjects.erase(_triggerObjects.begin() + i);
 			continue;
@@ -69,9 +71,9 @@ void PhysicsManager::cleanStatics()
 
 	while (i < _staticObjects.size())
 	{
-		SlavePtr<ColliderComponent> staticObject = _staticObjects[i];
+		borrow_ptr<ColliderComponent> staticObject = _staticObjects[i];
 
-		if (staticObject.IsDestroyed())
+		if (!staticObject)
 		{
 			_staticObjects.erase(_staticObjects.begin() + i);
 			continue;
@@ -87,9 +89,9 @@ void PhysicsManager::cleanRigids()
 
 	while (i < _rigidObjects.size())
 	{
-		SlavePtr<RigidBody> rigidObject = _rigidObjects[i];
+		borrow_ptr<RigidBody> rigidObject = _rigidObjects[i];
 
-		if (rigidObject.IsDestroyed())
+		if (!rigidObject)
 		{
 			_rigidObjects.erase(_rigidObjects.begin() + i);
 			continue;
@@ -103,8 +105,9 @@ void PhysicsManager::moveRidgids(float pMultiplier)
 {
 	CollisionInfo shortest;
 
-	for (RigidBody* rigidBody : _rigidObjects)
+	for (unsigned int i = 0; i < _rigidObjects.size(); i++)
 	{
+		RigidBody* rigidBody = _rigidObjects[i].Get();
 		CollisionInfo info = moveRigid(rigidBody);
 		
 		if (info.TOI < shortest.TOI)
@@ -131,9 +134,11 @@ void PhysicsManager::moveRidgids(float pMultiplier)
 
 void PhysicsManager::calculateVelocities()
 {
-	for (RigidBody* rigidBody : _rigidObjects)
+	for (unsigned int i = 0; i < _rigidObjects.size(); i++)
 	{
+		RigidBody* rigidBody = _rigidObjects[i].Get();
 		GameObject* gameObject = rigidBody->GetGameObject();
+
 		rigidBody->acceleration = Vec2(0, 9.81f);
 		rigidBody->velocity += rigidBody->acceleration * _cycleSpeed;
 		rigidBody->acceleration = Vec2();
@@ -142,9 +147,11 @@ void PhysicsManager::calculateVelocities()
 
 void PhysicsManager::applyVelocities(float pMultiplier)
 {
-	for (RigidBody* rigidBody : _rigidObjects)
+	for (unsigned int i = 0; i < _rigidObjects.size(); i++)
 	{
+		RigidBody* rigidBody = _rigidObjects[i].Get();
 		GameObject* gameObject = rigidBody->GetGameObject();
+
 		Vec2 translation = rigidBody->velocity * _cycleSpeed * pMultiplier;
 		gameObject->identity.Translate(translation);
 	}
@@ -156,11 +163,10 @@ CollisionInfo PhysicsManager::moveRigid(RigidBody* pRigidBody, float pMultiplier
 
 	CollisionInfo shortest;
 
-	for (ColliderComponent* staticCollider : _staticObjects)
+	for (unsigned int i = 0; i < _staticObjects.size(); i++)
 	{
+		ColliderComponent* staticCollider = _staticObjects[i].Get();
 		CollisionInfo info = getCollision(pRigidBody, staticCollider, desiredTranslation);
-
-
 
 		if (info.TOI < shortest.TOI)
 		{

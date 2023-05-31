@@ -1,5 +1,5 @@
 #include "UpdateManager.hpp"
-#include "../../Essentials/ManagedPtr.hpp"
+#include "../../Essentials/OB_SmartPointers.hpp"
 #include "../Math/Vec2.hpp"
 
 UpdateManager::UpdateManager()
@@ -15,14 +15,15 @@ void UpdateManager::Update(Scene* scene)
 {
 	scene->Update();
 
-	for (int i = scene->ChildCount() - 1; i >= 0; --i) {
-		ManagedPtr<GameObject> child = scene->GetChild(i);
-		update(child);
+	for (unsigned int i = 0; i < scene->ChildCount(); i++)
+	{
+		update(scene->GetChild(i));
 	}
 
-	for (ManagedPtr<GameObject>  gameObject : scene->ToLoad())
+	for (unsigned int i = 0; i < scene->ToLoad().size(); i ++)
 	{
-		gameObject->OnLoad();
+		borrow_ptr<GameObject> toLoad = scene->ToLoad()[i];
+		toLoad->OnLoad();
 	}
 }
 
@@ -31,14 +32,15 @@ void UpdateManager::SetRenderer(Renderer& renderer)
 	_renderer = &renderer;
 }
 
-void UpdateManager::update(ManagedPtr<GameObject>  toUpdate)
+void UpdateManager::update(borrow_ptr<GameObject>  toUpdate)
 {
-	if (toUpdate.IsDestroyed() || !toUpdate->IsActive()) return;
+	if (!toUpdate || !toUpdate->IsActive()) return;
 
 	toUpdate->Update();
 
-	for (int i = toUpdate->ChildCount() - 1; i >= 0; --i) {
-		ManagedPtr<GameObject> child = toUpdate->GetChild(i);
-		update(child);
+	for (unsigned int i = 0; i < toUpdate->ChildCount(); i++) 
+	{
+		update(toUpdate->GetChild(i));
 	}
+
 }

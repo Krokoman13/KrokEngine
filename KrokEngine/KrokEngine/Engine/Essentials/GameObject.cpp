@@ -69,12 +69,13 @@ void GameObject::SetScene(Scene* pScene)
 		return;
 	}
 
+	_scene = pScene;
+	_scene->AddToScene(this);
+
 	for (unsigned int i = 0; i < _children.size(); i++)
 	{
 		_children[i]->SetScene(pScene);
 	}
-
-	_scene = pScene;
 }
 
 Scene* GameObject::GetScene() const
@@ -216,7 +217,7 @@ void GameObject::AddChild(GameObject* pChild)
 
 	if (_scene)
 	{
-		_scene->AddToScene(pChild);
+		pChild->SetScene(_scene);
 	}
 
 	pChild->_parent = this;

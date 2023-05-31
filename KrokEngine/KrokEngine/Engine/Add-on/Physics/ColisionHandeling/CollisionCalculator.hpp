@@ -11,5 +11,6 @@ public:
 
 private:
 	static float sqr(const float& pValue);
+	static float calculateBounciness(Collider* pA, Collider* pB);
 };
 

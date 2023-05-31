@@ -11,6 +11,8 @@ Scene::Scene(std::string Name, bool reloadOnOpen) : GameObject(name)
 
 Scene::~Scene()
 {
+	_children.clear();
+
 	delete ui;
 }
 
@@ -76,5 +78,4 @@ const std::vector<std::unique_ptr<GameObject>>& Scene::ToDestroy() const
 void Scene::AddToScene(GameObject* pGameObject)
 {
 	_toLoad.push_back(pGameObject);
-	pGameObject->SetScene(this);
 }

@@ -2,6 +2,15 @@
 #include "../Components/ColliderComponent.hpp"
 #include <cmath>
 
+float CollisionCalculator::calculateBounciness(Collider* pA, Collider* pB)
+{
+    float outp = pA->GetColliderComponent()->GetBounciness();
+    outp += pB->GetColliderComponent()->GetBounciness();
+    outp /= 2.0f;
+
+    return std::abs(outp);
+}
+
 CollisionInfo CollisionCalculator::CalculateCollision(CircleCollider* pCircle, const Vec2& pTranslation, LineCollider* pLine)
 {
 	CollisionInfo outp;
@@ -47,9 +56,7 @@ CollisionInfo CollisionCalculator::CalculateCollision(CircleCollider* pCircle, c
             outp.TOI = TOI;
             outp.aPOI = POI;
 
-            float bounciness = pCircle->GetColliderComponent()->GetBounciness();
-            bounciness += pLine->GetColliderComponent()->GetBounciness();
-            bounciness /= 2.0f;
+            float bounciness = calculateBounciness(pCircle, pLine);
             outp.aVelocity = pTranslation.Reflected(lineNormal, bounciness);
         }
     }
@@ -80,7 +87,11 @@ CollisionInfo CollisionCalculator::CalculateCollision(CircleCollider* pCircle1, 
         outp.bCollider = pCircle2;
 
         outp.TOI = 0.0f;
-        outp.aPOI = q + u.Normalized() * (r1 + r2);
+        Vec2 normal = u.Normalized();
+        outp.aPOI = q + normal * (r1 + r2);
+
+        float bounciness = calculateBounciness(pCircle1, pCircle2);
+        outp.aVelocity = pTranslation.Reflected(normal, bounciness);
 
         return outp;
     }
@@ -107,9 +118,7 @@ CollisionInfo CollisionCalculator::CalculateCollision(CircleCollider* pCircle1, 
 
         Vec2 normal = (POI - q).Normalized();
         
-        float bounciness = pCircle1->GetColliderComponent()->GetBounciness();
-        bounciness += pCircle2->GetColliderComponent()->GetBounciness();
-        bounciness /= 2.0f;
+        float bounciness = calculateBounciness(pCircle1, pCircle2);
         outp.aVelocity = pTranslation.Reflected(normal, bounciness);
     }
 

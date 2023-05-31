@@ -128,8 +128,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Add-on\Physics.hpp" />
-    <ClInclude Include="Engine\Add-on\Physics\PhysicsManager\CollisionCalculator.hpp" />
-    <ClInclude Include="Engine\Add-on\Physics\PhysicsManager\CollisionInfo.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\ColisionHandeling\CollisionInfo.hpp" />
     <ClInclude Include="Engine\Essentials\GameObject.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\PhysicsScene.hpp" />
     <ClInclude Include="Testing\Ball.hpp" />
@@ -142,7 +142,6 @@
     <ClInclude Include="Engine\Core\Math\Matrix3.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\Colliders\CircleCollider.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\Colliders\Collider.hpp" />
-    <ClInclude Include="Engine\Add-on\Physics\PhysicsManager\PhysicsManager.hpp" />
     <ClInclude Include="Engine\Core\SceneManager\Scene.hpp" />
     <ClInclude Include="Engine\Core\SceneManager\SceneManager.hpp" />
     <ClInclude Include="Engine\Core\UI\Button.hpp" />
@@ -169,7 +168,8 @@
     <ClInclude Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Add-on\Physics\PhysicsManager\CollisionCalculator.cpp" />
+    <ClCompile Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.cpp" />
+    <ClCompile Include="Engine\Add-on\Physics\PhysicsScene.cpp" />
     <ClCompile Include="Testing\Ball.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Components\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Core\EventHandeler\EventHandeler.cpp" />
@@ -177,7 +177,6 @@
     <ClCompile Include="Engine\Core\Graphics\Renderer.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Colliders\CircleCollider.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Colliders\Collider.cpp" />
-    <ClCompile Include="Engine\Add-on\Physics\PhysicsManager\PhysicsManager.cpp" />
     <ClCompile Include="Engine\Essentials\Component.cpp" />
     <ClCompile Include="Engine\Util\DynamicFloatArray.cpp" />
     <ClCompile Include="Engine\Util\DynamicFloatArray.hpp" />

@@ -4,6 +4,7 @@ bool Input::focus = true;
 
 bool Input::mouseInScreen = true;
 Vec2 Input::mousePosition = Vec2(0.0f, 0.0f);
+Vec2 Input::previousMousePosition = Vec2(0.0f, 0.0f);
 bool Input::mouseButtons[sf::Mouse::Button::ButtonCount] = { false };
 bool Input::mouseButtonsUp[sf::Mouse::Button::ButtonCount] = { false };
 bool Input::mouseButtonsDown[sf::Mouse::Button::ButtonCount] = { false };

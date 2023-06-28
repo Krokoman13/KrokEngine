@@ -1,9 +1,9 @@
 #include "Matrix3.hpp"
 #include "Vec2.hpp"
 
-Matrix3::Matrix3(): Matrix(Matrix::Identity(3))
+Matrix3::Matrix3(): Matrix(3, 3)
 {
-	//Set(2, 2, 0);
+	*this = Matrix::Identity(3);
 }
 
 Matrix3::Matrix3(const Matrix& pOther) : Matrix(3, 3)
@@ -53,14 +53,23 @@ Matrix3 Matrix3::ScalingMatrix(const Vec2& pScale)
 	return out;
 }
 
-Matrix3 Matrix3::RotationMatrix(float radians)
+Matrix3 Matrix3::RotationMatrix(const Vec2& pRotVector)
 {
+	Vec2 rotVecNorm = pRotVector.Normalized();
+
 	Matrix3 out;
-	out.Set(0, 0, std::cos(radians));
-	out.Set(1, 0, std::sin(radians));
-	out.Set(0, 1, -std::sin(radians));
-	out.Set(1, 1, std::cos(radians));
+	out.Set(0, 0, rotVecNorm.x);
+	out.Set(1, 0, rotVecNorm.y);
+
+	const Vec2 yAxis = rotVecNorm.RotatedDegrees(90.0f);
+	out.Set(0, 1, yAxis.x);
+	out.Set(1, 1, yAxis.y);
 	return out;
+}
+
+Matrix3 Matrix3::RotationMatrix(float pRadians)
+{
+	return RotationMatrix(Vec2::GetUnitVectorRad(pRadians));
 }
 
 void Matrix3::Translate(const Vec2& pPos)

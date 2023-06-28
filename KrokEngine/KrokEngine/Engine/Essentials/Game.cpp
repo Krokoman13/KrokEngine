@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Game.hpp"
+#include<windows.h>
 #include <SFML/Graphics.hpp>
 
 Game::Game(std::string name, unsigned int width, unsigned int height, unsigned int targetFPS) 
@@ -15,8 +16,6 @@ Game::Game(std::string name, unsigned int width, unsigned int height, unsigned i
 
 Game::~Game()
 {
-	//SceneManager::~SceneManager();
-	//EventHandeler::~EventHandeler();
 }
 
 void Game::Run()
@@ -26,27 +25,24 @@ void Game::Run()
 
 	while (_renderWindow.isOpen())
 	{
-		Clear();
+		ClearButtons();
 		Scene* currentScene = GetCurrentScene();
+		Input::previousMousePosition = Input::mousePosition;
 
-		while (this->_renderWindow.pollEvent(event))
+		while (_renderWindow.pollEvent(event))
 		{
 			HandleEvent(event, currentScene->ui);
 		}
+
+		Sleep(10);
+		deltaSeconds = timer.restart().asMicroseconds() / 1000000.0f;
 
 		if (!Input::focus) continue;
 
 		_updateManger.Update(currentScene);
 
-		//{
-		//	std::vector<sf::Drawable*> drawables = currentScene->ui->GetDrawables();
-		//	_renderer.ToRender(drawables, INT_MAX);
-		//}
-
 		_renderer.Render();
 		currentScene->HandleObjectsInScene();
-
-		deltaSeconds = timer.restart().asMicroseconds() / 1000000.0f;
 	}
 }
 
@@ -57,5 +53,5 @@ unsigned int Game::GetWitdth()
 
 unsigned int Game::GetHeight()
 {
-	return _renderWindow.getSize().x;
+	return _renderWindow.getSize().y;
 }

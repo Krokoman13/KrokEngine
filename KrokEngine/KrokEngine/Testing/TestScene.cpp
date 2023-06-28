@@ -11,11 +11,16 @@ TestScene::TestScene() : PhysicsScene("TestScene")
 
 void TestScene::update()
 {
-	if (Input::WentUp(sf::Mouse::Left))
+	//if (Input::WentDown(sf::Mouse::Left))
+	//{
+	//	std::cout << Input::mousePosition << '\n';
+	//}
+	//return;
+	if (Input::WentDown(sf::Mouse::Left))
 	{
-		Ball* ball = new Ball(Input::mousePosition);
+		_current = new Ball(Input::mousePosition);
 		//ball->AddComponent(new MouseFollowingBehaviour());
-		AddChild(ball);
+		AddChild(_current);
 	}
 
 	if (Input::WentDown(sf::Mouse::Right))
@@ -25,13 +30,33 @@ void TestScene::update()
 		sphere->AddComponent(new ColliderComponent(new CircleCollider(sphere->GetWidth() / 2.0f)));
 		AddChild(sphere);
 	}
+
+	if (_current == nullptr) return;
+
+	_current->SetGlobalPosition(Input::mousePosition);
+
+	if (Input::WentUp(sf::Mouse::Left))
+	{
+		Vec2 direction = Input::mousePosition - Input::previousMousePosition;
+		direction *= (1 / sceneManager->GetGame()->deltaSeconds);
+		direction /= 100.0f;
+
+		//std::cout << direction << '\n';
+
+		_current->rb->velocity =  direction;
+		_current = nullptr;
+	}
 }
 
 void TestScene::onLoad()
 {
-	PhysicsLine* line = new PhysicsLine(Vec2(50.0f, 400.0f), Vec2(500.0f, 700.0f));
-	AddChild(line);
+	AddChild(new ImageGameObject("PoolTableFrame.png", Vec2(), 0));
 
-	line = new PhysicsLine(Vec2(500.0f, 700.0f), Vec2(1000.0f, 400.0f));
-	AddChild(line);
+	const Vec2 corner1(64.0f, 64.0f);
+	const float width = 1150.0f;
+	const float height = width/2.0f;
+
+	PhysicsObject* box = new PhysicsObject(PolyShape::Rectangle(corner1, width, height).Invert(), Vec2(0, 1.5f));
+	AddChild(box);
+	box->ShowCollider();
 }

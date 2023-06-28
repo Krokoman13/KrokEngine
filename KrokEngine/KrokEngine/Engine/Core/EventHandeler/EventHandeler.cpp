@@ -80,7 +80,7 @@ void EventHandeler::HandleEvent(sf::Event& event, UI* ui)
 	}
 }
 
-void EventHandeler::Clear()
+void EventHandeler::ClearButtons()
 {
 	for (unsigned int i = 0; i < sf::Keyboard::Key::KeyCount ; i++)
 	{

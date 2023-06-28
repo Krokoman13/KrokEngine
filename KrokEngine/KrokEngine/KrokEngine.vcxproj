@@ -132,6 +132,9 @@
     <ClInclude Include="Engine\Add-on\Physics\ColisionHandeling\CollisionInfo.hpp" />
     <ClInclude Include="Engine\Essentials\GameObject.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\PhysicsScene.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.hpp" />
+    <ClInclude Include="Testing\GravityTest.hpp" />
+    <ClInclude Include="Testing\PolyshapeCollisionTester.hpp" />
     <ClInclude Include="Testing\Ball.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\Components\ColliderComponent.hpp" />
     <ClInclude Include="Engine\Core\EventHandeler\EventHandeler.hpp" />
@@ -169,7 +172,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.cpp" />
+    <ClCompile Include="Engine\Add-on\Physics\Colliders\PolyShape.cpp" />
+    <ClCompile Include="Engine\Add-on\Physics\Colliders\PolyShape.hpp" />
     <ClCompile Include="Engine\Add-on\Physics\PhysicsScene.cpp" />
+    <ClCompile Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.cpp" />
+    <ClCompile Include="Testing\GravityTest.cpp" />
+    <ClCompile Include="Testing\PolyshapeCollisionTester.cpp" />
     <ClCompile Include="Testing\Ball.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Components\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Core\EventHandeler\EventHandeler.cpp" />
@@ -206,6 +214,57 @@
     <ClCompile Include="Testing\PhysicsLine.cpp" />
     <ClCompile Include="Testing\TestScene.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="x64\Debug\Ball.obj" />
+    <Object Include="x64\Debug\Button.obj" />
+    <Object Include="x64\Debug\CircleCollider.obj" />
+    <Object Include="x64\Debug\Clickable.obj" />
+    <Object Include="x64\Debug\Collider.obj" />
+    <Object Include="x64\Debug\ColliderComponent.obj" />
+    <Object Include="x64\Debug\CollisionCalculator.obj" />
+    <Object Include="x64\Debug\Component.obj" />
+    <Object Include="x64\Debug\DynamicFloatArray.obj" />
+    <Object Include="x64\Debug\EventHandeler.obj" />
+    <Object Include="x64\Debug\FileIO.obj" />
+    <Object Include="x64\Debug\Game.obj" />
+    <Object Include="x64\Debug\GameObject.obj" />
+    <Object Include="x64\Debug\Hoverable.obj" />
+    <Object Include="x64\Debug\ImageGameObject.obj" />
+    <Object Include="x64\Debug\Input.obj" />
+    <Object Include="x64\Debug\LineCollider.obj" />
+    <Object Include="x64\Debug\Main.obj" />
+    <Object Include="x64\Debug\Matrix.obj" />
+    <Object Include="x64\Debug\Matrix3.obj" />
+    <Object Include="x64\Debug\MouseFollowingBehaviour.obj" />
+    <Object Include="x64\Debug\MouseFollowingObject.obj" />
+    <Object Include="x64\Debug\MovingObject.obj" />
+    <Object Include="x64\Debug\PhysicsLine.obj" />
+    <Object Include="x64\Debug\PhysicsScene.obj" />
+    <Object Include="x64\Debug\Renderer.obj" />
+    <Object Include="x64\Debug\RigidBody.obj" />
+    <Object Include="x64\Debug\Scene.obj" />
+    <Object Include="x64\Debug\SceneManager.obj" />
+    <Object Include="x64\Debug\StringUtil.obj" />
+    <Object Include="x64\Debug\TestScene.obj" />
+    <Object Include="x64\Debug\Transform.obj" />
+    <Object Include="x64\Debug\TriggerColliderComponent.obj" />
+    <Object Include="x64\Debug\UI.obj" />
+    <Object Include="x64\Debug\UIElement.obj" />
+    <Object Include="x64\Debug\UpdateManager.obj" />
+    <Object Include="x64\Debug\Vec2.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="x64\Debug\KrokEngine.Build.CppClean.log" />
+    <Text Include="x64\Debug\KrokEngine.log" />
+    <Text Include="x64\Debug\KrokEngine.vcxproj.FileListAbsolute.txt" />
+    <Text Include="x64\Debug\vcpkg.applocal.log" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="x64\Debug\KrokEngine.exe.recipe" />
+    <None Include="x64\Debug\KrokEngine.ilk" />
+    <None Include="x64\Debug\vc143.idb" />
+    <None Include="x64\Debug\vc143.pdb" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

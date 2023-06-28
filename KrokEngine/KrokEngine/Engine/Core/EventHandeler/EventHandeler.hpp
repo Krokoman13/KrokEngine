@@ -13,7 +13,7 @@ public:
 	EventHandeler(sf::RenderWindow& renderWindow);
 
 	void HandleEvent(sf::Event& event, UI* ui);
-	void Clear();
+	void ClearButtons();
 
 	void HandleClicks(sf::Mouse::Button button = sf::Mouse::Button::Left);
 

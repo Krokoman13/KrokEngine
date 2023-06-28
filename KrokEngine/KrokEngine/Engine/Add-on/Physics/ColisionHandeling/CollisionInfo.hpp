@@ -6,17 +6,16 @@ class RigidBody;
 
 struct CollisionInfo
 {
-	Collider* aCollider = nullptr;
-	Collider* bCollider = nullptr;
+	Collider* collider1 = nullptr;
+	Collider* collider2 = nullptr;
 
-	RigidBody* aRigidBody = nullptr;
-	RigidBody* bRigidBody = nullptr;
+	RigidBody* rigidBody1 = nullptr;
+	RigidBody* rigidBody2 = nullptr;
 
-	Vec2 aPOI = Vec2();
-	Vec2 aVelocity = Vec2();
+	Vec2 trans1 = Vec2();
+	Vec2 trans2 = Vec2();
 
-	Vec2 bPOI = Vec2();
-	Vec2 bVelocity = Vec2();
+	Vec2 normal = Vec2();
 
 	float TOI  = 1.0f;
 }; 

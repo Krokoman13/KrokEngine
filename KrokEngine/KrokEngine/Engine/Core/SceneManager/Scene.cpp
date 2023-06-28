@@ -1,11 +1,11 @@
 #include "Scene.hpp"
 #include "SceneManager.hpp"
 
-Scene::Scene(std::string Name, bool reloadOnOpen) : GameObject(name)
+Scene::Scene(std::string pName, bool pReloadOnOpen) : GameObject(pName)
 {
 	ui = new UI();
-	name = Name;
-	_reloadOnOpen = reloadOnOpen;
+	name = pName;
+	_reloadOnOpen = pReloadOnOpen;
 	_scene = this;
 }
 

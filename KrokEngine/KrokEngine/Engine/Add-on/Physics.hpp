@@ -1,3 +1,5 @@
 #include "Physics/PhysicsScene.hpp"
 #include "Physics/Components/RigidBody.hpp"
+#include "Physics/Colliders/PolyShape.hpp"
 #include "Physics/Components/TriggerColliderComponent.hpp"
+#include "Physics/PhysicsObject/PhysicsObject.hpp"

@@ -7,18 +7,23 @@
 
 class PhysicsScene : public Scene
 {
-private:
-	float _physicsSpeed = 10.0f;
-	float _cycleSpeed;
-
 public:
 	using Scene::Scene;
 
-	void PhysicsUpdate(Scene* pScene);
+protected:
+	Vec2 _gravity = Vec2(0, 9.81f);
+	float _physicsSpeed = 5.0f;
+	float _resistanceCoefficient = 0.04f;
+
+private:
+	float _cycleSpeed;
+
+public:
+	void PhysicsUpdate();
 
 	virtual void HandleObjectsInScene() override
 	{
-		PhysicsUpdate(this);
+		PhysicsUpdate();
 		Scene::HandleObjectsInScene();
 	}
 
@@ -29,10 +34,15 @@ private:
 	void handleDestroyed(Component* component);
 
 	void calculateVelocities();
-	void moveRidgids(float pDuration = 1.0f);
-	void applyVelocities(float pMultiplier = 1.0f);
-	CollisionInfo moveRigid(RigidBody* pRigidBody, float pMultiplier = 1.0f);
-	CollisionInfo getCollision(RigidBody* pRigidBody, ColliderComponent* collider, Vec2& desiredTranslation);
+	void checkRigids(const float pDuration = 1.0f);
+	void applyVelocities(const float pMultiplier = 1.0f);
+	static void resolveCollision(const CollisionInfo& pCollision);
+	static void resolveCollision(RigidBody* pRigidBody1, RigidBody* pRigidbody2,const Vec2& pNormal);
+	static void resolveCollision(RigidBody* pRigidBody, Collider* pCol, const Vec2& pNormal);
+	static float calculateBounciness(ColliderComponent* pA, ColliderComponent* pB);
+	CollisionInfo checkRigid(RigidBody* pRigidBody, float pMultiplier, unsigned int pChecked);
+	CollisionInfo getCollision(RigidBody* pRigidBody, const Vec2& pDesiredTranslation, ColliderComponent* pStaticCollider);
+	CollisionInfo getCollision(RigidBody* pRigidBody1, const Vec2& pDesTran1, RigidBody* pRigidBody2, const Vec2& pDestran2);
 
 	const float _minToi = 0.1f;
 

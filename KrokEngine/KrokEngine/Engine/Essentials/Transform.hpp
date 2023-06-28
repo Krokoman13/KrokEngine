@@ -6,9 +6,8 @@ struct Vec2;
 class Transform
 {
 public:
-	Transform(Vec2 pPos);
+	Transform(Vec2 pLocalPosition);
 	Transform(float pX, float pY);
-	//~Transform();
 
 	Matrix3 identity;
 
@@ -22,15 +21,14 @@ public:
 	void SetLocalPosition(float pX, float pY);
 	Vec2 GetLocalPosition() const;
 
+	void GlobalTranslate(Vec2 pTrans);
 	void SetGlobalPosition(Vec2 pPos);
 	void SetGlobalPosition(float pX, float pY);
 	Vec2 GetGlobalPosition() const;
 
-	void SetLocalRotation(Vec2 pRot);
 	void SetLocalRotation(float pRadians);
 	float GetLocalRotationRad() const;
 
-	void SetGlobalRotation(Vec2 pRot);
 	void SetGlobalRotation(float pRadians);
 	float GetGlobalRotationRad()const;
 
@@ -43,4 +41,7 @@ public:
 	Vec2 GetGlobalScale() const;
 
 	Matrix3 GetGlobalMatrix() const;
+	void SetGlobalMatrix(const Matrix3& pMatrix);
+	
+	Matrix3 InverseModificationMatrix() const;
 };

@@ -1,32 +1,24 @@
-#include "CollisionCalculator.hpp"
+﻿#include "CollisionCalculator.hpp"
 #include "../Components/ColliderComponent.hpp"
 #include <cmath>
 
-float CollisionCalculator::calculateBounciness(Collider* pA, Collider* pB)
-{
-    float outp = pA->GetColliderComponent()->GetBounciness();
-    outp += pB->GetColliderComponent()->GetBounciness();
-    outp /= 2.0f;
-
-    return std::abs(outp);
-}
-
-CollisionInfo CollisionCalculator::CalculateCollision(CircleCollider* pCircle, const Vec2& pTranslation, LineCollider* pLine)
+CollisionInfo CollisionCalculator::CalculateCollision
+    (CircleCollider* pCircle, const Vec2 pTranslation, LineCollider* pLine)
 {
 	CollisionInfo outp;
 
-    Vec2 circleOldPosition = pCircle->GetCenter();
-    float circleRadius = pCircle->GetRadius();
+    const Vec2 circleOldPosition = pCircle->GetCenter();
+    const float circleRadius = pCircle->GetRadius();
 
-    Vec2 lineStart = pLine->GetStart();
-    Vec2 lineEnd = pLine->GetEnd();
+    const Vec2 lineStart = pLine->GetStart();
+    const Vec2 lineEnd = pLine->GetEnd();
 
-    Vec2 oldDiffVec = circleOldPosition - lineStart;
-    Vec2 lineVector = lineStart - lineEnd;
-    Vec2 lineNormal = lineVector.Normal();
+    const Vec2 oldDiffVec = circleOldPosition - lineStart;
+    const Vec2 lineVector = lineStart - lineEnd;
+    const Vec2 lineNormal = lineVector.Normal();
 
-    float a = lineNormal.Dot(oldDiffVec) - circleRadius;    //Start distance
-    float b = -(lineNormal.Dot(pTranslation));  //Movement allong normal axis
+    const float a = lineNormal.Dot(oldDiffVec) - circleRadius;    //Start distance
+    const float b = -(lineNormal.Dot(pTranslation));  //Movement allong normal axis
 
     if (b <= 0.0f) return outp;
 
@@ -42,84 +34,213 @@ CollisionInfo CollisionCalculator::CalculateCollision(CircleCollider* pCircle, c
     }
     else return outp;
 
-    Vec2 POI;
     if (TOI <= 1.0f)
     {
-        POI = circleOldPosition + pTranslation * TOI;
-        float distance = (lineStart - POI).Dot(lineVector.Normalized());
+        const Vec2 POI = circleOldPosition + pTranslation * TOI;
+        const float distance = (lineStart - POI).Dot(lineVector.Normalized());
 
         if (distance > 0 && distance < lineVector.Length())
         {
-            outp.aCollider = pCircle;
-            outp.bCollider = pLine;
+            outp.collider1 = pCircle;
+            outp.collider2 = pLine;
 
             outp.TOI = TOI;
-            outp.aPOI = POI;
+            outp.trans1 = pTranslation * TOI;
 
-            float bounciness = calculateBounciness(pCircle, pLine);
-            outp.aVelocity = pTranslation.Reflected(lineNormal, bounciness);
+            outp.normal = lineNormal;
         }
     }
 
 	return outp;
 }
 
-CollisionInfo CollisionCalculator::CalculateCollision(CircleCollider* pCircle1, const Vec2& pTranslation, CircleCollider* pCircle2)
+CollisionInfo CollisionCalculator::CalculateCollision
+    (CircleCollider* pCircle, const Vec2 pTranslation1, LineCollider* pLine, const Vec2 pTranslation2)
 {
     CollisionInfo outp;
 
-    float r1 = pCircle1->GetRadius();
-    float r2 = pCircle2->GetRadius();
-    Vec2 p = pCircle1->GetCenter();
-    Vec2 q = pCircle2->GetCenter();
+    const Vec2 circleOldPosition = pCircle->GetCenter();
+    const float circleRadius = pCircle->GetRadius();
 
-    Vec2 u = p - q;     //Relative position
-    Vec2 v = pTranslation;
+    const Vec2 lineOldStart = pLine->GetStart();
+    const Vec2 lineOldEnd = pLine->GetEnd();
 
-    float b = 2 * u.Dot(v);
-    float c = sqr(u.Length()) - sqr(r1 + r2);
+    const Vec2 circleNewPosition = circleOldPosition + pTranslation1;
+    const Vec2 lineNewStart = lineOldStart + pTranslation2;
+    const Vec2 lineNewEnd = lineOldEnd + pTranslation2;
+
+    const Vec2 circleTranslation = pTranslation1 - pTranslation2;
+    const Vec2 lineTranslation = -circleTranslation;
+
+    const Vec2 circleRelativePosition = circleNewPosition - lineOldStart;
+    const Vec2 lineRelativePosition = lineNewStart - lineNewEnd;
+
+    const Vec2 lineNormal = lineRelativePosition.Normal();
+
+    const float a = lineNormal.Dot(circleRelativePosition) - circleRadius;
+
+    const float b = -(lineNormal.Dot(circleTranslation));
+
+    if (b <= 0.0f) return outp;
+
+    float TOI;
+
+    if (a >= 0.0f)
+    {
+        TOI = a / b;
+    }
+    else if (a >= -circleRadius)
+    {
+        TOI = 0.0f;
+    }
+    else return outp;
+
+    if (TOI <= 1.0f)
+    {
+        const Vec2 POI = circleOldPosition + pTranslation1 * TOI;
+
+        const float distance = (lineNewStart - POI).Dot(lineRelativePosition.Normalized());
+
+        if (distance > 0 && distance < lineRelativePosition.Length())
+        {
+            outp.collider1 = pCircle;
+            outp.collider2 = pLine;
+
+            outp.TOI = TOI;
+            outp.trans1 = pTranslation1 * TOI;
+            outp.trans2 = pTranslation2 * TOI;
+
+            outp.normal = lineNormal;
+        }
+    }
+
+    return outp;
+}
+
+CollisionInfo CollisionCalculator::CalculateCollision
+    (CircleCollider* pCircle1, const Vec2 pTranslation1, CircleCollider* pCircle2)
+{
+    CollisionInfo outp;
+
+    const float r1 = pCircle1->GetRadius();
+    const float r2 = pCircle2->GetRadius();
+    const Vec2 p1 = pCircle1->GetCenter();
+    const Vec2 p2 = pCircle2->GetCenter();
+
+    const Vec2 u = p1 - p2;     //Relative position
+    const Vec2 v = pTranslation1;
+
+    const float b = 2 * u.Dot(v);
+    const float c = sqr(u.Length()) - sqr(r1 + r2);
 
     if (c < 0.0f)
     {
         if (b >= 0.0f) return outp;
 
-        outp.aCollider = pCircle1;
-        outp.bCollider = pCircle2;
+        outp.collider1 = pCircle1;
+        outp.collider2 = pCircle2;
 
         outp.TOI = 0.0f;
-        Vec2 normal = u.Normalized();
-        outp.aPOI = q + normal * (r1 + r2);
-
-        float bounciness = calculateBounciness(pCircle1, pCircle2);
-        outp.aVelocity = pTranslation.Reflected(normal, bounciness);
+        
+        const Vec2 normal = u.Normalized();
+        const Vec2 POI = p2 + normal * (r1 + r2);
+        
+        outp.trans1 = POI - p1;
 
         return outp;
     }
 
-    float a = sqr(v.Length());
+    const float a = sqr(v.Length());
 
     if (abs(a) < 0.001f) return outp;
 
-    float D = sqr(b) - (4.0f * a * c);
+    const float D = sqr(b) - (4.0f * a * c);
 
     if (D < 0.0f) return outp;
 
-    float t = (-b - sqrt(D)) / (2 * a);
+    const float t = (-b - sqrt(D)) / (2 * a);
 
     if (0.0f <= t && t < 1.0f)
     {
-        outp.aCollider = pCircle1;
-        outp.bCollider = pCircle2;
+        outp.collider1 = pCircle1;
+        outp.collider2 = pCircle2;
 
         outp.TOI = t;
 
-        Vec2 POI = p + pTranslation * t;
-        outp.aPOI = POI;
+        const Vec2 translation = pTranslation1 * t;
+        outp.trans1 = translation;
 
-        Vec2 normal = (POI - q).Normalized();
+        const Vec2 POI = p1 + translation;
+        const Vec2 normal = (POI - p2).Normalized();
         
-        float bounciness = calculateBounciness(pCircle1, pCircle2);
-        outp.aVelocity = pTranslation.Reflected(normal, bounciness);
+        outp.normal = normal;
+    }
+
+    return outp;
+}
+
+CollisionInfo CollisionCalculator::CalculateCollision
+    (CircleCollider* pCircle1, const Vec2 pTranslation1, CircleCollider* pCircle2, const Vec2 pTranslation2)
+{
+    CollisionInfo outp;
+
+    const float r1 = pCircle1->GetRadius();
+    const float r2 = pCircle2->GetRadius();
+    const Vec2 p1 = pCircle1->GetCenter() + pTranslation1; // Update position with translation
+    const Vec2 p2 = pCircle2->GetCenter() + pTranslation2; // Update position with translation
+
+    const Vec2 u = p1 - p2;     // Relative position
+    const Vec2 v = pTranslation1 - pTranslation2; // Relative velocity
+
+    const float b = 2 * u.Dot(v);
+    const float c = sqr(u.Length()) - sqr(r1 + r2);
+
+    if (c < 0.0f)
+    {
+        if (b >= 0.0f) return outp;
+
+        outp.collider1 = pCircle1;
+        outp.collider2 = pCircle2;
+
+        outp.TOI = 0.0f;
+
+        const Vec2 normal = u.Normalized();
+        const Vec2 overlap = normal * (r1 + r2);
+        const Vec2 POI1 = p2 + overlap / 2.0f;
+        
+        outp.trans1 = POI1 - p1;
+        outp.trans2 = -outp.trans1;
+
+        outp.normal = normal;
+
+        return outp;
+    }
+
+    const float a = sqr(v.Length());
+
+    if (abs(a) < 0.001f) return outp;
+
+    const float D = sqr(b) - (4.0f * a * c);
+
+    if (D < 0.0f) return outp;
+
+    const float t = (-b - sqrt(D)) / (2 * a);
+
+    if (0.0f <= t && t < 1.0f)
+    {
+        outp.collider1 = pCircle1;
+        outp.collider2 = pCircle2;
+
+        outp.TOI = t;
+
+        outp.trans1 = pTranslation1 * t;
+        const Vec2 POI1 = p1 + outp.trans1;
+
+        outp.trans1 = pTranslation2 * t;
+        const Vec2 POI2 = outp.trans1;
+
+        const Vec2 normal = (POI1 - POI2).Normal();
+        outp.normal = normal;
     }
 
     return outp;

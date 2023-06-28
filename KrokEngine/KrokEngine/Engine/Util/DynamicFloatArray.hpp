@@ -7,9 +7,6 @@ public:
 	DynamicFloatArray(const DynamicFloatArray& pOther);
 	~DynamicFloatArray();
 
-	//void Set(const unsigned int pCel, const float pValue);
-	//float Get(const unsigned int pCel) const;
-
 	const unsigned int GetSize() const;
 
 	DynamicFloatArray operator=(const DynamicFloatArray& pOther);

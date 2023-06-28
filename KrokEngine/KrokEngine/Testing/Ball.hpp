@@ -6,10 +6,8 @@ class Ball : public ImageGameObject
 {
 public:
 	Ball(Vec2 pos);
-
-	void update() override;
-
-private:
 	RigidBody* rb;
+
+	//void update() override;
 };
 

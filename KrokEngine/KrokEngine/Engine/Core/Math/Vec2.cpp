@@ -9,15 +9,15 @@
 /// <summary>
 /// Returns the result of adding two vectors(without modifying either of them)
 /// </summary>
-Vec2 Vec2::operator+(const Vec2& other) const
+Vec2 Vec2::operator+(const Vec2& pOther) const
 {
-	return Vec2(x + other.x, y + other.y);
+	return Vec2(x + pOther.x, y + pOther.y);
 }
 
-Vec2& Vec2::operator+=(const Vec2& other)
+Vec2& Vec2::operator+=(const Vec2& pOther)
 {
-	x += other.x;
-	y += other.y;
+	x += pOther.x;
+	y += pOther.y;
 	return *this;
 }
 
@@ -27,20 +27,20 @@ Vec2& Vec2::operator+=(const Vec2& other)
 /// <summary>
 /// Returns the result of subtracting two vectors(without modifying either of them)
 /// </summary>
-Vec2 Vec2::operator-(const Vec2& other) const
+Vec2 Vec2::operator-(const Vec2& pOther) const
 {
-	return Vec2(x - other.x, y - other.y);
+	return Vec2(x - pOther.x, y - pOther.y);
 }
 
-Vec2 operator-(const Vec2& other)
+Vec2 operator-(const Vec2& pOther)
 {
-	return Vec2(-other.x, -other.y);
+	return Vec2(-pOther.x, -pOther.y);
 }
 
-Vec2& Vec2::operator-=(const Vec2& other)
+Vec2& Vec2::operator-=(const Vec2& pOther)
 {
-	x -= other.x;
-	y -= other.y;
+	x -= pOther.x;
+	y -= pOther.y;
 	return *this;
 }
 
@@ -50,19 +50,19 @@ Vec2& Vec2::operator-=(const Vec2& other)
 /// <summary>
 /// Returns the result of multiplying a vector by a float(without modifying either of them)
 /// </summary>
-Vec2 Vec2::operator*(float scalar) const
+Vec2 Vec2::operator*(float pScalar) const
 {
-	return Vec2(x * scalar, y * scalar);
+	return Vec2(x * pScalar, y * pScalar);
 }
 
-Vec2 operator*(float scalar, const Vec2& vec)
+Vec2 operator*(float pScalar, const Vec2& pVec)
 {
-	return vec * scalar;
+	return pVec * pScalar;
 }
 
-Vec2& Vec2::operator*=(float scalar)
+Vec2& Vec2::operator*=(float pScalar)
 {
-	*this = *this * scalar;
+	*this = *this * pScalar;
 	return *this;
 }
 
@@ -73,26 +73,26 @@ Vec2& Vec2::operator*=(float scalar)
 /// Returns the result of deviding a vector by a float(without modifying either of them)
 /// </summary>
 
-Vec2 Vec2::operator/(float scalar) const
+Vec2 Vec2::operator/(const float pScalar) const
 {
 	// Check for division by zero
-	if (scalar == 0.0f)
+	if (pScalar == 0.0f)
 	{
 		std::cerr << "Error: Division by zero in Vec2::operator/!" << std::endl;
 		return *this;
 	}
 
-	return Vec2(x / scalar, y / scalar);
+	return Vec2(x / pScalar, y / pScalar);
 }
 
-Vec2 operator/(float scalar, const Vec2& vec)
+Vec2 operator/(const float pScalar, const Vec2& pVec)
 {
-	return vec / scalar;
+	return pVec / pScalar;
 }
 
-Vec2& Vec2::operator/=(float scalar)
+Vec2& Vec2::operator/=(const float pScalar)
 {
-	*this = *this / scalar;
+	*this = *this / pScalar;
 	return *this;
 }
 
@@ -102,14 +102,14 @@ Vec2& Vec2::operator/=(float scalar)
 /// <summary>
 /// Returns a bool that indicates if the two vectors are the same
 /// </summary>
-bool Vec2::operator==(const Vec2& other) const
+bool Vec2::operator==(const Vec2& pOther) const
 {
-	return (x == other.x) && (y == other.y);
+	return (x == pOther.x) && (y == pOther.y);
 }
 
-bool Vec2::operator!=(const Vec2& other) const
+bool Vec2::operator!=(const Vec2& pOther) const
 {
-	return !(*this == other);
+	return !(*this == pOther);
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -120,7 +120,7 @@ bool Vec2::operator!=(const Vec2& other) const
 /// </summary>
 float Vec2::Length() const
 {
-	return sqrt((x * x) + (y * y));     //Using Pythagorean theorem to calculate the length of the vector
+	return sqrt(LengthSquared());     //Using Pythagorean theorem to calculate the length of the vector
 }
 
 float Vec2::LengthSquared() const
@@ -136,11 +136,10 @@ float Vec2::LengthSquared() const
 /// </summary>
 Vec2 Vec2::Normalized() const
 {
-	float len = Length();
-	if (len != 0.0f)
-		return *this / len;
-	else
-		return *this;
+	const float len = Length();
+
+	if (len == 0.0f) return *this; 
+	return *this / len;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -154,10 +153,10 @@ void Vec2::Normalize()
 	*this = this->Normalized();
 }
 
-void Vec2::SetLength(float length)
+void Vec2::SetLength(float pLength)
 {
 	this->Normalize();
-	*this *= length;
+	*this *= pLength;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -166,7 +165,7 @@ void Vec2::SetLength(float length)
 /// <summary>
 /// Sets the x & y of the current vector to the given two floats
 /// </summary>
-void Vec2::Set(float pX, float pY)
+void Vec2::Set(const float pX, const float pY)
 {
 	x = pX;
 	y = pY;
@@ -185,11 +184,11 @@ void Vec2::Set(float pX, float pY)
 /// The second vector
 /// </param>
 /// <param name='interpolater'>
-/// This number specificifies the percentage of the second(right) vector in the result (If this is 0f: The left vector will be returned. If this is 1f: the right one. If 0.5f it is an average between the two)
+/// This number specificifies the percentage of the second(right) vector in the result (If this is 0f: The pLeft vector will be returned. If this is 1f: the pRight one. If 0.5f it is an average between the two)
 /// </param>
-Vec2 Vec2::LinInt(Vec2 left, Vec2 right, float interpolater)
+Vec2 Vec2::LinInt(const Vec2& pLeft,  const Vec2& pRight, const float pInterpolater)
 {
-	return left + interpolater * (right - left);
+	return pLeft + pInterpolater * (pRight - pLeft);
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -201,9 +200,9 @@ Vec2 Vec2::LinInt(Vec2 left, Vec2 right, float interpolater)
 /// <param name='degree'>
 /// The input degree value
 /// </param>
-float Vec2::Deg2Rad(float degree)
+float Vec2::Deg2Rad(const float pDegree)
 {
-	return ((float)M_PI / 180.0f) * degree;
+	return ((float)M_PI / 180.0f) * pDegree;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -215,9 +214,9 @@ float Vec2::Deg2Rad(float degree)
 /// <param name='radians'>
 /// The input radians value
 /// </param>
-float Vec2::Rad2Deg(float radians)
+float Vec2::Rad2Deg(const float pRadians)
 {
-	return (180.0f / (float)M_PI) * radians;
+	return (180.0f / (float)M_PI) * pRadians;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -226,21 +225,21 @@ float Vec2::Rad2Deg(float radians)
 /// <summary>
 /// Returns a new vector pointing in the given direction in degrees
 /// </summary>
-Vec2 Vec2::GetUnitVectorDeg(float degrees)
+Vec2 Vec2::GetUnitVectorDeg(const float pDegree)
 {
-	return GetUnitVectorRad(Vec2::Deg2Rad(degrees));
+	return GetUnitVectorRad(Vec2::Deg2Rad(pDegree));
 }
 
 //------------------------------------------------------------------------------------------------------------------------
 //														GetUnitVectorRad ()
 //------------------------------------------------------------------------------------------------------------------------
 /// <summary>
-/// Returns a new vector pointing in the given direction in radians
+/// Returns a new vector pointing in the given direction in pRadians
 /// </summary>
-Vec2 Vec2::GetUnitVectorRad(float radians)
+Vec2 Vec2::GetUnitVectorRad(const float pRadians)
 {
-	float pX = cos(radians);
-	float pY = sin(radians);
+	float pX = cos(pRadians);
+	float pY = sin(pRadians);
 
 	return Vec2(pX, pY);
 }
@@ -251,20 +250,20 @@ Vec2 Vec2::GetUnitVectorRad(float radians)
 /// <summary>
 /// Changes the current vector to the given degrees (without changing length)
 /// </summary>
-void Vec2::SetAngleDegrees(float degrees)
+void Vec2::SetAngleDegrees(const float pDegree)
 {
-	SetAngleRadians(Deg2Rad(degrees));
+	SetAngleRadians(Deg2Rad(pDegree));
 }
 
 //------------------------------------------------------------------------------------------------------------------------
 //														SetAngleRadians ()
 //------------------------------------------------------------------------------------------------------------------------
 /// <summary>
-/// Changes the current vector to the given radians (without changing length)
+/// Changes the current vector to the given pRadians (without changing length)
 /// </summary>
-void Vec2::SetAngleRadians(float radians)
+void Vec2::SetAngleRadians(const float pRadians)
 {
-	Vec2 temp = Vec2::GetUnitVectorRad(radians);
+	Vec2 temp = Vec2::GetUnitVectorRad(pRadians);
 	temp.SetLength(this->Length());
 
 	*this = temp;
@@ -274,7 +273,7 @@ void Vec2::SetAngleRadians(float radians)
 //														GetAngleRadians ()
 //------------------------------------------------------------------------------------------------------------------------
 /// <summary>
-/// Returns a float calculated to be the current angle of the vector in radians
+/// Returns a float calculated to be the current angle of the vector in pRadians
 /// </summary>
 float Vec2::GetAngleRadians()
 {
@@ -296,14 +295,19 @@ float Vec2::GetAngleDegrees()
 //														RotateRadians ()
 //------------------------------------------------------------------------------------------------------------------------
 /// <summary>
-/// Rotate the vector over the given angle in radians
+/// Rotate the vector over the given angle in pRadians
 /// </summary>
-void Vec2::RotateRadians(float radians)
+Vec2 Vec2::RotatedRadians(const float pRadians) const
 {
-	float pX = x * cos(radians) - y * sin(radians);
-	float pY = x * sin(radians) + y * cos(radians);
+	const float pX = x * cos(pRadians) - y * sin(pRadians);
+	const float pY = x * sin(pRadians) + y * cos(pRadians);
 
-	*this = Vec2(pX, pY);
+	return Vec2(pX, pY);
+}
+
+void Vec2::RotateRadians(const float pRadians)
+{
+	*this = RotatedRadians(pRadians);
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -312,9 +316,15 @@ void Vec2::RotateRadians(float radians)
 /// <summary>
 /// Rotate the vector over the given angle in degrees
 /// </summary>
-void Vec2::RotateDegrees(float degrees)
+
+Vec2 Vec2::RotatedDegrees(const float pDegrees) const
 {
-	RotateRadians(Deg2Rad(degrees));
+	return RotatedRadians(Deg2Rad(pDegrees));
+}
+
+void Vec2::RotateDegrees(const float pDegrees)
+{
+	RotateRadians(Deg2Rad(pDegrees));
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -323,42 +333,43 @@ void Vec2::RotateDegrees(float degrees)
 /// <summary>
 /// Rotate the vector around the given point over the given angle in degrees
 /// </summary>
-void Vec2::RotateAroundDegrees(float degrees, Vec2 around)
+void Vec2::RotateAroundDegrees(const float pDegrees, const  Vec2 pAround)
 {
-	RotateAroundRadians(Deg2Rad(degrees), around);
+	RotateAroundRadians(Deg2Rad(pDegrees), pAround);
 }
 
 //------------------------------------------------------------------------------------------------------------------------
 //														RotateAroundRadians ()
 //------------------------------------------------------------------------------------------------------------------------
 /// <summary>
-/// Rotate the vector around the given point over the given angle in radians
+/// Rotate the vector around the given point over the given angle in pRadians
 /// </summary>
-void Vec2::RotateAroundRadians(float radians, Vec2 around)
+void Vec2::RotateAroundRadians(const float pRadians, Vec2 pAround)
 {
-	*this -= around;
-	RotateRadians(radians);
-	*this += around;
+	*this -= pAround;
+	RotateRadians(pRadians);
+	*this += pAround;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
 //														normalizeDeg ()
 //------------------------------------------------------------------------------------------------------------------------
 /// <summary>
-/// The entered degree value is normalized, the returend value cannot be outside (-180, 180) degrees
+/// The entered pDegree value is normalized, the returend value cannot be outside (-180, 180) degrees
 /// </summary>
-float Vec2::normalizeDeg(float degree)
+float Vec2::normalizeDeg(float pDegree)
 {
-	if (degree > 180)
+	while (pDegree > 180.0f)
 	{
-		degree -= 360;
-	}
-	else if (degree < -180)
-	{
-		degree += 360;
+		pDegree -= 360.0f;
 	}
 
-	return degree;
+	while (pDegree < -180.0f)
+	{
+		pDegree += 360.0f;
+	}
+
+	return pDegree;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -373,24 +384,24 @@ float Vec2::normalizeDeg(float degree)
 /// <param name='stepDegrees'>
 /// The amount of degrees the vector can turn each time it is called
 /// </param>
-void Vec2::RotateTowardsDegrees(float targetDegrees, float stepDegrees)
+void Vec2::RotateTowardsDegrees(const float pTargetDegrees, const float pStepDegrees)
 {
 	//stepDegrees = Mathf.Abs(stepDegrees);
-	float diffrence = targetDegrees - this->GetAngleDegrees();
+	float diffrence = pTargetDegrees - this->GetAngleDegrees();
 
 	diffrence = normalizeDeg(diffrence);
 
-	if (abs(diffrence) <= stepDegrees)
+	if (abs(diffrence) <= pStepDegrees)
 	{
-		SetAngleDegrees(targetDegrees);
+		SetAngleDegrees(pTargetDegrees);
 	}
 	else if (diffrence < 0)
 	{
-		this->RotateDegrees(-stepDegrees);
+		this->RotateDegrees(-pStepDegrees);
 	}
 	else if (diffrence > 0)
 	{
-		this->RotateDegrees(stepDegrees);
+		this->RotateDegrees(pStepDegrees);
 	}
 }
 
@@ -400,9 +411,9 @@ void Vec2::RotateTowardsDegrees(float targetDegrees, float stepDegrees)
 /// <summary>
 /// Will calculate the dot product of a given vector and itself
 /// </summary>
-float Vec2::Dot(Vec2 other) const
+float Vec2::Dot( const Vec2& pOther) const
 {
-	return x * other.x + y * other.y; ;
+	return x * pOther.x + y * pOther.y; ;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -411,9 +422,9 @@ float Vec2::Dot(Vec2 other) const
 /// <summary>
 /// Will calculate the dot product of two given vectors
 /// </summary>
-float Vec2::VectorDotProduct(Vec2 a, Vec2 b)
+float Vec2::VectorDotProduct( const Vec2& pA,  const Vec2& pB)
 {
-	return a.Dot(b);
+	return pA.Dot(pB);
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -422,7 +433,7 @@ float Vec2::VectorDotProduct(Vec2 a, Vec2 b)
 /// <summary>
 /// Returns a normal to this vector
 /// </summary>
-Vec2 Vec2::Normal()
+Vec2 Vec2::Normal() const
 {
 	Vec2 NormalVec = Vec2(-y, x);
 	return NormalVec.Normalized();
@@ -432,15 +443,15 @@ Vec2 Vec2::Normal()
 //														Project()
 //------------------------------------------------------------------------------------------------------------------------
 /// <summary>
-/// Reflects the vector of another vector based on that other vector's normal
+/// Reflects the vector of another vector based on that pOther vector's normal
 /// </summary>
-Vec2 Vec2::Project(const Vec2& other) const
+Vec2 Vec2::Project(const Vec2& pOther) const
 {
-	float dot = Dot(other);
-	float lenSquared = other.LengthSquared();
+	float dot = Dot(pOther);
+	float lenSquared = pOther.LengthSquared();
 
 	if (lenSquared != 0.0f)
-		return other * (dot / lenSquared);
+		return pOther * (dot / lenSquared);
 	else
 		return Vec2();
 }
@@ -449,7 +460,7 @@ Vec2 Vec2::Project(const Vec2& other) const
 //														Reflect()
 //------------------------------------------------------------------------------------------------------------------------
 /// <summary>
-/// Reflects the vector of another vector based on that other vector's normal
+/// Reflects the vector of another vector based on that pOther vector's normal
 /// </summary>
 
 Vec2 Vec2::Reflected(const Vec2& pNormal, float pBounciness) const
@@ -460,7 +471,7 @@ Vec2 Vec2::Reflected(const Vec2& pNormal, float pBounciness) const
 	return outp;
 }
 
-void Vec2::Reflect(Vec2 pNormal, float pBounciness)
+void Vec2::Reflect( const Vec2& pNormal, const float pBounciness)
 {
 	*this = this->Reflected(pNormal, pBounciness) ;
 }
@@ -490,8 +501,8 @@ Vec2 Vec2::Right()
 	return Vec2(1.0f, 0.0f);
 }
 
-std::ostream& operator<<(std::ostream& out, const Vec2& vec)
+std::ostream& operator<<(std::ostream& pOut, const Vec2& pVec)
 {
-	out << '(' << vec.x << ',' << vec.y << ')';
-	return out;
+	pOut << '(' << pVec.x << ',' << pVec.y << ')';
+	return pOut;
 }

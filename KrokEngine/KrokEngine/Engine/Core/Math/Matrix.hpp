@@ -7,9 +7,9 @@ struct Vec2;
 struct  Matrix
 {
 private:
-	unsigned int _columns;
-	unsigned int _rows;
-	DynamicFloatArray _array;
+	unsigned int _columnCount;
+	unsigned int _rowCount;
+	DynamicFloatArray _elements;
 
 public:
 	Matrix(const unsigned int pRows, const unsigned int pColumns);
@@ -31,6 +31,13 @@ public:
 
 	void SetArray(const DynamicFloatArray &pArray);
 	const DynamicFloatArray GetArray() const;
+
+	void SwapRows(unsigned int pRowA, unsigned int pRowB);
+	Matrix SubMatrix(unsigned int pExRow, unsigned int pExColumn) const;
+	static Matrix ConcatenateVertically(const Matrix& pA, const Matrix& pB);
+	static Matrix ConcatenateHorizontally(const Matrix& pA, const Matrix& pB);
+	float Determinant() const;
+	Matrix Inverse() const;
 
 	Matrix operator=(const Matrix& other);
 

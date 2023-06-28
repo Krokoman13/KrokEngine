@@ -20,6 +20,7 @@ public:
 
 	static bool mouseInScreen;
 	static Vec2 mousePosition;
+	static Vec2 previousMousePosition;
 	static bool mouseButtons[sf::Mouse::Button::ButtonCount];
 	static bool mouseButtonsUp[sf::Mouse::Button::ButtonCount];
 	static bool mouseButtonsDown[sf::Mouse::Button::ButtonCount];

@@ -20,20 +20,6 @@ DynamicFloatArray::~DynamicFloatArray()
 	delete _array;
 }
 
-/*
-void DynamicFloatArray::Set(const unsigned int pCel, const float pValue)
-{
-	if (pCel > this->GetSize() - 1) throw std::out_of_range("Cel is outside of the range of the array");
-	_array[pCel] = pValue;
-}
-
-float DynamicFloatArray::Get(const unsigned int pCel) const
-{
-	if (pCel > this->GetSize() - 1) throw std::out_of_range("Cel is outside of the range of the array");
-	return _array[pCel];
-}
-*/
-
 const unsigned int DynamicFloatArray::GetSize() const
 {
 	return _size;

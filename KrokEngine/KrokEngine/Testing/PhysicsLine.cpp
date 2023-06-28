@@ -14,21 +14,14 @@ PhysicsLine::PhysicsLine(Vec2 pStart, Vec2 pEnd) : GameObject("PhysicsLine")
 
 	ColliderComponent* colliderComp = new ColliderComponent();
 	colliderComp->Add(new LineCollider(pStart, pEnd));
+	colliderComp->Add(new CircleCollider(1.0f, pStart));
+	colliderComp->Add(new CircleCollider(1.0f, pEnd));
 	AddComponent(colliderComp);
-
-	_start = new ImageGameObject("Debug/Bluecircle.png", pStart.x, pStart.y);
-	_start->centered = true;
-	_start->SetSize(thickness, thickness);
-	AddChild(_start);
-
-	_end = new ImageGameObject("Debug/Bluecircle.png", pEnd.x, pEnd.y);
-	_end->centered = true;
-	_end->SetSize(thickness, thickness);
-	AddChild(_end);
 
 	_inbetween = new ImageGameObject("Debug/Greensquare.png");
 	_inbetween->centered = true;
 	_inbetween->SetLocalRotation(line.GetAngleRadians());
 	_inbetween->SetSize(line.Length(), thickness);
+	_inbetween->SetRenderLayer(1);
 	AddChild(_inbetween);
 }

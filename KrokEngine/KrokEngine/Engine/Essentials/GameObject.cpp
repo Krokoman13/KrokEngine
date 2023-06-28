@@ -241,20 +241,24 @@ void GameObject::RemoveChild(GameObject* pChild)
 
 void GameObject::migrateChild(unsigned int pChildIndex, GameObject* pNewParent)
 {
-	_children[pChildIndex]->_parent = pNewParent;
+	std::unique_ptr<GameObject>& child = _children[pChildIndex];
+
+	Matrix3 globalMatrix = child->GetGlobalMatrix();
+	child->_parent = pNewParent;
+	child->SetGlobalMatrix(globalMatrix);
 
 	if (!pNewParent)
 	{
 		if (_scene)
 		{
-			_scene->Parentless(_children[pChildIndex]);
+			_scene->Parentless(child);
 			_children.erase(_children.begin() + pChildIndex);
 		}
 		else removeChild(pChildIndex);
 		return;
 	}
 
-	pNewParent->_children.push_back(std::move(_children[pChildIndex]));
+	pNewParent->_children.push_back(std::move(child));
 }
 
 void GameObject::migrateChild(GameObject* pChild, GameObject* pNewParent)

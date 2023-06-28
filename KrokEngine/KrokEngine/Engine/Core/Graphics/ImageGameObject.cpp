@@ -4,21 +4,21 @@
 std::string ImageGameObject::ASSET_PATH = "";
 std::string ImageGameObject::FILE_TYPE = ".png";
 
-ImageGameObject::ImageGameObject(std::string name, std::string path, Vec2 pPos, int renderlayer) : GameObject(pPos, name)
+ImageGameObject::ImageGameObject(std::string pName, std::string pPath, Vec2 pPos, int pRenderlayer) : GameObject(pPos, pName)
 {
-	this->name = name;
-	this->_renderLayer = renderlayer;
+	name = pName;
+	_renderLayer = pRenderlayer;
 
-	if (path[path.size() - 1] == '/')
+	if (pPath[pPath.size() - 1] == '/')
 	{
-		path += name;
+		pPath += pName;
 
-		if (path.size() < 4) path += FILE_TYPE;
-		else if (path[path.size() - 4] != '.') path += FILE_TYPE;;
+		if (pPath.size() < 4) pPath += FILE_TYPE;
+		else if (pPath[pPath.size() - 4] != '.') pPath += FILE_TYPE;;
 	}
 
-	loadTexture(path);
-	this->_fullpath = path;
+	loadTexture(pPath);
+	_fullpath = pPath;
 	//OnLoad();
 }
 
@@ -35,47 +35,47 @@ ImageGameObject::ImageGameObject(std::string name, float x, float y, int renderl
 {
 }
 
-void ImageGameObject::loadTexture(std::string path)
+void ImageGameObject::loadTexture(std::string pPath)
 {
-	if (this->_texture.loadFromFile(path))
+	if (_texture.loadFromFile(pPath))
 	{
-		std::cout << "Loading : " << path << '\n';
-		this->_sprite.setTexture(_texture);
+		std::cout << "Loading : " << pPath << '\n';
+		_sprite.setTexture(_texture);
 
-		this->_canRender = true;
-		this->_fullpath = path;
+		_canRender = true;
+		_fullpath = pPath;
 
-		this->_width = (float)_sprite.getTextureRect().width;
-		this->_height = (float)_sprite.getTextureRect().height;
+		_width = (float)_sprite.getTextureRect().width;
+		_height = (float)_sprite.getTextureRect().height;
 		return;
 	}
 }
 
-void ImageGameObject::SetWidth(float width)
+void ImageGameObject::SetWidth(float pWidth)
 {
-	this->SetSize(width, this->_height);
+	SetSize(pWidth, _height);
 }
 
-void ImageGameObject::SetHeight(float height)
+void ImageGameObject::SetHeight(float pHeight)
 {
-	this->SetSize(this->_width, height);
+	SetSize(_width, pHeight);
 }
 
 void ImageGameObject::SetSize(float pWidth, float pHeight)
 {
 	if (pWidth < 0 || pHeight < 0) return;
 
-	this->SetLocalScale(pWidth / this->_width, pHeight / this->_height);
+	SetLocalScale(pWidth / _width, pHeight / _height);
 }
 
 float ImageGameObject::GetWidth()
 {
-	return this->_width * this->GetLocalScale().x;
+	return _width * GetLocalScale().x;
 }
 
 float ImageGameObject::GetHeight()
 {
-	return this->_height * this->GetLocalScale().y;
+	return _height * GetLocalScale().y;
 }
 
 sf::Sprite* ImageGameObject::GetSprite()
@@ -97,18 +97,18 @@ sf::Sprite* ImageGameObject::GetSprite()
 	_sprite.setPosition(pos.x, pos.y);
 	_sprite.setRotation(Vec2::Rad2Deg(rot));
 
-	return &this->_sprite;
+	return &_sprite;
 }
 
-void ImageGameObject::CenterImageAround(Vec2 position)
+void ImageGameObject::CenterImageAround(Vec2 pPosition)
 {
 	Vec2 globalScale = GetGlobalScale();
-	this->SetLocalPosition(position.x - (globalScale.x * _width / 2), position.y - (globalScale.y *_height / 2));
+	SetLocalPosition(pPosition.x - (globalScale.x * _width / 2), pPosition.y - (globalScale.y *_height / 2));
 }
 
 std::string ImageGameObject::GetFullPath() const
 {
-	return this->_fullpath;
+	return _fullpath;
 }
 
 void ImageGameObject::SetVisible(bool pVisable)

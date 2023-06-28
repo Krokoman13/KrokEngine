@@ -4,11 +4,12 @@
 class RigidBody : public ColliderComponent
 {
 public:
-	RigidBody(CircleCollider* pCollider = nullptr);
-	virtual ~RigidBody();
+	using ColliderComponent::ColliderComponent;
 
 public:
 	Vec2 velocity;
 	Vec2 acceleration;
+	float weight = 1.0f;
+	bool hasGravity = false;
 };
 

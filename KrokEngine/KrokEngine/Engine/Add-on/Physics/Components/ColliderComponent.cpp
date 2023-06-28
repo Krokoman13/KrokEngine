@@ -5,6 +5,24 @@ ColliderComponent::ColliderComponent(CircleCollider* pToAdd)
 	Add(pToAdd);
 }
 
+ColliderComponent::ColliderComponent(const std::vector<Vec2>& pPoints)
+{
+	if (pPoints.size() < 1) return;
+
+	const float pointSize = 0.1f;
+	Add(new CircleCollider(pointSize, pPoints[0]));
+
+	if (pPoints.size() < 2) return;
+
+	for (unsigned int i = 1; i < pPoints.size(); i++)
+	{
+		Add(new LineCollider(pPoints[i - 1], pPoints[i]));
+		Add(new CircleCollider(pointSize, pPoints[i]));
+	}
+
+	Add(new LineCollider(pPoints[pPoints.size() - 1], pPoints[0]));
+}
+
 ColliderComponent::~ColliderComponent()
 {
 	for (LineCollider* line : _lines)
@@ -59,14 +77,4 @@ void ColliderComponent::SetGameObject(GameObject* pGameObject)
 	{
 		collider->SetParent(pGameObject);
 	}
-}
-
-void ColliderComponent::SetBounciness(float pBouncyness)
-{
-	_bounciness = pBouncyness;
-}
-
-float ColliderComponent::GetBounciness() const
-{
-	return _bounciness;
 }

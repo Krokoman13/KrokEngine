@@ -10,7 +10,7 @@ public:
 	void SetParent(Transform* pParent) override;
 
 	Vec2 GetCenter() const;
-	float GetRadius() const;
+	virtual float GetRadius() const;
 
 private:
 	Transform _center;

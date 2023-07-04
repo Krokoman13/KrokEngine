@@ -38,15 +38,15 @@ Scene* SceneManager::GetScene(Scene* scene)
 	return GetScene(scene->identifier);
 }
 
-Scene* SceneManager::GetScene(std::string SceneName)
+Scene* SceneManager::GetScene(const std::string& pSceneName)
 {
-	return GetScene(findIdentifier(SceneName));
+	return GetScene(findIdentifier(pSceneName));
 }
 
-Scene* SceneManager::GetScene(int SceneIdentifier)
+Scene* SceneManager::GetScene(unsigned int pSceneIdentifier)
 {
-	if (SceneIdentifier >= (int)_scenes.size()) return nullptr;
-	return _scenes[SceneIdentifier];
+	if (pSceneIdentifier >= (unsigned int)_scenes.size()) return nullptr;
+	return _scenes[pSceneIdentifier];
 }
 
 void SceneManager::GoToScene(Scene* scene)
@@ -54,57 +54,74 @@ void SceneManager::GoToScene(Scene* scene)
 	GoToScene(scene->identifier);
 }
 
-void SceneManager::GoToScene(std::string SceneName)
+void SceneManager::GoToScene(const std::string& pSceneName)
 {
-	GoToScene(findIdentifier(SceneName));
+	GoToScene(findIdentifier(pSceneName));
 }
 
-void SceneManager::GoToScene(int SceneIdentifier)
+void SceneManager::GoToScene(unsigned int pSceneIdentifier)
 {
-	Scene* nextScene = GetScene(SceneIdentifier);
-	if (_currentScene == nextScene) return;
+	Scene* nextScene = GetScene(pSceneIdentifier);
+	if (!nextScene)
+	{
+		std::cout << "Tried to go to scene: " << pSceneIdentifier << " but it does not exist.";
+		return;
+	}
+	if(_currentScene == nextScene) return;
 
 	closeScene(_currentScene);
 	_currentScene = nextScene;
 	openScene(_currentScene);
 }
 
-void SceneManager::AddScene(Scene* scene)
+void SceneManager::GoToNextScene()
 {
-	scene->sceneManager = this;
+	if (!_currentScene) return;
+	GoToScene(_currentScene->identifier + 1);
+}
+
+void SceneManager::GoToPreviousScene()
+{
+	if (!_currentScene) return;
+	GoToScene(_currentScene->identifier - 1);
+}
+
+void SceneManager::AddScene(Scene* pSCene)
+{
+	pSCene->sceneManager = this;
 
 	if (_currentScene == nullptr)
 	{
 		if (_scenes.size() > 0) throw std::logic_error("It should not be possible that there are scenes, but not an active scene");
-		_scenes.push_back(scene);
-		openScene(scene);
+		_scenes.push_back(pSCene);
+		openScene(pSCene);
 		return;
 	}
 
-	if (scene->identifier == _scenes.size())
+	if (pSCene->identifier == _scenes.size())
 	{
-		_scenes.push_back(scene);
+		_scenes.push_back(pSCene);
 		return;
 	}
 
-	if (scene->identifier > _scenes.size())
+	if (pSCene->identifier > _scenes.size())
 	{
 		_scenes.push_back(nullptr);
-		AddScene(scene);
+		AddScene(pSCene);
 		return;
 	}
 
-	if (_scenes[scene->identifier] == nullptr)
+	if (_scenes[pSCene->identifier] == nullptr)
 	{
-		_scenes[scene->identifier] = scene;
+		_scenes[pSCene->identifier] = pSCene;
 		return;
 	}
 
-	scene->identifier++;
-	AddScene(scene);
+	pSCene->identifier++;
+	AddScene(pSCene);
 }
 
-void SceneManager::reloadCurrentScene()
+void SceneManager::ReloadCurrentScene()
 {
 	GetCurrentScene()->Close();
 	GetCurrentScene()->Load();
@@ -126,11 +143,8 @@ void SceneManager::openScene(Scene* scene)
 {
 	std::cout << "Opening scene: " << scene->name << '\n';
 
-	if (!scene->loaded)
-	{
 		scene->Load();
 		std::cout << scene->name << " loaded\n";
-	}
 
 	_currentScene = scene;
 }

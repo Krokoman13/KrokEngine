@@ -1,37 +1,21 @@
 #include "Scene.hpp"
 #include "SceneManager.hpp"
 
-Scene::Scene(std::string pName, bool pReloadOnOpen) : GameObject(pName)
+Scene::Scene(std::string pName) : GameObject(pName)
 {
-	ui = new UI();
 	name = pName;
-	_reloadOnOpen = pReloadOnOpen;
 	_scene = this;
-}
-
-Scene::~Scene()
-{
-	_children.clear();
-
-	delete ui;
 }
 
 void Scene::Load()
 {
-	while (!_children.empty())
-	{
-		_children.back()->LateDestroy();
-	}
-	ui->ClearUi();
-
 	OnLoad();
-
-	loaded = true;
 }
 
 void Scene::HandleObjectsInScene()
 {
 	unsigned int i = 0;
+
 	while (i < _toLoad.size())
 	{
 		if (_toLoad[i]->IsActive())
@@ -52,8 +36,15 @@ void Scene::HandleObjectsInScene()
 void Scene::Close()
 {
 	OnClose();
+	
+	clearScene();
+}
 
-	if (_reloadOnOpen) loaded = false;
+void Scene::clearScene()
+{
+	destroyChildrenImmediatly();
+	_toDestroy.clear();
+	_toLoad.clear();
 }
 
 void Scene::Parentless(std::unique_ptr<GameObject>& pToRemove)

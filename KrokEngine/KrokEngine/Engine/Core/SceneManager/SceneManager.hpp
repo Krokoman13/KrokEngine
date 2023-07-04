@@ -15,16 +15,19 @@ public:
 	Scene* GetCurrentScene();
 
 	Scene* GetScene(Scene* scene);
-	Scene* GetScene(std::string SceneName);
-	Scene* GetScene(int SceneIdentifier);
+	Scene* GetScene(const std::string& pSceneName);
+	Scene* GetScene(const unsigned int pSceneIdentifier);
 
 	void GoToScene(Scene* scene);
-	void GoToScene(std::string SceneName);
-	void GoToScene(int ScineIdentifier);
+	void GoToScene(const std::string& pSceneName);
+	void GoToScene(const unsigned int pSceneIdentifier);
+
+	void GoToNextScene();
+	void GoToPreviousScene();
 
 	void AddScene(Scene* scene);
 	
-	void reloadCurrentScene();
+	void ReloadCurrentScene();
 
 	Game* GetGame();
 

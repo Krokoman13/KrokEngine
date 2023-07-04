@@ -53,12 +53,12 @@ void ImageGameObject::loadTexture(std::string pPath)
 
 void ImageGameObject::SetWidth(float pWidth)
 {
-	SetSize(pWidth, _height);
+	SetLocalScale(pWidth / _width, GetLocalScale().y);
 }
 
 void ImageGameObject::SetHeight(float pHeight)
 {
-	SetSize(_width, pHeight);
+	SetLocalScale(GetLocalScale().x, pHeight / _height);
 }
 
 void ImageGameObject::SetSize(float pWidth, float pHeight)

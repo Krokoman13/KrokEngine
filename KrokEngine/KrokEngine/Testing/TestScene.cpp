@@ -52,11 +52,10 @@ void TestScene::onLoad()
 {
 	AddChild(new ImageGameObject("PoolTableFrame.png", Vec2(), 0));
 
-	const Vec2 corner1(64.0f, 64.0f);
 	const float width = 1150.0f;
 	const float height = width/2.0f;
 
-	PhysicsObject* box = new PhysicsObject(PolyShape::Rectangle(corner1, width, height).Invert(), Vec2(0, 1.5f));
+	PhysicsObject* box = new PhysicsObject(PolyShape::Rectangle(Vec2(64.0f, 64.0f), width, height).Invert(), Vec2(0, 1.5f));
 	AddChild(box);
 	box->ShowCollider();
 }

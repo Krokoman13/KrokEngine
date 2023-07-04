@@ -7,18 +7,21 @@ class SceneManager;
 class Scene : public GameObject
 {
 public:
-	Scene(std::string pName, bool pReloadOnOpen = false);
-	virtual ~Scene();
+	Scene(std::string pName);
+	virtual ~Scene() override
+	{
+		destroyChildrenImmediatly();
+	}
 
-	bool loaded = false;
 	unsigned int identifier = 0;
 
-	UI* ui;
-
 	virtual void Load();
+
 	void AddToScene(GameObject*  pGmObject);
 	virtual void HandleObjectsInScene();
+
 	void Close();
+	virtual void clearScene();
 
 	void Parentless(std::unique_ptr<GameObject>& pToRemove);
 
@@ -28,9 +31,6 @@ public:
 
 	const std::vector<GameObject*>& ToLoad() const;
 	const std::vector<std::unique_ptr<GameObject>>& ToDestroy() const;
-
-protected:
-	bool _reloadOnOpen;
 
 private:
 	std::vector<GameObject*> _toLoad;

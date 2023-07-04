@@ -2,6 +2,7 @@
 #include "../../../Essentials/Component.hpp"
 #include "../Colliders/LineCollider.hpp"
 #include "../Colliders/CircleCollider.hpp"
+#include "../Colliders/PointCollider.hpp"
 
 class ColliderComponent : public Component
 {

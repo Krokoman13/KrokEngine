@@ -10,37 +10,36 @@ UpdateManager::~UpdateManager()
 }
 
 
-void UpdateManager::Update(Scene* scene)
+void UpdateManager::Update(Scene* pScene)
 {
-	update(scene);
+	update(pScene);
 
-	for (unsigned int i = 0; i < scene->ToLoad().size(); i ++)
+	for (GameObject* gameObject : pScene->ToLoad())
 	{
-		GameObject* toLoad = scene->ToLoad()[i];
-		toLoad->OnLoad();
+		gameObject->OnLoad();
 	}
 }
 
-void UpdateManager::SetRenderer(Renderer& renderer)
+void UpdateManager::SetRenderer(Renderer& pRenderer)
 {
-	_renderer = &renderer;
+	_renderer = &pRenderer;
 }
 
-void UpdateManager::update(GameObject*  toUpdate)
+void UpdateManager::update(GameObject*  pToUpdate)
 {
-	if (!toUpdate || !toUpdate->IsActive()) return;
+	if (!pToUpdate || !pToUpdate->IsActive()) return;
 
-	toUpdate->Update();
+	pToUpdate->Update();
 
-	if (toUpdate->CanRender())
+	if (pToUpdate->CanRender())
 	{
-		sf::Sprite* sprite = toUpdate->GetSprite();
-		int currentRenderLayer = toUpdate->GetRenderLayer();
+		sf::Sprite* sprite = pToUpdate->GetSprite();
+		int currentRenderLayer = pToUpdate->GetRenderLayer();
 		_renderer->ToRender(sprite, currentRenderLayer);
 	}
 
-	for (unsigned int i = 0; i < toUpdate->ChildCount(); i++) 
+	for (unsigned int i = 0; i < pToUpdate->ChildCount(); i++) 
 	{
-		update(toUpdate->GetChild(i));
+		update(pToUpdate->GetChild(i));
 	}
 }

@@ -52,8 +52,8 @@ struct Vec2
 
 	void SetAngleDegrees(const float pDegree);
 	void SetAngleRadians(const float pRadians);
-	float GetAngleRadians();
-	float GetAngleDegrees();
+	float GetAngleRadians() const;
+	float GetAngleDegrees() const;
 
 	Vec2 RotatedRadians(const float pRadians) const;
 	void RotateRadians(const float pRadians);

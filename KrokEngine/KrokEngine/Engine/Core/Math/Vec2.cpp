@@ -275,7 +275,7 @@ void Vec2::SetAngleRadians(const float pRadians)
 /// <summary>
 /// Returns a float calculated to be the current angle of the vector in pRadians
 /// </summary>
-float Vec2::GetAngleRadians()
+float Vec2::GetAngleRadians() const
 {
 	return atan2(y, x);
 }
@@ -286,7 +286,7 @@ float Vec2::GetAngleRadians()
 /// <summary>
 /// Returns a float calculated to be the current angle of the vector in degrees
 /// </summary>
-float Vec2::GetAngleDegrees()
+float Vec2::GetAngleDegrees() const
 {
 	return Rad2Deg(GetAngleRadians());
 }

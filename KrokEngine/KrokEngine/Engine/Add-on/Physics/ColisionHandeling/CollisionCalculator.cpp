@@ -30,7 +30,7 @@ CollisionInfo CollisionCalculator::CalculateCollision
     }
     else if (a >= -circleRadius)
     {
-        TOI = 0.0f;
+        TOI = a / b;
     }
     else return outp;
 
@@ -45,9 +45,10 @@ CollisionInfo CollisionCalculator::CalculateCollision
             outp.collider2 = pLine;
 
             outp.TOI = TOI;
-            outp.trans1 = pTranslation * TOI;
 
             outp.normal = lineNormal;
+
+            return outp;
         }
     }
 
@@ -91,14 +92,13 @@ CollisionInfo CollisionCalculator::CalculateCollision
     }
     else if (a >= -circleRadius)
     {
-        TOI = 0.0f;
+        TOI = a / b;
     }
     else return outp;
 
     if (TOI <= 1.0f)
     {
         const Vec2 POI = circleOldPosition + pTranslation1 * TOI;
-
         const float distance = (lineNewStart - POI).Dot(lineRelativePosition.Normalized());
 
         if (distance > 0 && distance < lineRelativePosition.Length())
@@ -107,8 +107,6 @@ CollisionInfo CollisionCalculator::CalculateCollision
             outp.collider2 = pLine;
 
             outp.TOI = TOI;
-            outp.trans1 = pTranslation1 * TOI;
-            outp.trans2 = pTranslation2 * TOI;
 
             outp.normal = lineNormal;
         }
@@ -143,9 +141,7 @@ CollisionInfo CollisionCalculator::CalculateCollision
         outp.TOI = 0.0f;
         
         const Vec2 normal = u.Normalized();
-        const Vec2 POI = p2 + normal * (r1 + r2);
-        
-        outp.trans1 = POI - p1;
+        outp.normal - normal;
 
         return outp;
     }
@@ -168,7 +164,6 @@ CollisionInfo CollisionCalculator::CalculateCollision
         outp.TOI = t;
 
         const Vec2 translation = pTranslation1 * t;
-        outp.trans1 = translation;
 
         const Vec2 POI = p1 + translation;
         const Vec2 normal = (POI - p2).Normalized();
@@ -205,11 +200,6 @@ CollisionInfo CollisionCalculator::CalculateCollision
         outp.TOI = 0.0f;
 
         const Vec2 normal = u.Normalized();
-        const Vec2 overlap = normal * (r1 + r2);
-        const Vec2 POI1 = p2 + overlap / 2.0f;
-        
-        outp.trans1 = POI1 - p1;
-        outp.trans2 = -outp.trans1;
 
         outp.normal = normal;
 
@@ -233,11 +223,8 @@ CollisionInfo CollisionCalculator::CalculateCollision
 
         outp.TOI = t;
 
-        outp.trans1 = pTranslation1 * t;
-        const Vec2 POI1 = p1 + outp.trans1;
-
-        outp.trans1 = pTranslation2 * t;
-        const Vec2 POI2 = outp.trans1;
+        const Vec2 POI1 = p1 + pTranslation1 * t;
+        const Vec2 POI2 = pTranslation2 * t;
 
         const Vec2 normal = (POI1 - POI2).Normal();
         outp.normal = normal;

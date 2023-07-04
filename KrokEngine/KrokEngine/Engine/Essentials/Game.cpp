@@ -31,7 +31,7 @@ void Game::Run()
 
 		while (_renderWindow.pollEvent(event))
 		{
-			HandleEvent(event, currentScene->ui);
+			HandleEvent(event);
 		}
 
 		Sleep(10);
@@ -39,6 +39,7 @@ void Game::Run()
 
 		if (!Input::focus) continue;
 
+		if (devControls) handleDevControls();
 		_updateManger.Update(currentScene);
 
 		_renderer.Render();
@@ -54,4 +55,13 @@ unsigned int Game::GetWitdth()
 unsigned int Game::GetHeight()
 {
 	return _renderWindow.getSize().y;
+}
+
+void Game::handleDevControls()
+{
+	if (!(Input::IsPressed(sf::Keyboard::LControl) || Input::IsPressed(sf::Keyboard::RControl))) return;
+
+	if (Input::WentDown(sf::Keyboard::R)) ReloadCurrentScene();
+	else if (Input::WentDown(sf::Keyboard::Left)) GoToPreviousScene();
+	else if (Input::WentDown(sf::Keyboard::Right)) GoToNextScene();
 }

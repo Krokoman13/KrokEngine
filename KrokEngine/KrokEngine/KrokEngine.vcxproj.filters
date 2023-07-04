@@ -144,6 +144,9 @@
     <ClInclude Include="Testing\GravityTest.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Add-on\Physics\Colliders\PointCollider.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

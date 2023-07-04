@@ -133,6 +133,7 @@
     <ClInclude Include="Engine\Essentials\GameObject.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\PhysicsScene.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\Colliders\PointCollider.hpp" />
     <ClInclude Include="Testing\GravityTest.hpp" />
     <ClInclude Include="Testing\PolyshapeCollisionTester.hpp" />
     <ClInclude Include="Testing\Ball.hpp" />

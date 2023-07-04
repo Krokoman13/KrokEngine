@@ -18,11 +18,14 @@ public:
 	unsigned int GetHeight();
 
 	float deltaSeconds = 0;
+	bool devControls = false;
 
 private:
 	Renderer _renderer;
 	UpdateManager _updateManger;
 
 	sf::RenderWindow _renderWindow;
+
+	void handleDevControls();
 };
 

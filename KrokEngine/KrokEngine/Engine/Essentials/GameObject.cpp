@@ -1,18 +1,23 @@
 #include "GameObject.hpp"
 #include "../Core/SceneManager/Scene.hpp"
 
-GameObject::GameObject(Vec2 position, std::string name) : Transform(position)
+GameObject::GameObject(Vec2 position, std::string pName) : Transform(position)
 {
-	this->name = name;
+	name = pName;
+	_scene = nullptr;
 }
 
-GameObject::GameObject(std::string name, float x, float y) : GameObject(Vec2(x, y), name)
+GameObject::GameObject(std::string pName, float x, float y) : GameObject(Vec2(x, y), pName)
 {
 }
 
 GameObject::~GameObject()
 {
-	if (!_scene) return;
+	if (!_scene)
+	{
+		_children.clear();
+		return;
+	}
 
 	for (unsigned int i = 0; i < _children.size(); i++)
 	{
@@ -27,6 +32,7 @@ sf::Sprite* GameObject::GetSprite()
 
 void GameObject::LateDestroy()
 {
+	SetActive(false);
 	GetParent()->migrateChild(this, nullptr);
 }
 
@@ -57,15 +63,15 @@ void GameObject::SetScene(Scene* pScene)
 {
 	if (pScene == _scene) return;
 
-	if (pScene == nullptr)
+	if (!pScene)
 	{
-		if (_scene != nullptr) throw std::logic_error("Setting nullptr Scene should result in destruction! This is not yet implemented!");
+		if (_scene != nullptr) LateDestroy();
 		return;
 	}
 
-	if (_scene != nullptr)
+	if (_scene)
 	{
-		throw std::logic_error("Changing the scene of an object is not currently possible.");
+		throw std::logic_error("Changing the scene of an object is not possible.");
 		return;
 	}
 
@@ -134,8 +140,6 @@ void GameObject::OnEnable()
 		if (!component->IsActive()) continue;
 		component->OnEnable();
 	}
-
-	//onEnable();
 }
 
 void GameObject::OnDisable()
@@ -147,7 +151,6 @@ void GameObject::OnDisable()
 		if (!component->IsActive()) continue;
 		component->OnDisable();
 	}
-	//onDisable();
 }
 
 const std::vector<std::unique_ptr<Component>>& GameObject::GetComponents() const
@@ -230,6 +233,11 @@ void GameObject::removeChild(unsigned int pChildIndex)
 
 	_children[pChildIndex]->_parent = nullptr;
 	_children.erase(_children.begin() + pChildIndex);
+}
+
+void GameObject::destroyChildrenImmediatly()
+{
+	_children.clear();
 }
 
 void GameObject::RemoveChild(GameObject* pChild)

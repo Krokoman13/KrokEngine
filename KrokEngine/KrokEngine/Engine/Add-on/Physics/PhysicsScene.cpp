@@ -7,7 +7,13 @@ void PhysicsScene::PhysicsUpdate()
 	handleDestroyed(ToDestroy());
 	load(ToLoad());
 
-	_cycleSpeed = _physicsSpeed * sceneManager->GetGame()->deltaSeconds;
+	Game* game = sceneManager->GetGame();
+	
+	if (game->devControls && Input::IsPressed(sf::Keyboard::Space) && !Input::WentDown(sf::Keyboard::Right))
+	{
+		_cycleSpeed = 0.0f;
+	}
+	else _cycleSpeed = _physicsSpeed * game->deltaSeconds;
 
 	calculateVelocities();
 	checkRigids();
@@ -125,16 +131,22 @@ void PhysicsScene::checkRigids(const float pMultiplier)
 	if (shortest.TOI < 1.0f)
 	{
 		const float relativeTOI = shortest.TOI * pMultiplier;
+		//std::cout << relativeTOI << '\n';
 		applyVelocities(shortest.TOI);
 
 		resolveCollision(shortest);
 
 		const float newMultiplier = pMultiplier - relativeTOI;
-		if (newMultiplier < _minToi) return;
-		checkRigids(newMultiplier);
+
+		if (newMultiplier >= _minToi)
+		{
+			checkRigids(newMultiplier);
+			return;
+		}
 		return;
 	}
 
+	//if (pMultiplier < 1.0f) std::cout << '\n';
 	applyVelocities(pMultiplier);
 }
 
@@ -143,6 +155,8 @@ void PhysicsScene::calculateVelocities()
 	for (unsigned int i = 0; i < _rigidObjects.size(); i++)
 	{
 		RigidBody* rigidBody = _rigidObjects[i];
+
+		if (!rigidBody->IsActive()) continue;
 
 		if (rigidBody->hasGravity) rigidBody->acceleration += _gravity;
 		rigidBody->velocity += rigidBody->acceleration * _cycleSpeed;
@@ -161,6 +175,8 @@ void PhysicsScene::applyVelocities(const float pMultiplier)
 	for (unsigned int i = 0; i < _rigidObjects.size(); i++)
 	{
 		RigidBody* rigidBody = _rigidObjects[i];
+		if (!rigidBody->IsActive()) continue;
+
 		GameObject* gameObject = rigidBody->GetGameObject();
 
 		const Vec2 translation = rigidBody->velocity * _cycleSpeed * pMultiplier;
@@ -205,13 +221,17 @@ float PhysicsScene::calculateBounciness(ColliderComponent* pA, ColliderComponent
 
 CollisionInfo PhysicsScene::checkRigid(RigidBody* pRigidBody, const float pMultiplier, unsigned int pChecked)
 {
-	const Vec2 desiredTranslation = pRigidBody->velocity * _cycleSpeed * pMultiplier;
-
 	CollisionInfo shortest;
+	
+	if (!pRigidBody->IsActive()) return shortest;
+
+	const Vec2 desiredTranslation = pRigidBody->velocity * _cycleSpeed * pMultiplier;
 
 	for (unsigned int i = 0; i < _staticObjects.size(); i++)
 	{
 		ColliderComponent* staticCollider = _staticObjects[i];
+		if (!staticCollider->IsActive()) continue;
+
 		CollisionInfo info = getCollision(pRigidBody, desiredTranslation, staticCollider);
 
 		if (info.TOI < shortest.TOI)
@@ -224,8 +244,11 @@ CollisionInfo PhysicsScene::checkRigid(RigidBody* pRigidBody, const float pMulti
 	for (unsigned int i = pChecked + 1; i < _rigidObjects.size(); i++)
 	{
 		RigidBody* otherRigid = _rigidObjects[i];
+		if (!otherRigid->IsActive()) continue;
+
 		const Vec2 otherDesiredTranslation = otherRigid->velocity * _cycleSpeed * pMultiplier;
 		CollisionInfo info = getCollision(pRigidBody, desiredTranslation, otherRigid, otherDesiredTranslation);
+
 
 		if (info.TOI < shortest.TOI)
 		{
@@ -251,8 +274,9 @@ CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody1, const Vec2& pDe
 			if (info.TOI < _minToi)
 			{
 				resolveCollision(pRigidBody1, pRigidBody2, info.normal);
-				pRigidBody1->GetGameObject()->GlobalTranslate(info.trans1);
-				pRigidBody2->GetGameObject()->GlobalTranslate(info.trans2);
+				//pRigidBody1->GetGameObject()->GlobalTranslate(info.trans1);
+				//pRigidBody2->GetGameObject()->GlobalTranslate(info.trans2);
+				//pRigidBody1->velocity = pRigidBody2->velocity = Vec2();
 				continue;
 			}
 
@@ -272,8 +296,9 @@ CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody1, const Vec2& pDe
 			if (info.TOI < _minToi)
 			{
 				resolveCollision(pRigidBody1, pRigidBody2, info.normal);
-				pRigidBody1->GetGameObject()->GlobalTranslate(info.trans1);
-				pRigidBody2->GetGameObject()->GlobalTranslate(info.trans2);
+				//pRigidBody1->GetGameObject()->GlobalTranslate(info.trans1);
+				//pRigidBody2->GetGameObject()->GlobalTranslate(info.trans2);
+				//pRigidBody1->velocity = pRigidBody2->velocity = Vec2();
 				continue;
 			}
 
@@ -293,8 +318,9 @@ CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody1, const Vec2& pDe
 			if (info.TOI < _minToi)
 			{
 				resolveCollision(pRigidBody1, pRigidBody2, info.normal);
-				pRigidBody1->GetGameObject()->GlobalTranslate(info.trans1);
-				pRigidBody2->GetGameObject()->GlobalTranslate(info.trans2);
+				//pRigidBody1->GetGameObject()->GlobalTranslate(info.trans1);
+				//pRigidBody2->GetGameObject()->GlobalTranslate(info.trans2);
+				//pRigidBody1->velocity = pRigidBody2->velocity = Vec2();
 				continue;
 			}
 
@@ -306,6 +332,15 @@ CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody1, const Vec2& pDe
 	}
 
 	return shortest;
+}
+
+void PhysicsScene::clearScene()
+{
+	_staticObjects.clear();
+	_rigidObjects.clear();
+	_triggerObjects.clear();
+
+	Scene::clearScene();
 }
 
 CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody, const Vec2& pDesiredTranslation, ColliderComponent* pStaticCollider)
@@ -321,7 +356,7 @@ CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody, const Vec2& pDes
 			if (info.TOI < _minToi)
 			{
 				resolveCollision(pRigidBody, info.collider2, info.normal);
-				pRigidBody->GetGameObject()->GlobalTranslate(info.trans1);
+				//pRigidBody->GetGameObject()->GlobalTranslate(info.trans1);
 				continue;
 			}
 
@@ -338,7 +373,7 @@ CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody, const Vec2& pDes
 			if (info.TOI < _minToi)
 			{
 				resolveCollision(pRigidBody, info.collider2, info.normal);
-				pRigidBody->GetGameObject()->GlobalTranslate(info.trans1);
+				//pRigidBody->GetGameObject()->GlobalTranslate(info.trans1);
 				continue;
 			}
 

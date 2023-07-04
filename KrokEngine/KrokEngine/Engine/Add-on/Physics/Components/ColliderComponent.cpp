@@ -8,16 +8,14 @@ ColliderComponent::ColliderComponent(CircleCollider* pToAdd)
 ColliderComponent::ColliderComponent(const std::vector<Vec2>& pPoints)
 {
 	if (pPoints.size() < 1) return;
-
-	const float pointSize = 0.1f;
-	Add(new CircleCollider(pointSize, pPoints[0]));
+	Add(new PointCollider(pPoints[0]));
 
 	if (pPoints.size() < 2) return;
 
 	for (unsigned int i = 1; i < pPoints.size(); i++)
 	{
 		Add(new LineCollider(pPoints[i - 1], pPoints[i]));
-		Add(new CircleCollider(pointSize, pPoints[i]));
+		Add(new PointCollider(pPoints[i]));
 	}
 
 	Add(new LineCollider(pPoints[pPoints.size() - 1], pPoints[0]));

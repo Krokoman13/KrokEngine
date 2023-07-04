@@ -14,8 +14,9 @@ PhysicsLine::PhysicsLine(Vec2 pStart, Vec2 pEnd) : GameObject("PhysicsLine")
 
 	ColliderComponent* colliderComp = new ColliderComponent();
 	colliderComp->Add(new LineCollider(pStart, pEnd));
-	colliderComp->Add(new CircleCollider(1.0f, pStart));
-	colliderComp->Add(new CircleCollider(1.0f, pEnd));
+	colliderComp->Add(new LineCollider(pEnd, pStart));
+	colliderComp->Add(new CircleCollider(0.0f, pStart));
+	colliderComp->Add(new CircleCollider(0.0f, pEnd));
 	AddComponent(colliderComp);
 
 	_inbetween = new ImageGameObject("Debug/Greensquare.png");

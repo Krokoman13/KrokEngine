@@ -12,8 +12,8 @@ struct CollisionInfo
 	RigidBody* rigidBody1 = nullptr;
 	RigidBody* rigidBody2 = nullptr;
 
-	Vec2 trans1 = Vec2();
-	Vec2 trans2 = Vec2();
+	//Vec2 trans1 = Vec2();
+	//Vec2 trans2 = Vec2();
 
 	Vec2 normal = Vec2();
 

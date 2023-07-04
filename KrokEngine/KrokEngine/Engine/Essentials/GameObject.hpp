@@ -69,6 +69,7 @@ protected:
 	virtual void onLoad();
 
 	void removeChild(unsigned int i);
+	void destroyChildrenImmediatly();
 
 private:
 	void migrateChild(unsigned int pChildIndex, GameObject* newParent);

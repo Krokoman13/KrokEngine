@@ -38,9 +38,10 @@ void Transform::GlobalTranslate(Vec2 pTrans)
 
 void Transform::SetGlobalPosition(Vec2 pPos)
 {
+	Matrix3 global = GetGlobalMatrix();
 	identity = Matrix3::TranslateMatrix(pPos) *
-		Matrix3::ScalingMatrix(identity.GetScale()) *
 		Matrix3::RotationMatrix(identity.GetRotVec()) *
+		Matrix3::ScalingMatrix(global.GetScale()) *
 		InverseModificationMatrix();
 }
 
@@ -69,8 +70,8 @@ float Transform::GetLocalRotationRad() const
 void Transform::SetGlobalRotation(float pRadians)
 {
 	identity = Matrix3::TranslateMatrix(identity.GetPos()) *
-		Matrix3::ScalingMatrix(identity.GetScale()) *
 		Matrix3::RotationMatrix(pRadians) *
+		Matrix3::ScalingMatrix(identity.GetScale()) *
 		InverseModificationMatrix();
 }
 
@@ -82,6 +83,9 @@ float Transform::GetGlobalRotationRad() const
 
 void Transform::SetLocalScale(Vec2 pScale)
 {
+	if (pScale.x == 0.0f) pScale.x = 0.00000000001f;
+	if (pScale.y == 0.0f) pScale.y = 0.00000000001f;
+
 	Vec2 current = identity.GetScale();
 	identity.Scale(Vec2(1/current.x * pScale.x, 1/current.y * pScale.y));
 }
@@ -99,8 +103,8 @@ Vec2 Transform::GetLocalScale() const
 void Transform::SetGlobalScale(Vec2 pScale)
 {
 	identity = Matrix3::TranslateMatrix(identity.GetPos()) *
-		Matrix3::ScalingMatrix(pScale) *
 		Matrix3::RotationMatrix(identity.GetRotVec()) *
+		Matrix3::ScalingMatrix(pScale) *
 		InverseModificationMatrix();
 }
 

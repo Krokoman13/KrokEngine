@@ -28,6 +28,13 @@ public:
 	}
 
 private:
+	const float _minToi = 0.1f;
+
+	std::vector<TriggerColliderComponent*> _triggerObjects;
+	std::vector<ColliderComponent*> _staticObjects;
+	std::vector<RigidBody*> _rigidObjects;
+
+private:
 	void load(const std::vector<GameObject*>& pToLoad);
 	void load(Component* pToLoad);
 	void handleDestroyed(const std::vector<std::unique_ptr<GameObject>>& pToDestroy);
@@ -44,10 +51,6 @@ private:
 	CollisionInfo getCollision(RigidBody* pRigidBody, const Vec2& pDesiredTranslation, ColliderComponent* pStaticCollider);
 	CollisionInfo getCollision(RigidBody* pRigidBody1, const Vec2& pDesTran1, RigidBody* pRigidBody2, const Vec2& pDestran2);
 
-	const float _minToi = 0.1f;
-
-	std::vector<TriggerColliderComponent*> _triggerObjects;
-	std::vector<ColliderComponent*> _staticObjects;
-	std::vector<RigidBody*> _rigidObjects;
+	virtual void clearScene() override;
 };
 

@@ -1,12 +1,12 @@
 #include <iostream>
 #include "Game.hpp"
-#include<windows.h>
+#include <windows.h>
 #include <SFML/Graphics.hpp>
 
-Game::Game(std::string name, unsigned int width, unsigned int height, unsigned int targetFPS) 
+Game::Game(const std::string& pName, const unsigned int pWidth, const unsigned int pHeight, const unsigned int pTargetFPS)
 	: SceneManager(this), EventHandeler(_renderWindow), _renderer(_renderWindow), _updateManger()
 {
-	_renderWindow.create(sf::VideoMode(width, height), name, sf::Style::Titlebar | sf::Style::Close);
+	_renderWindow.create(sf::VideoMode(pWidth, pHeight), pName, sf::Style::Titlebar | sf::Style::Close);
 	_updateManger.SetRenderer(_renderer);
 
 	std::cout << "Game initialized.\n";

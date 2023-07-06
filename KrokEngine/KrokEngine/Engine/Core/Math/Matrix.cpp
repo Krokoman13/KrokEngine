@@ -39,10 +39,9 @@ Matrix::~Matrix()
 {
 }
 
-Matrix Matrix::Identity(unsigned int size)
+Matrix Matrix::Identity(const unsigned int size)
 {
 	Matrix out(size, size);
-	out.Fill(0);
 
 	for (unsigned int i = 0; i < size; i++) out.Set(i,i, 1);
 
@@ -102,7 +101,7 @@ const DynamicFloatArray Matrix::GetArray() const
 	return _elements;
 }
 
-void Matrix::SwapRows(unsigned int pRowA, unsigned int pRowB)
+void Matrix::SwapRows(const unsigned int pRowA, const unsigned int pRowB)
 {
 	if (pRowA >= _rowCount || pRowB >= _rowCount) throw std::out_of_range("Matrix: Row index out of range.");
 	if (pRowA == pRowB) return;
@@ -115,7 +114,8 @@ void Matrix::SwapRows(unsigned int pRowA, unsigned int pRowB)
 	}
 }
 
-Matrix Matrix::SubMatrix(unsigned int pExRow, unsigned int pExColumn) const
+
+Matrix Matrix::SubMatrix(const unsigned int pExRow, const unsigned int pExColumn) const
 {
 	const unsigned int size = GetRows();
 	Matrix submatrix(size - 1, size - 1);
@@ -199,7 +199,7 @@ Matrix Matrix::ConcatenateHorizontally(const Matrix& a, const Matrix& b)
 	return concatenatedMatrix;
 }
 
-float Matrix::Determinant() const
+const float Matrix::Determinant() const
 {
 	if (_rowCount != _columnCount) throw std::runtime_error("Matrix: Determinant does not exist, matrix is not square.");
 
@@ -225,7 +225,7 @@ float Matrix::Determinant() const
 	return determinant;
 }
 
-Matrix Matrix::Inverse() const
+const Matrix Matrix::Inverse() const
 {
 	if (_rowCount != _columnCount) throw std::runtime_error("Matrix: Inverse does not exist, matrix is not square.");
 

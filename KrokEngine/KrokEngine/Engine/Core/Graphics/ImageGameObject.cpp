@@ -53,19 +53,19 @@ void ImageGameObject::loadTexture(std::string pPath)
 
 void ImageGameObject::SetWidth(float pWidth)
 {
-	SetLocalScale(pWidth / _width, GetLocalScale().y);
+	SetLocalScale(Vec2(pWidth / _width, GetLocalScale().y));
 }
 
 void ImageGameObject::SetHeight(float pHeight)
 {
-	SetLocalScale(GetLocalScale().x, pHeight / _height);
+	SetLocalScale(Vec2(GetLocalScale().x, pHeight / _height));
 }
 
 void ImageGameObject::SetSize(float pWidth, float pHeight)
 {
 	if (pWidth < 0 || pHeight < 0) return;
 
-	SetLocalScale(pWidth / _width, pHeight / _height);
+	SetLocalScale(Vec2(pWidth / _width, pHeight / _height));
 }
 
 float ImageGameObject::GetWidth()

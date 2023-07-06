@@ -8,9 +8,9 @@ Component::~Component()
 
 void Component::SetGameObject(GameObject* pGameObject)
 {
-	if (pGameObject == nullptr) throw std::invalid_argument("Component cannot be added to a nullptr");
+	if (!pGameObject) throw std::invalid_argument("Component cannot be added to a nullptr");
 	if (pGameObject == _gameObject) return;
-	if (_gameObject != nullptr) throw std::logic_error("Components cannot switch gameobjects");
+	if (_gameObject) throw std::logic_error("Components cannot switch gameobjects");
 
 	_gameObject = pGameObject;
 }
@@ -44,7 +44,7 @@ void Component::SetActive(bool pEnabled)
 	
 	_enabled = pEnabled;
 
-	if (_gameObject == nullptr || _gameObject->IsActive()) return;
+	if (!_gameObject || _gameObject->IsActive()) return;
 
 	if (_enabled) OnEnable();
 	else OnDisable();

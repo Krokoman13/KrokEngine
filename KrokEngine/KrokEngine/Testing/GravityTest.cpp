@@ -20,7 +20,7 @@ void GravityTest::onLoad()
 	box->ShowCollider();
 	AddChild(box);
 
-	box->SetLocalScale(1.95f, 1.95f);
+	box->SetLocalScale(1.95f);
 
 	_line = nullptr;
 	_current = nullptr;

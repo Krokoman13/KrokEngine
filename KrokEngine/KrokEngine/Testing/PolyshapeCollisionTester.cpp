@@ -83,7 +83,7 @@ void PolyshapeCollisionTester::onLoad()
 	AddChild(box);
 
 	box->collider->bounciness = 1.0f;
-	box->SetLocalScale(1.95f, 1.95f);
+	box->SetLocalScale(1.95f);
 }
 
 void PolyshapeCollisionTester::addPoint(const Vec2 pPos)

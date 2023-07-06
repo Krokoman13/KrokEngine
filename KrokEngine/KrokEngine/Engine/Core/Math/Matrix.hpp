@@ -20,7 +20,7 @@ public:
 	const unsigned int GetColumns() const;
 	const unsigned int GetRows() const;
 
-	static Matrix Identity(unsigned int size);
+	static Matrix Identity(const unsigned int size);
 
 	const float Get(const unsigned int pRow, const unsigned int pColumn) const;
 	void Set(const unsigned int pRow, const unsigned int pColumn, const float pValue);
@@ -32,12 +32,12 @@ public:
 	void SetArray(const DynamicFloatArray &pArray);
 	const DynamicFloatArray GetArray() const;
 
-	void SwapRows(unsigned int pRowA, unsigned int pRowB);
-	Matrix SubMatrix(unsigned int pExRow, unsigned int pExColumn) const;
+	void SwapRows(const unsigned int pRowA, const unsigned int pRowB);
+	Matrix SubMatrix(const unsigned int pExRow, unsigned int pExColumn) const;
 	static Matrix ConcatenateVertically(const Matrix& pA, const Matrix& pB);
 	static Matrix ConcatenateHorizontally(const Matrix& pA, const Matrix& pB);
-	float Determinant() const;
-	Matrix Inverse() const;
+	const float Determinant() const;
+	const Matrix Inverse() const;
 
 	Matrix operator=(const Matrix& other);
 

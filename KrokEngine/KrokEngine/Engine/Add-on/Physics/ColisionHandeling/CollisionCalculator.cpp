@@ -224,7 +224,7 @@ CollisionInfo CollisionCalculator::CalculateCollision
         outp.TOI = t;
 
         const Vec2 POI1 = p1 + pTranslation1 * t;
-        const Vec2 POI2 = pTranslation2 * t;
+        const Vec2 POI2 = p2 + pTranslation2 * t;
 
         const Vec2 normal = (POI1 - POI2).Normal();
         outp.normal = normal;

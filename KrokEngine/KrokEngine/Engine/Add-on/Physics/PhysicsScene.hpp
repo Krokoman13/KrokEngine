@@ -38,7 +38,7 @@ private:
 	void load(const std::vector<GameObject*>& pToLoad);
 	void load(Component* pToLoad);
 	void handleDestroyed(const std::vector<std::unique_ptr<GameObject>>& pToDestroy);
-	void handleDestroyed(Component* component);
+	void handleDestroyed(Component* pComponent);
 
 	void calculateVelocities();
 	void checkRigids(const float pDuration = 1.0f);
@@ -47,7 +47,7 @@ private:
 	static void resolveCollision(RigidBody* pRigidBody1, RigidBody* pRigidbody2,const Vec2& pNormal);
 	static void resolveCollision(RigidBody* pRigidBody, Collider* pCol, const Vec2& pNormal);
 	static float calculateBounciness(ColliderComponent* pA, ColliderComponent* pB);
-	CollisionInfo checkRigid(RigidBody* pRigidBody, float pMultiplier, unsigned int pChecked);
+	CollisionInfo checkRigid(RigidBody* pRigidBody, const float pMultiplier, unsigned int pChecked);
 	CollisionInfo getCollision(RigidBody* pRigidBody, const Vec2& pDesiredTranslation, ColliderComponent* pStaticCollider);
 	CollisionInfo getCollision(RigidBody* pRigidBody1, const Vec2& pDesTran1, RigidBody* pRigidBody2, const Vec2& pDestran2);
 

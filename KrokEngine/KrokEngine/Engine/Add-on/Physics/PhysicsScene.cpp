@@ -23,7 +23,7 @@ void PhysicsScene::load(const std::vector<GameObject*>& toLoad)
 {
 	for (unsigned int i = 0; i < toLoad.size(); i++)
 	{
-		const std::vector<std::unique_ptr<Component>>& components = toLoad[i]->GetComponents();
+		const std::vector<std::unique_ptr<Component>>& components = toLoad[i]->Components();
 
 		for (unsigned int j = 0; j < components.size(); j++)
 		{
@@ -60,7 +60,7 @@ void PhysicsScene::handleDestroyed(const std::vector<std::unique_ptr<GameObject>
 {
 	for (unsigned int i = 0; i < pToDestroy.size(); i++)
 	{
-		const std::vector<std::unique_ptr<Component>>& components = pToDestroy[i]->GetComponents();
+		const std::vector<std::unique_ptr<Component>>& components = pToDestroy[i]->Components();
 
 		for (unsigned int j = 0; j < components.size(); j++)
 		{
@@ -356,7 +356,6 @@ CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody, const Vec2& pDes
 			if (info.TOI < _minToi)
 			{
 				resolveCollision(pRigidBody, info.collider2, info.normal);
-				//pRigidBody->GetGameObject()->GlobalTranslate(info.trans1);
 				continue;
 			}
 
@@ -373,7 +372,25 @@ CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody, const Vec2& pDes
 			if (info.TOI < _minToi)
 			{
 				resolveCollision(pRigidBody, info.collider2, info.normal);
-				//pRigidBody->GetGameObject()->GlobalTranslate(info.trans1);
+				continue;
+			}
+
+			if (info.TOI < shortest.TOI)
+			{
+				shortest = info;
+			}
+		}
+	}
+
+	for (LineCollider* line : pRigidBody->GetLines())
+	{
+		for (CircleCollider* circle : pStaticCollider->GetCircles())
+		{
+			CollisionInfo info = CollisionCalculator::CalculateCollision(circle, Vec2(), line, pDesiredTranslation);
+
+			if (info.TOI < _minToi)
+			{
+				resolveCollision(pRigidBody, info.collider2, info.normal);
 				continue;
 			}
 

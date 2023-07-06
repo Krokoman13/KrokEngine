@@ -11,7 +11,6 @@ public:
 
 	DynamicFloatArray operator=(const DynamicFloatArray& pOther);
 	float& operator[](unsigned int i);
-
 	const float operator[](unsigned int i)const;
 
 private:

@@ -9,7 +9,7 @@ class Game
 	: public SceneManager, public EventHandeler
 {
 public:
-	Game(std::string name, unsigned int width, unsigned int height, unsigned int targetFPS);
+	Game(const std::string& pName, const unsigned int pWidth, const unsigned int pHeight, const unsigned int pTargetFPS);
 	virtual ~Game();
 
 	void Run();

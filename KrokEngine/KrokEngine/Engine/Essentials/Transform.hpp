@@ -6,8 +6,8 @@ struct Vec2;
 class Transform
 {
 public:
-	Transform(Vec2 pLocalPosition);
-	Transform(float pX, float pY);
+	Transform(const Vec2& pLocalPosition);
+	Transform(const float pX, const float pY);
 
 	Matrix3 identity;
 
@@ -17,27 +17,27 @@ protected:
 public:
 	void SetParent(Transform* pParent);
 
-	void SetLocalPosition(Vec2 pPos);
-	void SetLocalPosition(float pX, float pY);
+	void SetLocalPosition(const Vec2& pPos);
+	void SetLocalPosition(const float pX, const float pY);
 	Vec2 GetLocalPosition() const;
 
-	void GlobalTranslate(Vec2 pTrans);
-	void SetGlobalPosition(Vec2 pPos);
-	void SetGlobalPosition(float pX, float pY);
+	void GlobalTranslate(const Vec2& pTrans);
+	void SetGlobalPosition(const Vec2& pPos);
+	void SetGlobalPosition(const float pX, const float pY);
 	Vec2 GetGlobalPosition() const;
 
-	void SetLocalRotation(float pRadians);
+	void SetLocalRotation(const float pRadians);
 	float GetLocalRotationRad() const;
 
-	void SetGlobalRotation(float pRadians);
+	void SetGlobalRotation(const float pRadians);
 	float GetGlobalRotationRad()const;
 
 	void SetLocalScale(Vec2 pScale);
-	void SetLocalScale(float pX, float pY);
+	void SetLocalScale(const float pUniformScale);
 	Vec2 GetLocalScale() const;
 
-	void SetGlobalScale(Vec2 pScale);
-	void SetGlobalScale(float pX, float pY);
+	void SetGlobalScale(const Vec2& pScale);
+	void SetGlobalScale(const float pUniformScale);
 	Vec2 GetGlobalScale() const;
 
 	Matrix3 GetGlobalMatrix() const;

@@ -12,8 +12,8 @@ class Scene;
 class GameObject : public Transform
 {
 public:
-	GameObject(Vec2 pPosition, std::string pName = "GameObject");
-	GameObject(std::string pName = "GameObject", float pX = 0.0f, float pY = 0.0f);
+	GameObject(const Vec2& pPosition, const std::string& pName = "GameObject");
+	GameObject(const std::string& pName = "GameObject", const float pX = 0.0f, const float pY = 0.0f);
 	GameObject(const GameObject& pOther) = delete;
 	GameObject& operator =(const GameObject& pOther) = delete;
 	virtual ~GameObject();
@@ -27,7 +27,7 @@ public:
 
 	bool HasChild(GameObject* pOther) const;
 	unsigned int ChildCount() const;
-	GameObject* GetChild(unsigned int i) const;
+	GameObject* GetChild(const unsigned int i) const;
 
 	void AddChild(GameObject * pChild);
 
@@ -35,14 +35,14 @@ public:
 
 	int GetRenderLayer() const;
 	bool CanRender() const;
-	void SetRenderLayer(int renderLayer);
+	void SetRenderLayer(int pRenderlayer);
 
 	virtual sf::Sprite* GetSprite();
 
 	void SetScene(Scene* scene);
 	Scene* GetScene() const;
 
-	void SetActive(bool pEnabled = true);
+	void SetActive(const bool pEnabled = true);
 	bool IsActive() const;
 
 	void Update();
@@ -50,7 +50,7 @@ public:
 	void OnEnable();
 	void OnDisable();
 
-	const std::vector<std::unique_ptr<Component>>& GetComponents() const;
+	const std::vector<std::unique_ptr<Component>>& Components() const;
 
 	void AddComponent(Component* pComponent);
 
@@ -65,10 +65,10 @@ protected:
 
 	Scene* _scene;
 
-	virtual void update();
-	virtual void onLoad();
+	virtual void update();	//Meant to be overriden
+	virtual void onLoad();	//Meant to be overriden
 
-	void removeChild(unsigned int i);
+	void removeChild(const unsigned int i);
 	void destroyChildrenImmediatly();
 
 private:

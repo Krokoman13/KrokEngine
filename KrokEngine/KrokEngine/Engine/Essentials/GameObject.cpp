@@ -1,13 +1,13 @@
 #include "GameObject.hpp"
 #include "../Core/SceneManager/Scene.hpp"
 
-GameObject::GameObject(Vec2 position, std::string pName) : Transform(position)
+GameObject::GameObject(const Vec2& position, const std::string& pName) : Transform(position)
 {
 	name = pName;
 	_scene = nullptr;
 }
 
-GameObject::GameObject(std::string pName, float x, float y) : GameObject(Vec2(x, y), pName)
+GameObject::GameObject(const std::string& pName, const float pX, const float pY) : GameObject(Vec2(pX, pY), pName)
 {
 }
 
@@ -89,7 +89,7 @@ Scene* GameObject::GetScene() const
 	return _scene;
 }
 
-void GameObject::SetActive(bool pEnabled)
+void GameObject::SetActive(const bool pEnabled)
 {
 	if (pEnabled == _enabled) return;
 
@@ -153,7 +153,7 @@ void GameObject::OnDisable()
 	}
 }
 
-const std::vector<std::unique_ptr<Component>>& GameObject::GetComponents() const
+const std::vector<std::unique_ptr<Component>>& GameObject::Components() const
 {
 	return _components;
 }
@@ -199,7 +199,7 @@ unsigned int GameObject::ChildCount() const
 	return static_cast<unsigned int>(_children.size());
 }
 
-GameObject* GameObject::GetChild(unsigned int i) const
+GameObject* GameObject::GetChild(const unsigned int i) const
 {
 	if (i > _children.size()-1) throw std::out_of_range("Child index is out of range");;
 	return _children[i].get();
@@ -227,7 +227,7 @@ void GameObject::AddChild(GameObject* pChild)
 	_children.push_back(std::unique_ptr<GameObject>(pChild));
 }
 
-void GameObject::removeChild(unsigned int pChildIndex)
+void GameObject::removeChild(const unsigned int pChildIndex)
 {
 	if (pChildIndex >= _children.size()) throw std::out_of_range("Child index is out of range");
 
@@ -247,7 +247,7 @@ void GameObject::RemoveChild(GameObject* pChild)
 	removeChild(i);
 }
 
-void GameObject::migrateChild(unsigned int pChildIndex, GameObject* pNewParent)
+void GameObject::migrateChild(const unsigned int pChildIndex, GameObject* pNewParent)
 {
 	std::unique_ptr<GameObject>& child = _children[pChildIndex];
 
@@ -294,5 +294,5 @@ bool GameObject::CanRender() const
 void GameObject::SetRenderLayer(int renderLayer)
 {
 	if (renderLayer < -1) renderLayer = -1;
-	this->_renderLayer = renderLayer;
+	_renderLayer = renderLayer;
 }

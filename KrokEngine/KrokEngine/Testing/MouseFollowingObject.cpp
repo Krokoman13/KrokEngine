@@ -29,7 +29,7 @@ MouseFollowingObject::MouseFollowingObject() : GameObject("MouseFollowingObject"
 
 void MouseFollowingObject::update()
 {
-	bool isTriggering = _triggerCollider->GetTriggering();
+	bool isTriggering = _triggerCollider->IsColliding();
 	_redDot->SetVisible(isTriggering);
 	_blueDot->SetVisible(!isTriggering);
 }

@@ -50,6 +50,7 @@ void TestScene::update()
 
 void TestScene::onLoad()
 {
+	//AddChild(new MouseFollowingObject());
 	AddChild(new ImageGameObject("PoolTableFrame.png", Vec2(), 0));
 
 	const float width = 1150.0f;

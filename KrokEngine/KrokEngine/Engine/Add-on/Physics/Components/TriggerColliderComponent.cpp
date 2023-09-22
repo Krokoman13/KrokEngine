@@ -4,30 +4,51 @@ TriggerColliderComponent::TriggerColliderComponent(CircleCollider* pToAdd) : Col
 {
 }
 
-TriggerColliderComponent::~TriggerColliderComponent()
+void TriggerColliderComponent::CollidesWith(RigidBody* pOther)
 {
+	if (IsColliding(pOther)) return;
+
+	_colliding.push_back(pOther);
+
+	if (!WasColliding(pOther)) onTriggerEnterAction(pOther);
 }
 
-void TriggerColliderComponent::OnTriggerEnter()
+void TriggerColliderComponent::Update()
 {
-	onTriggerEnterAction();
+	while (_collided.size() > 0)
+	{
+		RigidBody* collided = _collided[_collided.size() - 1];
+
+		if (!IsColliding(collided)) onTriggerExitAction(collided);
+
+		_collided.erase(_collided.end());
+	}
+	
+	_collided = _colliding;
 }
 
-void TriggerColliderComponent::OnTriggerExit()
+
+const bool TriggerColliderComponent::IsColliding() const
 {
-	onTriggerExitAction();
+	return !_colliding.empty();
 }
 
-bool TriggerColliderComponent::GetTriggering() const
+const bool TriggerColliderComponent::IsColliding(RigidBody* pOther) const
 {
-	return _triggering;
+	for (RigidBody* colliding : _colliding)
+	{
+		if (pOther == colliding) return true;
+	}
+
+	return false;
 }
 
-void TriggerColliderComponent::SetTriggering(const bool pTrigger)
+const bool TriggerColliderComponent::WasColliding(RigidBody* pOther) const
 {
-	if (_triggering == pTrigger) return;
+	for (RigidBody* collided : _collided)
+	{
+		if (pOther == collided) return true;
+	}
 
-	_triggering = pTrigger;
-	if (_triggering) OnTriggerEnter();
-	else OnTriggerExit();
+	return false;
 }

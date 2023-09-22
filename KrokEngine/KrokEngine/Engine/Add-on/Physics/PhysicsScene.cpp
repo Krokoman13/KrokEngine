@@ -180,6 +180,20 @@ void PhysicsScene::applyVelocities(const float pMultiplier)
 		GameObject* gameObject = rigidBody->GetGameObject();
 
 		const Vec2 translation = rigidBody->velocity * _cycleSpeed * pMultiplier;
+
+		for (unsigned int i = 0; i < _triggerObjects.size(); i++)
+		{
+			TriggerColliderComponent* tCollider = _triggerObjects[i];
+			if (!tCollider->IsActive()) continue;
+
+			CollisionInfo info = getCollision(rigidBody, translation, tCollider);
+
+			if (info.TOI < pMultiplier)
+			{
+				tCollider->CollidesWith(rigidBody);
+			}
+		}
+
 		gameObject->GlobalTranslate(translation);
 	}
 }

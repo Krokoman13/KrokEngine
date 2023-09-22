@@ -95,7 +95,7 @@ void PolyshapeCollisionTester::addPoint(const Vec2 pPos)
 	_display.push_back(circleImage);
 	AddChild(circleImage);
 
-	unsigned int count = _points.size();
+	unsigned int count = (unsigned int)_points.size();
 	if (count < 2)  return;
 
 	addLine(_points[count - 2], pPos);

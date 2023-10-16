@@ -5,6 +5,11 @@ DynamicFloatArray::DynamicFloatArray(const unsigned int pSize)
 {
 	_size = pSize;
 	_array = new float[pSize];
+
+	for (unsigned int i = 0; i < _size; i++)
+	{
+		_array[i] = 0;
+	}
 }
 
 DynamicFloatArray::DynamicFloatArray(const DynamicFloatArray& pOther) : DynamicFloatArray(pOther.GetSize())

@@ -26,9 +26,9 @@ public:
 
 	virtual void Update() override;
 
-	const bool IsColliding() const;
-	const bool IsColliding(RigidBody* pOther) const;
-	const bool WasColliding(RigidBody* pOther) const;
+	bool IsColliding() const;
+	bool IsColliding(RigidBody* pOther) const;
+	bool WasColliding(RigidBody* pOther) const;
 	const std::vector<RigidBody*>& Colliding() const;
 };
 

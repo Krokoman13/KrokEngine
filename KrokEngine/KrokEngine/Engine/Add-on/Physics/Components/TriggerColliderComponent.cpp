@@ -9,6 +9,7 @@ void TriggerColliderComponent::CollidesWith(RigidBody* pOther)
 	if (IsColliding(pOther)) return;
 
 	_colliding.push_back(pOther);
+	//std::cout << pOther->GetGameObject()->name << std::endl;
 
 	if (!WasColliding(pOther)) onTriggerEnterAction(pOther);
 }
@@ -21,34 +22,25 @@ void TriggerColliderComponent::Update()
 
 		if (!IsColliding(collided)) onTriggerExitAction(collided);
 
-		_collided.erase(_collided.end());
+		_collided.erase(_collided.end() - 1);
 	}
 	
 	_collided = _colliding;
+	_colliding.clear();
 }
 
 
-const bool TriggerColliderComponent::IsColliding() const
+bool TriggerColliderComponent::IsColliding() const
 {
 	return !_colliding.empty();
 }
 
-const bool TriggerColliderComponent::IsColliding(RigidBody* pOther) const
+bool TriggerColliderComponent::IsColliding(RigidBody* pOther) const
 {
-	for (RigidBody* colliding : _colliding)
-	{
-		if (pOther == colliding) return true;
-	}
-
-	return false;
+	return std::find(_colliding.begin(), _colliding.end(), pOther) != _colliding.end();
 }
 
-const bool TriggerColliderComponent::WasColliding(RigidBody* pOther) const
+bool TriggerColliderComponent::WasColliding(RigidBody* pOther) const
 {
-	for (RigidBody* collided : _collided)
-	{
-		if (pOther == collided) return true;
-	}
-
-	return false;
+	return std::find(_collided.begin(), _collided.end(), pOther) != _collided.end();
 }

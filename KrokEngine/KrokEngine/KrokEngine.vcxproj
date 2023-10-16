@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Testing\Detector.hpp" />
     <ClInclude Include="Engine\Add-on\Physics.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\ColisionHandeling\CollisionInfo.hpp" />
@@ -134,8 +135,6 @@
     <ClInclude Include="Engine\Add-on\Physics\PhysicsScene.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\Colliders\PointCollider.hpp" />
-    <ClInclude Include="Testing\GravityTest.hpp" />
-    <ClInclude Include="Testing\PolyshapeCollisionTester.hpp" />
     <ClInclude Include="Testing\Ball.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\Components\ColliderComponent.hpp" />
     <ClInclude Include="Engine\Core\EventHandeler\EventHandeler.hpp" />
@@ -164,21 +163,16 @@
     <ClInclude Include="Engine\Core\Math\Matrix.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\Colliders\LineCollider.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\Components\RigidBody.hpp" />
-    <ClInclude Include="Testing\MouseFollowingBehaviour.hpp" />
-    <ClInclude Include="Testing\MouseFollowingObject.hpp" />
-    <ClInclude Include="Testing\MovingObject.hpp" />
-    <ClInclude Include="Testing\PhysicsLine.hpp" />
     <ClInclude Include="Testing\TestScene.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Testing\Detector.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Colliders\PolyShape.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Colliders\PolyShape.hpp" />
     <ClCompile Include="Engine\Add-on\Physics\PhysicsScene.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.cpp" />
-    <ClCompile Include="Testing\GravityTest.cpp" />
-    <ClCompile Include="Testing\PolyshapeCollisionTester.cpp" />
     <ClCompile Include="Testing\Ball.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Components\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Core\EventHandeler\EventHandeler.cpp" />
@@ -208,11 +202,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Engine\Core\Math\Matrix.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Components\RigidBody.cpp" />
-    <ClCompile Include="Testing\MouseFollowingBehaviour.cpp" />
-    <ClCompile Include="Testing\MouseFollowingObject.cpp" />
-    <ClCompile Include="Testing\MovingObject.cpp" />
     <ClCompile Include="Engine\Essentials\Transform.cpp" />
-    <ClCompile Include="Testing\PhysicsLine.cpp" />
     <ClCompile Include="Testing\TestScene.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.cpp" />
   </ItemGroup>
@@ -237,10 +227,6 @@
     <Object Include="x64\Debug\Main.obj" />
     <Object Include="x64\Debug\Matrix.obj" />
     <Object Include="x64\Debug\Matrix3.obj" />
-    <Object Include="x64\Debug\MouseFollowingBehaviour.obj" />
-    <Object Include="x64\Debug\MouseFollowingObject.obj" />
-    <Object Include="x64\Debug\MovingObject.obj" />
-    <Object Include="x64\Debug\PhysicsLine.obj" />
     <Object Include="x64\Debug\PhysicsScene.obj" />
     <Object Include="x64\Debug\Renderer.obj" />
     <Object Include="x64\Debug\RigidBody.obj" />

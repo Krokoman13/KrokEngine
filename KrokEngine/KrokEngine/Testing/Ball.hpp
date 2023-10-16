@@ -8,6 +8,6 @@ public:
 	Ball(Vec2 pos);
 	RigidBody* rb;
 
-	//void update() override;
+	void update() override;
 };
 

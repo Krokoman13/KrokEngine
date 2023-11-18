@@ -1,5 +1,8 @@
 #include "Transform.hpp"
-#include "../Core/Math/Vec2.hpp"
+
+Transform::Transform() : identity(), m_parent(nullptr)
+{
+}
 
 Transform::Transform(const Vec2& pLocalPosition) : identity()
 {
@@ -12,7 +15,7 @@ Transform::Transform(const float pX, const float pY) : Transform(Vec2(pX, pY))
 
 void Transform::SetParent(Transform* pParent)
 {
-	_parent = pParent;
+	m_parent = pParent;
 }
 
 void Transform::SetLocalPosition(const Vec2& pPos)
@@ -95,9 +98,19 @@ void Transform::SetLocalScale(const float pUniformScale)
 	SetLocalScale(Vec2(pUniformScale, pUniformScale));
 }
 
+float Transform::GetLocalXScale() const
+{
+	return identity.GetXScale();
+}
+
+float Transform::GetLocalYScale() const
+{
+	return identity.GetYScale();
+}
+
 Vec2 Transform::GetLocalScale() const
 {
-	return identity.GetScale();
+	return Vec2(GetLocalXScale(), GetLocalYScale());
 }
 
 void Transform::SetGlobalScale(const Vec2& pScale)
@@ -113,6 +126,18 @@ void Transform::SetGlobalScale(const float pUniformScale)
 	SetGlobalScale(Vec2(pUniformScale, pUniformScale));
 }
 
+float Transform::GetGlobalXScale() const
+{
+	Matrix3 globalMatrix = GetGlobalMatrix();
+	return globalMatrix.GetXScale();;
+}
+
+float Transform::GetGlobalYScale() const
+{
+	Matrix3 globalMatrix = GetGlobalMatrix();
+	return globalMatrix.GetYScale();;
+}
+
 Vec2 Transform::GetGlobalScale() const
 {
 	Matrix3 globalMatrix = GetGlobalMatrix();
@@ -123,8 +148,8 @@ Matrix3 Transform::GetGlobalMatrix() const
 {
 	Matrix3 outp = identity;
 
-	if (!_parent) return identity;
-	return (Matrix3)(_parent->GetGlobalMatrix() * identity);
+	if (!m_parent) return identity;
+	return (Matrix3)(m_parent->GetGlobalMatrix() * identity);
 }
 
 void Transform::SetGlobalMatrix(const Matrix3& pMatrix)
@@ -134,6 +159,6 @@ void Transform::SetGlobalMatrix(const Matrix3& pMatrix)
 
 Matrix3 Transform::InverseModificationMatrix() const
 {
-	if (!_parent) return Matrix3();
-	return (Matrix3)_parent->GetGlobalMatrix().Inverse();
+	if (!m_parent) return Matrix3();
+	return (Matrix3)m_parent->GetGlobalMatrix().Inverse();
 }

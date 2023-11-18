@@ -1,26 +1,30 @@
 #include "TriggerColliderComponent.hpp"
 
-TriggerColliderComponent::TriggerColliderComponent(CircleCollider* pToAdd) : ColliderComponent(pToAdd)
+TriggerColliderComponent::TriggerColliderComponent(CircleCollider* toAdd) : ColliderComponent (toAdd)
 {
 }
 
-void TriggerColliderComponent::CollidesWith(RigidBody* pOther)
+TriggerColliderComponent::TriggerColliderComponent(const std::vector<Vec2>& pPoints) : ColliderComponent(pPoints)
+{
+}
+
+void TriggerColliderComponent::CollidesWith(Collider* pOther)
 {
 	if (IsColliding(pOther)) return;
 
 	_colliding.push_back(pOther);
 	//std::cout << pOther->GetGameObject()->name << std::endl;
 
-	if (!WasColliding(pOther)) onTriggerEnterAction(pOther);
+	if (onTriggerExitAction && !WasColliding(pOther)) onTriggerEnterAction(pOther);
 }
 
 void TriggerColliderComponent::Update()
 {
 	while (_collided.size() > 0)
 	{
-		RigidBody* collided = _collided[_collided.size() - 1];
+		Collider* collided = _collided[_collided.size() - 1];
 
-		if (!IsColliding(collided)) onTriggerExitAction(collided);
+		if (onTriggerExitAction && !IsColliding(collided)) onTriggerExitAction(collided);
 
 		_collided.erase(_collided.end() - 1);
 	}
@@ -35,12 +39,23 @@ bool TriggerColliderComponent::IsColliding() const
 	return !_colliding.empty();
 }
 
-bool TriggerColliderComponent::IsColliding(RigidBody* pOther) const
+
+bool TriggerColliderComponent::IsColliding(Collider* pOther) const
 {
 	return std::find(_colliding.begin(), _colliding.end(), pOther) != _colliding.end();
 }
 
-bool TriggerColliderComponent::WasColliding(RigidBody* pOther) const
+bool TriggerColliderComponent::WasColliding(Collider* pOther) const
 {
 	return std::find(_collided.begin(), _collided.end(), pOther) != _collided.end();
+}
+
+void TriggerColliderComponent::EnterReport(GameObject* pSource, Collider* pCollider)
+{
+	std::cout << pSource->name << ", TriggerEnter: " << pCollider->GetColliderComponent()->GetGameObject()->name << std::endl;
+}
+
+void TriggerColliderComponent::ExitReport(GameObject* pSource, Collider* pCollider)
+{
+	std::cout << pSource->name << ", TriggerExit: " << pCollider->GetColliderComponent()->GetGameObject()->name << std::endl;
 }

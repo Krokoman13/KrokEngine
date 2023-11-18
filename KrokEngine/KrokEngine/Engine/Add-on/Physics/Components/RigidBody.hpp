@@ -1,14 +1,15 @@
 #pragma once
-#include "ColliderComponent.hpp"
+#include "TriggerColliderComponent.hpp"
 
-class RigidBody : public ColliderComponent
+class RigidBody : public TriggerColliderComponent
 {
 public:
-	using ColliderComponent::ColliderComponent;
+	RigidBody(CircleCollider* toAdd);
+	RigidBody(const std::vector<Vec2>& pPoints);
 
 public:
-	Vec2 velocity;
-	Vec2 acceleration;
+	Vec2 velocity = Vec2();
+	Vec2 acceleration = Vec2();
 	float weight = 1.0f;
 	bool hasGravity = false;
 };

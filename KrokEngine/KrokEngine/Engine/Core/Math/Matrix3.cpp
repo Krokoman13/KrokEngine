@@ -14,14 +14,22 @@ Matrix3::Matrix3(const Matrix& pOther) : Matrix(3, 3)
 
 Vec2 Matrix3::GetPos() const
 {
-	return Vec2(Get(0,2), Get(1, 2));
+	return Vec2(Get(2, 0), Get(2, 1));
+}
+
+float Matrix3::GetXScale() const
+{
+	return Vec2(Get(0, 0), Get(1, 0)).Length();		//Gets the xAxis and returns the length
+}
+
+float Matrix3::GetYScale() const
+{
+	return Vec2(Get(0, 1), Get(1, 1)).Length();		//Gets the yAxis and returns the length
 }
 
 Vec2 Matrix3::GetScale() const
 {
-	Vec2 xAxis = Vec2(Get(0, 0), Get(1, 0));
-	Vec2 yAxis = Vec2(Get(0, 1), Get(1, 1));
-	return Vec2(xAxis.Length(), yAxis.Length());
+	return Vec2(GetXScale(), GetYScale());
 }
 
 Vec2 Matrix3::GetRotVec() const
@@ -38,8 +46,8 @@ float Matrix3::GetRotRad() const
 Matrix3 Matrix3::TranslateMatrix(const Vec2& pPos)
 {
 	Matrix3 out;
-	out.Set(0, 2, pPos.x);
-	out.Set(1, 2, pPos.y);
+	out.Set(2, 0, pPos.x);
+	out.Set(2, 1, pPos.y);
 	return out;
 }
 
@@ -67,9 +75,14 @@ Matrix3 Matrix3::RotationMatrix(const Vec2& pRotVector)
 	return out;
 }
 
-Matrix3 Matrix3::RotationMatrix(float pRadians)
+Matrix3 Matrix3::RotationMatrix(float a_radians)
 {
-	return RotationMatrix(Vec2::GetUnitVectorRad(pRadians));
+	Matrix3 out;
+	out.Set(0, 0, cos(a_radians));
+	out.Set(1, 0, sin(a_radians));
+	out.Set(0, 1, -sin(a_radians));
+	out.Set(1, 1, cos(a_radians));
+	return out;
 }
 
 void Matrix3::Translate(const Vec2& pPos)

@@ -50,24 +50,24 @@ Vec2& Vec2::operator-=(const Vec2& pOther)
 /// <summary>
 /// Returns the result of multiplying a vector by a float(without modifying either of them)
 /// </summary>
-Vec2 Vec2::operator*(float pScalar) const
+Vec2 Vec2::operator*(const float pScalar) const
 {
 	return Vec2(x * pScalar, y * pScalar);
 }
 
-Vec2 operator*(float pScalar, const Vec2& pVec)
+Vec2 operator*(const float pScalar, const Vec2& pVec)
 {
 	return pVec * pScalar;
 }
 
-Vec2& Vec2::operator*=(float pScalar)
+Vec2& Vec2::operator*=(const float pScalar)
 {
 	*this = *this * pScalar;
 	return *this;
 }
 
 //------------------------------------------------------------------------------------------------------------------------
-//														* operator
+//														/ operator
 //------------------------------------------------------------------------------------------------------------------------
 /// <summary>
 /// Returns the result of deviding a vector by a float(without modifying either of them)
@@ -87,7 +87,14 @@ Vec2 Vec2::operator/(const float pScalar) const
 
 Vec2 operator/(const float pScalar, const Vec2& pVec)
 {
-	return pVec / pScalar;
+	// Check for division by zero
+	if (pVec.x == 0.0f || pVec.y == 0.0f)
+	{
+		std::cerr << "Error: Division by zero in Vec2::operator/!" << std::endl;
+		return pVec;
+	}
+
+	return Vec2(pScalar / pVec.x, pScalar / pVec.y);
 }
 
 Vec2& Vec2::operator/=(const float pScalar)

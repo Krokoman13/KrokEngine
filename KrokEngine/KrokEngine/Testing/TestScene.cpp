@@ -12,12 +12,16 @@ void TestScene::update()
 	{
 		if (_current) return;
 		_current = new Ball(Input::mousePosition);
+		_current->rb->onTriggerEnterAction = [this](Collider* pCollider) {TriggerColliderComponent::EnterReport(this, pCollider); };
 		AddChild(_current);
 	}
 
 	if (Input::WentDown(sf::Mouse::Right))
 	{
-		AddChild(new Detector(Input::mousePosition));
+		ImageGameObject* sphere = new ImageGameObject("Debug/Redcircle.png", Vec2(Input::mousePosition));
+		sphere->centered = true;
+		sphere->AddComponent(new ColliderComponent(new CircleCollider(sphere->GetWidth() / 2.0f)));
+		AddChild(sphere);
 	}
 
 	if (_current == nullptr) return;
@@ -25,8 +29,6 @@ void TestScene::update()
 
 void TestScene::onLoad()
 {
-	//AddChild(new MouseFollowingObject());
-	AddChild(new ImageGameObject("PoolTableFrame.png", Vec2(), 0));
 
 	const float width = 1150.0f;
 	const float height = width/2.0f;

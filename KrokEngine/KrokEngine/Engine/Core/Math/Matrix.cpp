@@ -1,84 +1,87 @@
+#include <string>
 #include "Matrix.hpp"
 #include "Vec2.hpp"
 
-Matrix::Matrix(const unsigned int pRows, const unsigned int pColumns) : _elements(pRows * pColumns)
+Matrix::Matrix(const unsigned int a_rows, const unsigned int a_columns) : m_elements(a_rows * a_columns)
 {
-	_rowCount = pRows;
-	_columnCount = pColumns;
+	m_rowCount = a_rows;
+	m_columnCount = a_columns;
 }
 
 const unsigned int Matrix::GetColumns() const
 {
-	return _columnCount;
+	return m_columnCount;
 }
 
 const unsigned int Matrix::GetRows() const
 {
-	return _rowCount;
+	return m_rowCount;
 }
 
 
-Matrix::Matrix(const Matrix& other) : Matrix(other.GetColumns(), other.GetRows())
+Matrix::Matrix(const Matrix& a_other) : Matrix(a_other.m_columnCount, a_other.m_rowCount)
 {
-	for (unsigned int y = 0; y < other.GetRows(); y++)
+	if (this == &a_other) return;
+
+	for (unsigned int y = 0; y < a_other.m_rowCount; y++)
 	{
-		for (unsigned int x = 0; x < other.GetColumns(); x++)
+		for (unsigned int x = 0; x < a_other.m_columnCount; x++)
 		{
-			this->Set(x, y, other.Get(x, y));
+			Set(x, y, a_other.Get(x, y));
 		}
 	}
 }
 
-Matrix::Matrix(const Vec2& other) : Matrix(1, 2)
+Matrix::Matrix(const Vec2& a_vector) : Matrix(1, 2)
 {
-	Set(0, 0, other.x);
-	Set(0, 1, other.y);
+	Set(0, 0, a_vector.x);
+	Set(0, 1, a_vector.y);
 }
 
 Matrix::~Matrix()
 {
 }
 
-Matrix Matrix::Identity(const unsigned int size)
+Matrix Matrix::Identity(const unsigned int a_size)
 {
-	Matrix out(size, size);
+	Matrix out(a_size, a_size);
 
-	for (unsigned int i = 0; i < size; i++) out.Set(i,i, 1);
+	for (unsigned int i = 0; i < a_size; i++) out.Set(i,i, 1);
 
 	return out;
 }
 
-const float Matrix::Get(const unsigned int pColumn, const unsigned int pRow) const
+float Matrix::Get(const unsigned int a_columnIndex, const unsigned int a_rowIndex) const
 {
-	if (pRow >= _rowCount || pColumn >= _columnCount) throw std::out_of_range("Tried to acces value out of range");
-	unsigned int i = pRow + pColumn * _rowCount;
-	return _elements[i];
+	if (a_rowIndex >= m_rowCount || a_columnIndex >= m_columnCount) throw std::out_of_range("Index is out of range");
+	unsigned int i = a_rowIndex + a_columnIndex * m_rowCount;
+	return m_elements[i];
 }
 
-void Matrix::Set(const unsigned int pColumn, const unsigned int pRow, const float value)
+void Matrix::Set(const unsigned int a_columnIndex, const unsigned int a_rowIndex, const float a_value)
 {
-	if (pRow >= _rowCount || pColumn >= _columnCount) throw std::out_of_range("Tried to acces value out of range");
-	unsigned int i = pRow + pColumn * _rowCount;
-	_elements[i] = value;
+	if (a_rowIndex >= m_rowCount || a_columnIndex >= m_columnCount) throw std::out_of_range("Index is out of range");
+	unsigned int i = a_rowIndex + a_columnIndex * m_rowCount;
+	m_elements[i] = a_value;
 }
 
-void Matrix::Fill(const float value)
+void Matrix::Fill(const float a_value)
 {
-	for (unsigned int i = 0; i < _columnCount * _rowCount; i++)
+	for (unsigned int i = 0; i < m_columnCount * m_rowCount; i++)
 	{
-		_elements[i] = value;
+		m_elements[i] = a_value;
 	}
 }
 
 Matrix Matrix::Transposed() const
 {
-	Matrix transposed = Matrix(_rowCount, _columnCount);
+	Matrix transposed = Matrix(m_columnCount, m_rowCount);
 
-	for (unsigned int y = 0; y < transposed._rowCount; y++)
+	for (unsigned int y = 0; y < transposed.m_rowCount; y++)
 	{
-		for (unsigned int x = 0; x < transposed._columnCount; x++)
+		for (unsigned int x = 0; x < transposed.m_columnCount; x++)
 		{
-			transposed.Set(x, y, this->Get(y, x));
+			transposed.Set(x, y, Get(y, x));
 		}
 	}
 
@@ -90,32 +93,32 @@ void Matrix::Transpose()
 	(*this) = this->Transposed();
 }
 
-void Matrix::SetArray(const DynamicFloatArray& pArray)
+void Matrix::SetArray(const DynamicFloatArray& a_array)
 {
-	if (this->GetColumns() * this->GetRows() != pArray.GetSize()) throw std::out_of_range("Invalid size Array");
-	_elements = pArray;
+	if (this->GetColumns() * this->GetRows() != a_array.GetSize()) throw std::out_of_range("Invalid size Array");
+	m_elements = a_array;
 }
 
-const DynamicFloatArray Matrix::GetArray() const
+const DynamicFloatArray& Matrix::GetArray() const
 {
-	return _elements;
+	return m_elements;
 }
 
-void Matrix::SwapRows(const unsigned int pRowA, const unsigned int pRowB)
+void Matrix::SwapRows(const unsigned int a_rowAIndex, const unsigned int a_rowBIndex)
 {
-	if (pRowA >= _rowCount || pRowB >= _rowCount) throw std::out_of_range("Matrix: Row index out of range.");
-	if (pRowA == pRowB) return;
+	if (a_rowAIndex >= m_rowCount || a_rowBIndex >= m_rowCount) throw std::out_of_range("Matrix: Row index out of range.");
+	if (a_rowAIndex == a_rowBIndex) return;
 
-	for (unsigned int i = 0; i < _columnCount; i++)
+	for (unsigned int i = 0; i < m_columnCount; i++)
 	{
-		float temp = Get(i, pRowA);
-		Set(i, pRowA, Get(i, pRowB));
-		Set(i, pRowA, temp);
+		float temp = Get(i, a_rowAIndex);
+		Set(i, a_rowAIndex, Get(i, a_rowBIndex));
+		Set(i, a_rowAIndex, temp);
 	}
 }
 
 
-Matrix Matrix::SubMatrix(const unsigned int pExRow, const unsigned int pExColumn) const
+Matrix Matrix::SubMatrix(const unsigned int a_ExRow, const unsigned int a_ExColumn) const
 {
 	const unsigned int size = GetRows();
 	Matrix submatrix(size - 1, size - 1);
@@ -125,13 +128,13 @@ Matrix Matrix::SubMatrix(const unsigned int pExRow, const unsigned int pExColumn
 
 	for (unsigned int row = 0; row < size; row++)
 	{
-		if (row == pExRow) continue;
+		if (row == a_ExRow) continue;
 
 		subColumn = 0;
 
 		for (unsigned int column = 0; column < size; column++)
 		{
-			if (column == pExColumn) continue;
+			if (column == a_ExColumn) continue;
 
 			submatrix.Set(subRow, subColumn, Get(row, column));
 			subColumn++;
@@ -143,67 +146,67 @@ Matrix Matrix::SubMatrix(const unsigned int pExRow, const unsigned int pExColumn
 	return submatrix;
 }
 
-Matrix Matrix::ConcatenateVertically(const Matrix& a, const Matrix& b)
+Matrix Matrix::ConcatenateVertically(const Matrix& a_topMatrix, const Matrix& a_bottemMatrix)
 {
-	if (a._columnCount != b._columnCount)
+	if (a_topMatrix.m_columnCount != a_bottemMatrix.m_columnCount)
 	{
 		throw std::invalid_argument("Matrix: Number of columns must be the same for concatenation.");
 	}
 
-	Matrix concatenatedMatrix(a._rowCount + b._rowCount, a._columnCount);
+	Matrix concatenatedMatrix(a_topMatrix.m_rowCount + a_bottemMatrix.m_rowCount, a_topMatrix.m_columnCount);
 
-	for (unsigned int y = 0; y < a._rowCount; y++)
+	for (unsigned int y = 0; y < a_topMatrix.m_rowCount; y++)
 	{
-		for (unsigned int x = 0; x < a._columnCount; x++)
+		for (unsigned int x = 0; x < a_topMatrix.m_columnCount; x++)
 		{
-			concatenatedMatrix.Set(x, y, a.Get(x, y));
+			concatenatedMatrix.Set(x, y, a_topMatrix.Get(x, y));
 		}
 	}
 
-	for (unsigned int y = 0; y < b._rowCount; y++)
+	for (unsigned int y = 0; y < a_bottemMatrix.m_rowCount; y++)
 	{
-		for (unsigned int x = 0; x < b._columnCount; x++)
+		for (unsigned int x = 0; x < a_bottemMatrix.m_columnCount; x++)
 		{
-			concatenatedMatrix.Set(x, y + a._rowCount, b.Get(x, y));
+			concatenatedMatrix.Set(x, y + a_topMatrix.m_rowCount, a_bottemMatrix.Get(x, y));
 		}
 	}
 
 	return concatenatedMatrix;
 }
 
-Matrix Matrix::ConcatenateHorizontally(const Matrix& a, const Matrix& b)
+Matrix Matrix::ConcatenateHorizontally(const Matrix& a_leftMatrix, const Matrix& a_rightMatrix)
 {
-	if (a._rowCount != b._rowCount)
+	if (a_leftMatrix.m_rowCount != a_rightMatrix.m_rowCount)
 	{
 		throw std::invalid_argument("Matrix: Number of columns must be the same for concatenation.");
 	}
 
-	Matrix concatenatedMatrix(a._rowCount, a._columnCount + b._columnCount);
+	Matrix concatenatedMatrix(a_leftMatrix.m_rowCount, a_leftMatrix.m_columnCount + a_rightMatrix.m_columnCount);
 
-	for (unsigned int y = 0; y < a._rowCount; y++)
+	for (unsigned int y = 0; y < a_leftMatrix.m_rowCount; y++)
 	{
-		for (unsigned int x = 0; x < a._columnCount; x++)
+		for (unsigned int x = 0; x < a_leftMatrix.m_columnCount; x++)
 		{
-			concatenatedMatrix.Set(x, y, a.Get(x, y));
+			concatenatedMatrix.Set(x, y, a_leftMatrix.Get(x, y));
 		}
 	}
 
-	for (unsigned int y = 0; y < b._rowCount; y++)
+	for (unsigned int y = 0; y < a_rightMatrix.m_rowCount; y++)
 	{
-		for (unsigned int x = 0; x < b._columnCount; x++)
+		for (unsigned int x = 0; x < a_rightMatrix.m_columnCount; x++)
 		{
-			concatenatedMatrix.Set(x + a._columnCount, y, b.Get(x, y));
+			concatenatedMatrix.Set(x + a_leftMatrix.m_columnCount, y, a_rightMatrix.Get(x, y));
 		}
 	}
 
 	return concatenatedMatrix;
 }
 
-const float Matrix::Determinant() const
+float Matrix::Determinant() const
 {
-	if (_rowCount != _columnCount) throw std::runtime_error("Matrix: Determinant does not exist, matrix is not square.");
+	if (m_rowCount != m_columnCount) throw std::runtime_error("Matrix: Determinant does not exist, matrix is not square.");
 
-	unsigned int n = _rowCount;
+	unsigned int n = m_rowCount;
 
 	if (n == 1) return Get(0, 0);
 	if (n == 2)	return Get(0, 0) * Get(1, 1) - Get(0, 1) * Get(1, 0);
@@ -225,9 +228,9 @@ const float Matrix::Determinant() const
 	return determinant;
 }
 
-const Matrix Matrix::Inverse() const
+Matrix Matrix::Inverse() const
 {
-	if (_rowCount != _columnCount) throw std::runtime_error("Matrix: Inverse does not exist, matrix is not square.");
+	if (m_rowCount != m_columnCount) throw std::runtime_error("Matrix: Inverse does not exist, matrix is not square.");
 
 	float determinant = Determinant();
 
@@ -236,11 +239,11 @@ const Matrix Matrix::Inverse() const
 		throw std::logic_error("Matrix is not invertible.");
 	}
 
-	Matrix outp(_rowCount, _columnCount);
+	Matrix outp(m_rowCount, m_columnCount);
 
-	for (unsigned int y = 0; y < _rowCount; y++)
+	for (unsigned int y = 0; y < m_rowCount; y++)
 	{
-		for (unsigned int x = 0; x < _columnCount; x++)
+		for (unsigned int x = 0; x < m_columnCount; x++)
 		{
 			Matrix sub = SubMatrix(x, y);
 			float cofactor = sub.Determinant();
@@ -253,32 +256,52 @@ const Matrix Matrix::Inverse() const
 }
 	
 
-Matrix Matrix::operator=(const Matrix& other)
+Matrix Matrix::operator=(const Matrix& a_other)
 {
-	//if (other.columns != this->columns || other.rows != this->rows) throw std::out_of_range("Invalid size Matrix");
-	_columnCount = other._columnCount;
-	_rowCount = other._rowCount;
-	_elements = other._elements;
+	if (this == &a_other) return *this;
+
+	m_columnCount = a_other.m_columnCount;
+	m_rowCount = a_other.m_rowCount;
+	m_elements = a_other.m_elements;
 
 	return *this;
 }
 
-std::ostream& operator<<(std::ostream& os, const Matrix& dt)
+bool Matrix::operator==(const Matrix& a_other)
 {
-	for (unsigned int y = 0; y < dt.GetRows(); y++)
+	if (GetColumns() != a_other.GetColumns() || GetRows() != a_other.GetRows()) return false;
+
+	return m_elements == a_other.m_elements;
+}
+
+bool Matrix::operator!=(const Matrix& a_other)
+{
+	return !(*this == a_other);
+}
+
+std::string Matrix::ToString() const
+{
+	std::string outp;
+	for (unsigned int y = 0; y < GetRows(); y++)
 	{
-		os << '[';
+		outp += '[';
 		unsigned int x = 0;
 		while (true)
 		{
-			os << dt.Get(x, y);
-			if (x >= dt.GetColumns() - 1) break;
-			os << ',';
+			outp += std::to_string(Get(x, y));
+			if (x >= GetColumns() - 1) break;
+			outp += ',';
 			x++;
 		}
-		os << "]\n";
+		outp += "]\n";
 	}
 
+	return outp;
+}
+
+std::ostream& operator<<(std::ostream& os, const Matrix& dt)
+{
+	os << dt.ToString();
 	return os;
 }
 
@@ -286,24 +309,25 @@ Matrix operator*(const Matrix& left, const Matrix& right)
 {
 	if (right.GetColumns() != left.GetRows())
 	{
-		throw std::invalid_argument("Invalid size of Matrixes to multiply");
+		throw std::invalid_argument("Invalid size of Matrices to multiply");
 	}
 
 	Matrix out(left.GetColumns(), right.GetRows());
 
-	for (unsigned int y = 0; y < out.GetRows(); y++)
+	for (int i = 0; i < left.GetColumns(); i++) 
 	{
-		for (unsigned int x = 0; x < out.GetColumns(); x++)
+		for (int j = 0; j < right.GetRows(); j++) 
 		{
 			float value = 0;
-			for (unsigned int i = 0; i < right.GetColumns(); i++)
+
+			for (int k = 0; k < right.GetColumns(); k++) 
 			{
-				float val1 = left.Get(x, i);
-				float val2 = right.Get(i, y);
-				value += val1 * val2;
+				value += right.Get(i,k) * left.Get(k,j);
 			}
-			out.Set(x,y, value);
+
+			out.Set(i, j, value);
 		}
+
 	}
 
 	return out;

@@ -1,7 +1,7 @@
 #pragma once
 #include "ColliderComponent.hpp"
-#include "RigidBody.hpp"
 #include <functional>
+#include <vector>
 
 /// <summary>
 /// Component to check for collisions, does not keep track of those collisions currently! 
@@ -11,24 +11,28 @@
 class TriggerColliderComponent : public ColliderComponent
 {
 private:
-	std::vector<RigidBody*> _collided;
-	std::vector<RigidBody*>_colliding;
+	std::vector<Collider*> _collided = std::vector<Collider*>();
+	std::vector<Collider*>_colliding = std::vector<Collider*>();
 
 public:
-	TriggerColliderComponent(CircleCollider* pToAdd = nullptr);
+	TriggerColliderComponent(CircleCollider* toAdd = nullptr);
+	TriggerColliderComponent(const std::vector<Vec2>& pPoints);
 
 public:
-	std::function<void(RigidBody*)> onTriggerEnterAction;
-	std::function<void(RigidBody*)> onTriggerExitAction;
+	std::function<void(Collider*)> onTriggerEnterAction = nullptr;
+	std::function<void(Collider*)> onTriggerExitAction = nullptr;
 
 public:
-	void CollidesWith(RigidBody* pOther);
+	void CollidesWith(Collider* pOther);
 
 	virtual void Update() override;
 
 	bool IsColliding() const;
-	bool IsColliding(RigidBody* pOther) const;
-	bool WasColliding(RigidBody* pOther) const;
-	const std::vector<RigidBody*>& Colliding() const;
+	bool IsColliding(Collider* pOther) const;
+	bool WasColliding(Collider* pOther) const;
+
+	static void EnterReport(GameObject* pSource, Collider* pCollider);
+	static void ExitReport(GameObject* pSource, Collider* pCollider);
+	//const std::vector<ColliderComponent*>& Colliding() const;
 };
 

@@ -6,12 +6,12 @@ Detector::Detector(Vec2 pPos) : ImageGameObject("Debug/Redcircle.png", pPos.x, p
 
 	tc = new TriggerColliderComponent(new CircleCollider(GetWidth() / 2.f));
 	AddComponent(tc);
-	tc->onTriggerEnterAction = [this](RigidBody* pRigidbody) {this->report("TriggerEnter: ", pRigidbody); };
-	tc->onTriggerExitAction = [this](RigidBody* pRigidbody) {this->report("TriggerExit: ", pRigidbody); };
+	tc->onTriggerEnterAction = [this](Collider* pCollider) {this->report("TriggerEnter: ", pCollider); };
+	tc->onTriggerExitAction = [this](Collider* pCollider) {this->report("TriggerExit: ", pCollider); };
 }
 
-void Detector::report(const std::string& text, RigidBody* pRigidBody)
+void Detector::report(const std::string& text, Collider* pCollider)
 {
-	std::cout << text << pRigidBody->GetGameObject()->name << std::endl;
+	std::cout << text << pCollider->GetColliderComponent()->GetGameObject()->name << std::endl;
 }
 

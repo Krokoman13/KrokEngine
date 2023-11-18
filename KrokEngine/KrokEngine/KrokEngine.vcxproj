@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Core\Math\DynamicFloatArray.hpp" />
     <ClInclude Include="Testing\Detector.hpp" />
     <ClInclude Include="Engine\Add-on\Physics.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.hpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Core\Math\DynamicFloatArray.cpp" />
     <ClCompile Include="Testing\Detector.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Colliders\PolyShape.cpp" />

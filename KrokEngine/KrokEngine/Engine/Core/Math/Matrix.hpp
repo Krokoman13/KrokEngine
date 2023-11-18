@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Util/DynamicFloatArray.hpp"
+#include "DynamicFloatArray.hpp"
 #include <iostream>
 
 struct Vec2;
@@ -7,40 +7,45 @@ struct Vec2;
 struct  Matrix
 {
 private:
-	unsigned int _columnCount;
-	unsigned int _rowCount;
-	DynamicFloatArray _elements;
+	unsigned int m_rowCount;
+	unsigned int m_columnCount;
+	DynamicFloatArray m_elements;
 
 public:
-	Matrix(const unsigned int pRows, const unsigned int pColumns);
-	Matrix(const Matrix& pOther);
-	Matrix(const Vec2& pOther);
+	Matrix(const unsigned int a_rows, const unsigned int a_columns);
+	Matrix(const Matrix& a_other);
+	Matrix(const Vec2& a_vector);
 	~Matrix();
 
-	const unsigned int GetColumns() const;
-	const unsigned int GetRows() const;
+	inline const unsigned int GetColumns() const;
+	inline const unsigned int GetRows() const;
 
-	static Matrix Identity(const unsigned int size);
+	static Matrix Identity(const unsigned int a_size);
 
-	const float Get(const unsigned int pRow, const unsigned int pColumn) const;
-	void Set(const unsigned int pRow, const unsigned int pColumn, const float pValue);
-	void Fill(const float pValue);
+	float Get(const unsigned int a_columnIndex, const unsigned int a_rowIndex) const;
+	void Set(const unsigned int a_columnIndex, const unsigned int a_rowIndex, const float a_value);
+
+	void Fill(const float a_value);
 
 	Matrix Transposed() const;
 	void Transpose();
 
-	void SetArray(const DynamicFloatArray &pArray);
-	const DynamicFloatArray GetArray() const;
+	void SetArray(const DynamicFloatArray &a_array);
+	const DynamicFloatArray& GetArray() const;
 
-	void SwapRows(const unsigned int pRowA, const unsigned int pRowB);
-	Matrix SubMatrix(const unsigned int pExRow, unsigned int pExColumn) const;
-	static Matrix ConcatenateVertically(const Matrix& pA, const Matrix& pB);
-	static Matrix ConcatenateHorizontally(const Matrix& pA, const Matrix& pB);
-	const float Determinant() const;
-	const Matrix Inverse() const;
+	void SwapRows(const unsigned int a_rowAIndex, const unsigned int a_rowBIndex);
+	Matrix SubMatrix(const unsigned int a_ExRow, const unsigned int a_ExColumn) const;
+	static Matrix ConcatenateVertically(const Matrix& a_topMatrix, const Matrix& a_bottemMatrix);
+	static Matrix ConcatenateHorizontally(const Matrix& a_leftMatrix, const Matrix& a_rightMatrix);
+	float Determinant() const;
+	Matrix Inverse() const;
 
-	Matrix operator=(const Matrix& other);
+	Matrix operator=(const Matrix& a_other);
 
+	bool operator==(const Matrix& a_other);
+	bool operator!=(const Matrix& a_other);
+
+	std::string ToString() const;
 	friend std::ostream& operator<<(std::ostream& os, const Matrix& dt);
 };
 

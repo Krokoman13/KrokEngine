@@ -69,9 +69,6 @@
     <ClInclude Include="Engine\Core\UpdateManager\UpdateManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Testing\MovingObject.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Essentials\Transform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -102,16 +99,7 @@
     <ClInclude Include="Engine\Add-on\Physics\Colliders\LineCollider.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Testing\MouseFollowingObject.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Testing\MouseFollowingBehaviour.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Testing\PhysicsLine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Add-on\Physics\Components\RigidBody.hpp">
@@ -138,13 +126,13 @@
     <ClInclude Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Testing\PolyshapeCollisionTester.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Testing\GravityTest.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Add-on\Physics\Colliders\PointCollider.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Testing\Detector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Math\DynamicFloatArray.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -200,9 +188,6 @@
     <ClCompile Include="Engine\Core\UpdateManager\UpdateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Testing\MovingObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Essentials\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -239,16 +224,7 @@
     <ClCompile Include="Engine\Add-on\Physics\Colliders\LineCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Testing\MouseFollowingObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Testing\MouseFollowingBehaviour.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Testing\PhysicsLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Add-on\Physics\Components\RigidBody.cpp">
@@ -272,10 +248,10 @@
     <ClCompile Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Testing\PolyshapeCollisionTester.cpp">
+    <ClCompile Include="Testing\Detector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Testing\GravityTest.cpp">
+    <ClCompile Include="Engine\Core\Math\DynamicFloatArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -300,10 +276,6 @@
     <Object Include="x64\Debug\Main.obj" />
     <Object Include="x64\Debug\Matrix.obj" />
     <Object Include="x64\Debug\Matrix3.obj" />
-    <Object Include="x64\Debug\MouseFollowingBehaviour.obj" />
-    <Object Include="x64\Debug\MouseFollowingObject.obj" />
-    <Object Include="x64\Debug\MovingObject.obj" />
-    <Object Include="x64\Debug\PhysicsLine.obj" />
     <Object Include="x64\Debug\PhysicsScene.obj" />
     <Object Include="x64\Debug\Renderer.obj" />
     <Object Include="x64\Debug\RigidBody.obj" />

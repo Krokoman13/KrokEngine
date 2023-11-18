@@ -8,7 +8,11 @@ public:
 	explicit Matrix3(const Matrix& other);
 
 	Vec2 GetPos() const;
+
+	float GetXScale() const;
+	float GetYScale() const;
 	Vec2 GetScale() const;
+
 	Vec2 GetRotVec() const;
 	float GetRotRad() const;
 

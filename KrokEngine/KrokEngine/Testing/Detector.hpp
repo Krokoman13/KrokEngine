@@ -9,6 +9,6 @@ public:
 	TriggerColliderComponent* tc;
 
 private:
-	void report(const std::string& text,RigidBody* pRigidBody);
+	void report(const std::string& text, Collider* pCollider);
 };
 

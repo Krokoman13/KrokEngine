@@ -190,7 +190,7 @@ void PhysicsScene::applyVelocities(const float pMultiplier)
 
 			if (info.TOI < pMultiplier)
 			{
-				tCollider->CollidesWith(rigidBody);
+				tCollider->CollidesWith(info.collider1);
 			}
 		}
 
@@ -200,8 +200,15 @@ void PhysicsScene::applyVelocities(const float pMultiplier)
 
 void PhysicsScene::resolveCollision(const CollisionInfo& pCollision)
 {
-	if (pCollision.rigidBody2) resolveCollision(pCollision.rigidBody1, pCollision.rigidBody2, pCollision.normal);
-	else resolveCollision(pCollision.rigidBody1, pCollision.collider2, pCollision.normal);
+	pCollision.rigidBody1->CollidesWith(pCollision.collider2);
+
+	if (pCollision.rigidBody2) {
+		pCollision.rigidBody2->CollidesWith(pCollision.collider1);
+		resolveCollision(pCollision.rigidBody1, pCollision.rigidBody2, pCollision.normal);
+	}
+	else {
+		resolveCollision(pCollision.rigidBody1, pCollision.collider2, pCollision.normal);
+	}
 }
 
 void PhysicsScene::resolveCollision(RigidBody* pRigidBody1, RigidBody* pRigidBody2, const Vec2& pNormal)

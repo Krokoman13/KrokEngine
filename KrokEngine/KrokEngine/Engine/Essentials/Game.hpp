@@ -24,7 +24,7 @@ private:
 	Renderer _renderer;
 	UpdateManager _updateManger;
 
-	sf::RenderWindow _renderWindow;
+	RenderWindow _renderWindow;
 
 	void handleDevControls();
 };

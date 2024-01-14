@@ -6,10 +6,10 @@ class UI
 public:
 	~UI();
 	void ClearUi();
-	std::vector<sf::Drawable*> GetDrawables();
+	std::vector<Drawable*> GetDrawables();
 	std::vector<Hoverable*> GetHoverables();
 
-	void SetDefaultFont(sf::Font font);
+	void SetDefaultFont(Font font);
 	void SetDefaultFont(std::string fontFile);
 
 	void AddElement(UIElement* uiElement);

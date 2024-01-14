@@ -1,12 +1,11 @@
 #include <iostream>
 #include "Game.hpp"
 #include <windows.h>
-#include <SFML/Graphics.hpp>
 
 Game::Game(const std::string& pName, const unsigned int pWidth, const unsigned int pHeight, const unsigned int pTargetFPS)
 	: SceneManager(this), EventHandeler(_renderWindow), _renderer(_renderWindow), _updateManger()
 {
-	_renderWindow.create(sf::VideoMode(pWidth, pHeight), pName, sf::Style::Titlebar | sf::Style::Close);
+	_renderWindow.create(VideoMode(pWidth, pHeight), pName, Style::Titlebar | Style::Close);
 	_updateManger.SetRenderer(_renderer);
 
 	std::cout << "Game initialized.\n";
@@ -20,8 +19,8 @@ Game::~Game()
 
 void Game::Run()
 {
-	sf::Event event;
-	sf::Clock timer;
+	Event event;
+	Clock timer;
 
 	while (_renderWindow.isOpen())
 	{
@@ -59,9 +58,9 @@ unsigned int Game::GetHeight()
 
 void Game::handleDevControls()
 {
-	if (!(Input::IsPressed(sf::Keyboard::LControl) || Input::IsPressed(sf::Keyboard::RControl))) return;
+	if (!(Input::IsPressed(Keyboard::LControl) || Input::IsPressed(Keyboard::RControl))) return;
 
-	if (Input::WentDown(sf::Keyboard::R)) ReloadCurrentScene();
-	else if (Input::WentDown(sf::Keyboard::Left)) GoToPreviousScene();
-	else if (Input::WentDown(sf::Keyboard::Right)) GoToNextScene();
+	if (Input::WentDown(Keyboard::R)) ReloadCurrentScene();
+	else if (Input::WentDown(Keyboard::Left)) GoToPreviousScene();
+	else if (Input::WentDown(Keyboard::Right)) GoToNextScene();
 }

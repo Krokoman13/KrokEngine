@@ -1,5 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -37,7 +36,7 @@ public:
 	bool CanRender() const;
 	void SetRenderLayer(int pRenderlayer);
 
-	virtual sf::Sprite* GetSprite();
+	virtual Sprite* GetSprite();
 
 	void SetScene(Scene* scene);
 	Scene* GetScene() const;

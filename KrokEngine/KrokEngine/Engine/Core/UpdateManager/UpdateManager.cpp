@@ -33,7 +33,7 @@ void UpdateManager::update(GameObject*  pToUpdate)
 
 	if (pToUpdate->CanRender())
 	{
-		sf::Sprite* sprite = pToUpdate->GetSprite();
+		Sprite* sprite = pToUpdate->GetSprite();
 		int currentRenderLayer = pToUpdate->GetRenderLayer();
 		_renderer->ToRender(sprite, currentRenderLayer);
 	}

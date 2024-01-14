@@ -50,7 +50,7 @@ void Button::LoadAlterateSprite(std::string path)
 	}
 }
 
-sf::Sprite* Button::getSprite()
+Sprite* Button::getSprite()
 {
 	if (hovering)
 	{

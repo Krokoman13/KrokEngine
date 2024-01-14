@@ -1,12 +1,11 @@
 #pragma once
 #include <vector>
 #include <iostream>
-#include <SFML/Graphics.hpp>
 
 struct RenderLayer
 {
 	int layer = -1;
-	std::vector<sf::Drawable*> drawables;
+	std::vector<Drawable*> drawables;
 
 	RenderLayer(int layer)
 	{
@@ -15,22 +14,22 @@ struct RenderLayer
 		std::cout << "New layer created: " << this->layer << ".\n";
 	}
 
-	RenderLayer(int layer, const std::vector<sf::Drawable*>& sprites) : RenderLayer(layer)
+	RenderLayer(int layer, const std::vector<Drawable*>& sprites) : RenderLayer(layer)
 	{
 		this->drawables.insert(this->drawables.end(), sprites.begin(), sprites.end());
 	}
 
-	RenderLayer(int layer, sf::Drawable* sprite) : RenderLayer(layer)
+	RenderLayer(int layer, Drawable* sprite) : RenderLayer(layer)
 	{
 		this->drawables.push_back(sprite);
 	}
 
-	void Add(const std::vector<sf::Drawable*>& toAdd)
+	void Add(const std::vector<Drawable*>& toAdd)
 	{
 		this->drawables.insert(this->drawables.end(), toAdd.begin(), toAdd.end());
 	}
 
-	void Add(sf::Drawable* toAdd)
+	void Add(Drawable* toAdd)
 	{
 		this->drawables.push_back(toAdd);
 	}

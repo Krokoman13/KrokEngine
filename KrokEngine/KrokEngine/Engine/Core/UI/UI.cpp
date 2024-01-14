@@ -18,15 +18,15 @@ void UI::ClearUi()
     }
 }
 
-std::vector<sf::Drawable*> UI::GetDrawables()
+std::vector<Drawable*> UI::GetDrawables()
 {
-    std::vector<sf::Drawable*> out;
+    std::vector<Drawable*> out;
 
     for (UIElement* uiElement : _elements)
     {
         if (!uiElement->IsVisible()) continue;
 
-        for (sf::Drawable* drawable : uiElement->GetDrawables())
+        for (Drawable* drawable : uiElement->GetDrawables())
         {
             out.push_back(drawable);
         }
@@ -52,14 +52,14 @@ std::vector<Hoverable*> UI::GetHoverables()
     return hoverables;
 }
 
-void UI::SetDefaultFont(sf::Font font)
+void UI::SetDefaultFont(Font font)
 {
     UIElement::DEFAULT_FONT = font;
 }
 
 void UI::SetDefaultFont(std::string fontFile)
 {
-    sf::Font temp;
+    Font temp;
     
     if (temp.loadFromFile(fontFile))
     {

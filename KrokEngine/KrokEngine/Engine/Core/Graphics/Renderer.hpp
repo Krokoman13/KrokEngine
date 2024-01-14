@@ -7,19 +7,19 @@ class GameObject;
 class Renderer
 {
 public :
-	Renderer(sf::RenderWindow& _window);
+	Renderer(RenderWindow& _window);
 	~Renderer();
 
 	void Render();
 
-	void ToRender(const std::vector<sf::Drawable*>& sprites, int layer);
-	void ToRender(sf::Drawable* sprite, int layer);
+	void ToRender(const std::vector<Drawable*>& sprites, int layer);
+	void ToRender(Drawable* sprite, int layer);
 
 private :
 	std::vector<GameObject*> _toRender;
 
 	void render();
-	sf::RenderWindow* _window;
+	RenderWindow* _window;
 	std::vector<RenderLayer> _renderLayers;
 };
 

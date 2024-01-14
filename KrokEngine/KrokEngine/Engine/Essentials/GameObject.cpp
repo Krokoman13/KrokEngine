@@ -25,7 +25,7 @@ GameObject::~GameObject()
 	}
 }
 
-sf::Sprite* GameObject::GetSprite()
+Sprite* GameObject::GetSprite()
 {
 	return nullptr;
 }

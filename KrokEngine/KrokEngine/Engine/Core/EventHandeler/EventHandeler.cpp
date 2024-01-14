@@ -1,16 +1,16 @@
 #include "EventHandeler.hpp"
 //#include "../../Core/Math/Vec2.hpp"
 
-EventHandeler::EventHandeler(sf::RenderWindow& renderWindow)
+EventHandeler::EventHandeler(RenderWindow& renderWindow)
 {
 	_renderWindow = &renderWindow;
 }
 
-void EventHandeler::HandleEvent(sf::Event& event)
+void EventHandeler::HandleEvent(Event& event)
 {
 	if (!Input::focus)
 	{
-		if (event.type == sf::Event::GainedFocus)
+		if (event.type == Event::GainedFocus)
 		{
 			Input::focus = true;
 			Input::mouseInScreen = true;
@@ -22,31 +22,31 @@ void EventHandeler::HandleEvent(sf::Event& event)
 
 	switch (event.type)
 	{
-	case sf::Event::Closed:
+	case Event::Closed:
 		_renderWindow->close();
 		break;
 
-	case sf::Event::LostFocus:
+	case Event::LostFocus:
 		Input::focus = false;
 		break;
 
-	case sf::Event::MouseLeft:
+	case Event::MouseLeft:
 		Input::mouseInScreen = false;
 		break;
 
-	case sf::Event::MouseEntered:
+	case Event::MouseEntered:
 		Input::mouseInScreen = true;
 		break;
 
-	case sf::Event::MouseMoved:
+	case Event::MouseMoved:
 		{
-			sf::Vector2i mousePosition = sf::Mouse::getPosition(*_renderWindow);
+			Vector2i mousePosition = Mouse::getPosition(*_renderWindow);
 			Input::mousePosition.Set((float)mousePosition.x, (float)mousePosition.y);
 			//setHovering(ui->GetHoverables());
 		}
 		break;
 
-	case sf::Event::MouseButtonPressed:
+	case Event::MouseButtonPressed:
 		if (Input::mouseInScreen)
 		{
 			Input::mouseButtons[event.mouseButton.button] = true;
@@ -55,7 +55,7 @@ void EventHandeler::HandleEvent(sf::Event& event)
 		}
 		break;
 
-	case sf::Event::MouseButtonReleased:
+	case Event::MouseButtonReleased:
 		if (Input::mouseInScreen)
 		{
 			Input::mouseButtons[event.mouseButton.button] = false;
@@ -63,12 +63,12 @@ void EventHandeler::HandleEvent(sf::Event& event)
 		}
 		break;
 
-	case sf::Event::KeyPressed:
+	case Event::KeyPressed:
 		Input::key[event.key.code] = true;
 		Input::keyDown[event.key.code] = true;
 		break;
 
-	case sf::Event::KeyReleased:
+	case Event::KeyReleased:
 		Input::key[event.key.code] = false;
 		Input::keyUp[event.key.code] = true;
 		break;
@@ -80,20 +80,20 @@ void EventHandeler::HandleEvent(sf::Event& event)
 
 void EventHandeler::ClearButtons()
 {
-	for (unsigned int i = 0; i < sf::Keyboard::Key::KeyCount ; i++)
+	for (unsigned int i = 0; i < Keyboard::Key::KeyCount ; i++)
 	{
 		Input::keyDown[i] = false;
 		Input::keyUp[i] = false;
 	}
 
-	for (unsigned int i = 0; i < sf::Mouse::Button::ButtonCount; i++)
+	for (unsigned int i = 0; i < Mouse::Button::ButtonCount; i++)
 	{
 		Input::mouseButtonsDown[i] = false;
 		Input::mouseButtonsUp[i] = false;
 	}
 }
 
-//void EventHandeler::HandleClicks(sf::Mouse::Button button)
+//void EventHandeler::HandleClicks(Mouse::Button button)
 //{
 //	for (size_t i = _hoveringOver.size(); i != 0; i--)
 //	{

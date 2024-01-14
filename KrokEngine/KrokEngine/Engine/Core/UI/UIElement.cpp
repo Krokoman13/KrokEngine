@@ -3,7 +3,7 @@
 
 std::string UIElement::ASSET_PATH = "";
 std::string UIElement::FILE_TYPE = ".png";
-sf::Font UIElement::DEFAULT_FONT = sf::Font();
+Font UIElement::DEFAULT_FONT = Font();
 
 UIElement::UIElement(std::string name, std::string path, float x, float y)
 {
@@ -58,12 +58,12 @@ UIElement::~UIElement()
 	ClearUI();
 }
 
-void UIElement::SetText(const std::string text, unsigned int textSize, const sf::Uint32 style, const sf::Color fillColor)
+void UIElement::SetText(const std::string text, unsigned int textSize, const Uint32 style, const Color fillColor)
 {
 	this->SetText(text, UIElement::DEFAULT_FONT, textSize, style, fillColor);
 }
 
-void UIElement::SetText(const std::string text, const sf::Font& font, unsigned int textSize, const sf::Uint32 style, const sf::Color fillColor)
+void UIElement::SetText(const std::string text, const Font& font, unsigned int textSize, const Uint32 style, const Color fillColor)
 {
 	this->_sfTtext.setFont(font);
 	this->_sfTtext.setString(text);
@@ -133,9 +133,9 @@ bool UIElement::IsVisible()
 	return this->visible;
 }
 
-std::vector<sf::Drawable*> UIElement::GetDrawables()
+std::vector<Drawable*> UIElement::GetDrawables()
 {
-	std::vector<sf::Drawable*> out;
+	std::vector<Drawable*> out;
 
 	if (_sfTtext.getString() != "")
 	{
@@ -155,7 +155,7 @@ std::vector<sf::Drawable*> UIElement::GetDrawables()
 	return out;
 }
 
-sf::Sprite* UIElement::getSprite()
+Sprite* UIElement::getSprite()
 {
 	return &_sprite;
 }

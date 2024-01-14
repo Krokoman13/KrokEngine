@@ -1,4 +1,3 @@
-#include <SFML/Graphics.hpp>
 #include "../Input/Input.hpp"
 
 //struct Vec2;
@@ -6,15 +5,15 @@
 class EventHandeler
 {
 public:
-	EventHandeler(sf::RenderWindow& renderWindow);
+	EventHandeler(RenderWindow& renderWindow);
 
-	void HandleEvent(sf::Event& event);
+	void HandleEvent(Event& event);
 	void ClearButtons();
 
-	//void HandleClicks(sf::Mouse::Button button = sf::Mouse::Button::Left);
+	//void HandleClicks(Mouse::Button button = Mouse::Button::Left);
 
 private:
-	sf::RenderWindow* _renderWindow;
+	RenderWindow* _renderWindow;
 
 	//std::vector<Hoverable*> _hoveringOver;
 

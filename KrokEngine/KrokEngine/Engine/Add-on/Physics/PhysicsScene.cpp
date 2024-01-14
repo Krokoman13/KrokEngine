@@ -9,7 +9,7 @@ void PhysicsScene::PhysicsUpdate()
 
 	Game* game = sceneManager->GetGame();
 	
-	if (game->devControls && Input::IsPressed(sf::Keyboard::Space) && !Input::WentDown(sf::Keyboard::Right))
+	if (game->devControls && Input::IsPressed(Keyboard::Space) && !Input::WentDown(Keyboard::Right))
 	{
 		_cycleSpeed = 0.0f;
 	}

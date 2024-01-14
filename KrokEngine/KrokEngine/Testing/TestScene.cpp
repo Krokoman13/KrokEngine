@@ -8,7 +8,7 @@ TestScene::TestScene() : PhysicsScene("TestScene")
 
 void TestScene::update()
 {
-	if (Input::WentDown(sf::Mouse::Left))
+	if (Input::WentDown(Mouse::Left))
 	{
 		if (_current) return;
 		_current = new Ball(Input::mousePosition);
@@ -16,7 +16,7 @@ void TestScene::update()
 		AddChild(_current);
 	}
 
-	if (Input::WentDown(sf::Mouse::Right))
+	if (Input::WentDown(Mouse::Right))
 	{
 		ImageGameObject* sphere = new ImageGameObject("Debug/Redcircle.png", Vec2(Input::mousePosition));
 		sphere->centered = true;

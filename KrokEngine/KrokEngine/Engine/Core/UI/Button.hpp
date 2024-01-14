@@ -16,11 +16,11 @@ public:
 	void LoadAlterateSprite(std::string path);
 
 protected:
-	virtual sf::Sprite* getSprite() override;
+	virtual Sprite* getSprite() override;
 
 private:
-	sf::Sprite _alternateSprite;
-	sf::Texture _alternateTexture;
+	Sprite _alternateSprite;
+	Texture _alternateTexture;
 
 	std::function<void()> _onClickAction;
 };

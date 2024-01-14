@@ -78,7 +78,7 @@ float ImageGameObject::GetHeight()
 	return _height * GetLocalScale().y;
 }
 
-sf::Sprite* ImageGameObject::GetSprite()
+Sprite* ImageGameObject::GetSprite()
 {	
 	Matrix3 identity = GetGlobalMatrix();
 

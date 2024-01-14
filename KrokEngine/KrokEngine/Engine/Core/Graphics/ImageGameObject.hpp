@@ -20,7 +20,7 @@ public:
     float GetWidth();
     float GetHeight();
 
-    sf::Sprite* GetSprite() override;
+    Sprite* GetSprite() override;
 
     bool centered = false;
 
@@ -35,8 +35,8 @@ private:
     float _width = 0;
     float _height = 0;
 
-    sf::Texture _texture;
-    sf::Sprite _sprite;
+    Texture _texture;
+    Sprite _sprite;
 
     void loadTexture(std::string path);
 };

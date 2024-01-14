@@ -9,6 +9,6 @@ public:
 
 	virtual void OnClick() = 0;
 
-	sf::Mouse::Button onClickButton = sf::Mouse::Button::Left;
+	Mouse::Button onClickButton = Mouse::Button::Left;
 };
 

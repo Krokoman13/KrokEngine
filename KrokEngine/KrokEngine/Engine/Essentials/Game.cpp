@@ -13,6 +13,7 @@ Game::Game(const std::string& pName, const unsigned int pWidth, const unsigned i
 Game::~Game()
 {
 	clearAllScenes();
+	_renderer.ClearCaches();
 }
 
 void Game::Run()

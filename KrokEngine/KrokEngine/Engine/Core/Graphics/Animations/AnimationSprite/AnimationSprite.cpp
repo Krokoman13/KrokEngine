@@ -86,7 +86,7 @@ void AnimationSprite::SetCurrentAnimation(const std::string_view a_name)
 
 unsigned int AnimationSprite::AddAnimation(const Animation& a_animation, std::string_view a_name)
 {
-	const unsigned int index = m_animations.size();
+	const unsigned int index = (unsigned int)m_animations.size();
 
 	if (!isValidAnimation(a_animation))
 	{

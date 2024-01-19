@@ -6,25 +6,26 @@ class Renderable : public Component, public Transform
 {
 private:
 	int m_renderLayer = 0;
-	bool m_layerChanged = false;
+	int m_previousRenderLayer = 0;
 
 public:
 	Renderable() {};
 	virtual ~Renderable() {};
 
 public:
+	virtual void OnLoad() override { SetLayerUnchanged(); };
 	virtual void Display(const Matrix3& a_pojectionMatrix) const = 0;
 
 	void SetRenderLayer(int a_renderLayer)
 	{
 		if (m_renderLayer == a_renderLayer) return;
 		m_renderLayer = a_renderLayer;
-		m_layerChanged = true;
 	};
 
 	int GetLayer() const { return m_renderLayer; };
-	bool HasChangedLayer() const { return m_layerChanged; };
-	void SetLayerUnchanged() { m_layerChanged = false; };
+	int GetPrevLayer() const { return m_previousRenderLayer; };
+	bool HasChangedLayer() const { return m_renderLayer != m_previousRenderLayer; };
+	void SetLayerUnchanged() { m_previousRenderLayer = m_renderLayer; };
 
 protected:
 	virtual void setGameObject(GameObject* a_gameObject) override;

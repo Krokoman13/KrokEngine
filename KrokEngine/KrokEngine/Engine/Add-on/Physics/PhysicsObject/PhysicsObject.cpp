@@ -36,6 +36,7 @@ void PhysicsObject::ShowCollider()
 		Vec2 middle = lineVec / 2.0f + line->GetStart();
 
 		Sprite* sprite = AddComponent<Sprite>(RS__PIXEL_PNG);
+		sprite->SetFilter(GL_NEAREST, GL_NEAREST);
 		sprite->diffuseColor = Color(0, 255, 0);
 		sprite->SetLocalPosition(middle);
 		sprite->SetDisplayMode(DisplayMode::Center);

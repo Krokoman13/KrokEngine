@@ -40,7 +40,8 @@ void Scene::HandleObjectsInScene()
 void Scene::Close()
 {
 	OnClose();
-	
+
+	m_textureCache.Clear();
 	clearScene();
 }
 

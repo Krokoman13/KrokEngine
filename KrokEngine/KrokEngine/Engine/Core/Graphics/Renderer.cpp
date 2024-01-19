@@ -2,14 +2,14 @@
 #include <iostream>
 #include "../SceneManager/Scene.hpp"
 
-//#include "../Graphics/ResourceManager/ResourceManager.hpp"
+#include "../Graphics/ResourceManager/ResourceManager.hpp"
 
-Renderer::Renderer(Window& a_window) : m_window(a_window)
+Renderer::Renderer(Window& a_window) : m_window(a_window), m_shaderCache(), m_bufferCache()
 {
 	m_renderLayers.push_back(RenderLayer(0));
 
-	//ResourceManager::pShaderCache = &shaderCache;
-	//ResourceManager::pGLBufferCache = &bufferCache;
+	ResourceManager::pShaderCache = &m_shaderCache;
+	ResourceManager::pGLBufferCache = &m_bufferCache;
 
 	std::cout << "Renderer initialized.\n";
 }
@@ -21,6 +21,7 @@ Renderer::~Renderer()
 void Renderer::Render()
 {
 	render();
+	CheckAndFix();
 }
 
 void Renderer::Add(const std::vector<GameObject*>& a_newlyAdded)
@@ -37,6 +38,7 @@ void Renderer::Add(const std::vector<GameObject*>& a_newlyAdded)
 	{
 		std::cout << renderLayer.layer << ", " << renderLayer.renderables.size() << std::endl;
 	}
+
 	std::cout << std::endl;
 }
 
@@ -66,6 +68,12 @@ void Renderer::CheckAndFix()
 		remove(renderable);
 		add(renderable);
 	}
+}
+
+void Renderer::ClearCaches()
+{
+	m_shaderCache.Clear();
+	m_bufferCache.Clear();
 }
 
 void Renderer::render()
@@ -119,7 +127,7 @@ void Renderer::remove(const Renderable* a_renderable)
 {
 	for (RenderLayer& renderLayer : m_renderLayers)
 	{
-		if (renderLayer.layer != a_renderable->GetLayer()) continue;
+		if (renderLayer.layer != a_renderable->GetPrevLayer()) continue;
 
 		for (std::vector<Renderable*>::iterator it = renderLayer.renderables.begin(); it != renderLayer.renderables.end(); ++it)
 		{
@@ -128,4 +136,6 @@ void Renderer::remove(const Renderable* a_renderable)
 			return;
 		}
 	}
+
+	std::cout << "Renderer: Warning: Could NOT remove renderable" << std::endl;
 }

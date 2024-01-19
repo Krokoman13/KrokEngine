@@ -200,6 +200,7 @@
     <ClInclude Include="Testing\Ball.hpp" />
     <ClInclude Include="Testing\Detector.hpp" />
     <ClInclude Include="Testing\TestScene.hpp" />
+    <ClInclude Include="Testing\UpdateComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.cpp" />
@@ -247,6 +248,7 @@
     <ClCompile Include="Testing\Ball.cpp" />
     <ClCompile Include="Testing\Detector.cpp" />
     <ClCompile Include="Testing\TestScene.cpp" />
+    <ClCompile Include="Testing\UpdateComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

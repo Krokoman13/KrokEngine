@@ -1,8 +1,8 @@
 #pragma once
-#include "Scene.hpp"
 #include <vector>
 #include <string>
 
+class Scene;
 class Game;
 
 class SceneManager

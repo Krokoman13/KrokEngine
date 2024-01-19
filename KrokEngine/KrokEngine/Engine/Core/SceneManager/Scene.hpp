@@ -1,6 +1,9 @@
 #pragma once
 #include "../../Essentials/GameObject.hpp"
 
+#include "../Graphics/ResourceManager/ResourceCache/ResourceCache.hpp"
+#include "../Graphics/Core/Texture/Texture.hpp"
+
 class SceneManager;
 
 class Scene : public GameObject
@@ -34,5 +37,6 @@ public:
 private:
 	std::vector<GameObject*> _toLoad;
 	std::vector<std::unique_ptr<GameObject>> _toDestroy;
+	ResourceCache<Texture, std::string> m_textureCache;
 };
 

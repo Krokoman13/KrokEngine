@@ -1,7 +1,9 @@
 #include "Scene.hpp"
 #include "SceneManager.hpp"
 
-Scene::Scene(std::string pName) : GameObject(pName), sceneManager(nullptr)
+#include "../Graphics/ResourceManager/ResourceManager.hpp"
+
+Scene::Scene(std::string pName) : GameObject(pName), sceneManager(nullptr), m_textureCache()
 {
 	name = pName;
 	_scene = this;
@@ -9,6 +11,8 @@ Scene::Scene(std::string pName) : GameObject(pName), sceneManager(nullptr)
 
 void Scene::Load()
 {
+	ResourceManager::pTexureCache = &m_textureCache;
+
 	OnLoad();
 }
 

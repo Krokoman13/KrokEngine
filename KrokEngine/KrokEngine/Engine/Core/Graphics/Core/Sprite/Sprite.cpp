@@ -63,8 +63,8 @@ bool Sprite::loadTexture()
 
 	Vec2 textureSize = GetLocalScale();
 
-	if (textureSize.x < 1.f) textureSize.x = m_texture.GetWidth();
-	if (textureSize.y < 1.f) textureSize.y = m_texture.GetHeight();
+	if (textureSize.x < 1.f) textureSize.x = static_cast<float>(m_texture.GetWidth());
+	if (textureSize.y < 1.f) textureSize.y = static_cast<float>(m_texture.GetHeight());
 
 	SetLocalScale(textureSize);
 

@@ -50,6 +50,6 @@ public:
         if (Exists(a_key)) throw std::invalid_argument("Key already existst, cannot add new resource, make sure to check using `Exists(TKey)`");
 
         m_resources.push_back(a_resource);
-        m_resourceMap[a_key] = m_resources.size() - 1;
+        m_resourceMap[a_key] = ((unsigned int)m_resources.size()) - 1;
     };
 };

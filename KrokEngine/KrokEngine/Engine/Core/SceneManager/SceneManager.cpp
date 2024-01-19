@@ -1,4 +1,5 @@
 #include "SceneManager.hpp"
+#include "Scene.hpp"
 #include "../../Essentials/Game.hpp"
 
 SceneManager::SceneManager(Game* game)
@@ -148,8 +149,8 @@ void SceneManager::openScene(Scene* scene)
 {
 	std::cout << "Opening scene: " << scene->name << '\n';
 
-		scene->Load();
-		std::cout << scene->name << " loaded\n";
+	scene->Load();
+	std::cout << scene->name << " loaded\n";
 
 	_currentScene = scene;
 }

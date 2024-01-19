@@ -1,3 +1,6 @@
+#ifndef TEXTURE
+#define TEXTURE
+
 #include <string>
 #include <glew.h>
 #include <string_view>
@@ -38,3 +41,5 @@ public:
 private:
 	void onDestruction();
 };
+
+#endif // TEXTURE

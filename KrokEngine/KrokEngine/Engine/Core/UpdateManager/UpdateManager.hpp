@@ -9,10 +9,8 @@ public:
 	~UpdateManager();
 
 	void Update(Scene* scene);
-	void SetRenderer(Renderer& renderer);
 
 private:
-	Renderer* _renderer = nullptr;
 	void update(GameObject* toUpdate);
 };
 

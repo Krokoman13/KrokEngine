@@ -1,12 +1,13 @@
 #include "Ball.hpp"
 
-Ball::Ball(Vec2 pPos) : ImageGameObject("Debug/Bluecircle.png", pPos.x, pPos.y)
+Ball::Ball(Vec2 pPos) : GameObject("Ball", pPos.x, pPos.y)
 {
-	centered = true;
-	rb = new RigidBody(new CircleCollider(GetWidth() / 2.f));
-	rb->bounciness = 0.9f;
+	Sprite* sprite = AddComponent<Sprite>(RS__BALL_PNG);
+	sprite->diffuseColor = Color(0, 0, 255);
+	sprite->SetDisplayMode(DisplayMode::Center);
 
-	AddComponent(rb);
+	rb = AddComponent<RigidBody>(new CircleCollider(sprite->GetLocalXScale() / 2.f));
+	rb->bounciness = 0.9f;
 }
 
 void Ball::update()

@@ -25,11 +25,6 @@ GameObject::~GameObject()
 	}
 }
 
-Sprite* GameObject::GetSprite()
-{
-	return nullptr;
-}
-
 void GameObject::LateDestroy()
 {
 	SetActive(false);
@@ -158,13 +153,6 @@ const std::vector<std::unique_ptr<Component>>& GameObject::Components() const
 	return _components;
 }
 
-void GameObject::AddComponent(Component* pComponent)
-{	
-	pComponent->SetGameObject(this);
-	std::unique_ptr<Component> componentPtr(pComponent);
-	_components.push_back(std::move(componentPtr));
-}
-
 GameObject* GameObject::GetParent() const
 {
 	return (GameObject*)_parent;
@@ -284,11 +272,6 @@ int GameObject::GetRenderLayer() const
 	if (this->_renderLayer >= 0 || parent == nullptr) return this->_renderLayer;
 
 	return parent->GetRenderLayer();
-}
-
-bool GameObject::CanRender() const
-{
-	return _canRender;
 }
 
 void GameObject::SetRenderLayer(int renderLayer)

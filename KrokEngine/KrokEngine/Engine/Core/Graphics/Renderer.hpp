@@ -1,25 +1,30 @@
 #pragma once
 #include "RenderLayer.hpp"
-
-class Scene;
-class GameObject;
+#include "Core/Window/Window.hpp"
+#include "ResourceManager/ResourceCache/ResourceCache.hpp"
 
 class Renderer
 {
-public :
-	Renderer(RenderWindow& _window);
+private:
+	Window& m_window;
+
+	std::vector<RenderLayer> m_renderLayers;
+
+public:
+	Renderer(Window& a_window);
 	~Renderer();
 
 	void Render();
 
-	void ToRender(const std::vector<Drawable*>& sprites, int layer);
-	void ToRender(Drawable* sprite, int layer);
+	void Add(const std::vector<GameObject*>& a_newlyAdded);
+	void Remove(const std::vector<std::unique_ptr<GameObject>>& a_toDestroy);
+
+	void CheckAndFix();
 
 private :
-	std::vector<GameObject*> _toRender;
+	void add(Renderable* a_renderable);
+	void remove(const Renderable* a_renderable);
 
 	void render();
-	RenderWindow* _window;
-	std::vector<RenderLayer> _renderLayers;
 };
 

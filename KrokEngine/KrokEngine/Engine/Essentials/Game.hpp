@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
+#include <chrono>
 #include "../Core/SceneManager/SceneManager.hpp"
-#include "../Core/EventHandeler/EventHandeler.hpp"
+#include "../Core/Events/EventHandeler/EventHandeler.hpp"
+#include "../Core/Graphics/Core/Window/Window.hpp"
 #include "../Core/Graphics/Renderer.hpp"
 #include "../Core/UpdateManager/UpdateManager.hpp"
 
@@ -24,7 +26,9 @@ private:
 	Renderer _renderer;
 	UpdateManager _updateManger;
 
-	RenderWindow _renderWindow;
+	Window _window;
+
+	std::chrono::steady_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
 	void handleDevControls();
 };

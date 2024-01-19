@@ -4,10 +4,18 @@ class GameObject;
 
 class Component
 {
+private:
+	bool m_enabled = true;
+
+protected:
+	GameObject* m_gameObject;
+
 public:
+	Component();
 	virtual ~Component();
 
-	virtual void SetGameObject(GameObject* pGameObject);
+public:
+	void SetGameObject(GameObject* a_gameObject);
 	GameObject* GetGameObject() const;
 
 	virtual void OnLoad();
@@ -15,14 +23,10 @@ public:
 	virtual void OnEnable();
 	virtual void OnDisable();
 
-	void SetActive(bool pEnabled = true);
+	void SetActive(const bool a_enabled = true);
 	bool IsActive() const;
 
 protected:
-	GameObject* _gameObject;
-
-private:
-	bool _enabled = true;
-
+	virtual void setGameObject(GameObject* a_gameObject);
 };
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "../../Essentials/GameObject.hpp"
-#include "../UI/UI.hpp"
 
 class SceneManager;
 

@@ -6,10 +6,26 @@ Matrix3::Matrix3(): Matrix(3, 3)
 	*this = Matrix::Identity(3);
 }
 
-Matrix3::Matrix3(const Matrix& pOther) : Matrix(3, 3)
+Matrix3::Matrix3(const Matrix& a_other) : Matrix(3, 3)
 {
-	if (pOther.GetColumns() != 3 || pOther.GetRows() != 3) throw std::out_of_range("Invalid size Matrix");
-	SetArray(pOther.GetArray());
+	if (a_other.GetColumns() != 3 || a_other.GetRows() != 3) throw std::out_of_range("Invalid size Matrix");
+	SetArray(a_other.GetArray());
+}
+
+void Matrix3::SetXPos(const float a_x)
+{
+	Set(2, 0, a_x);
+}
+
+void Matrix3::SetYPos(const float a_y)
+{
+	Set(2, 1, a_y);
+}
+
+void Matrix3::SetPos(const Vec2 a_pos)
+{
+	SetXPos(a_pos.x);
+	SetYPos(a_pos.y);
 }
 
 Vec2 Matrix3::GetPos() const
@@ -17,19 +33,19 @@ Vec2 Matrix3::GetPos() const
 	return Vec2(Get(2, 0), Get(2, 1));
 }
 
-float Matrix3::GetXScale() const
+float Matrix3::GetXAxisScale() const
 {
 	return Vec2(Get(0, 0), Get(1, 0)).Length();		//Gets the xAxis and returns the length
 }
 
-float Matrix3::GetYScale() const
+float Matrix3::GetYAxisScale() const
 {
 	return Vec2(Get(0, 1), Get(1, 1)).Length();		//Gets the yAxis and returns the length
 }
 
 Vec2 Matrix3::GetScale() const
 {
-	return Vec2(GetXScale(), GetYScale());
+	return Vec2(GetXAxisScale(), GetYAxisScale());
 }
 
 Vec2 Matrix3::GetRotVec() const
@@ -43,27 +59,27 @@ float Matrix3::GetRotRad() const
 	return GetRotVec().GetAngleRadians();
 }
 
-Matrix3 Matrix3::TranslateMatrix(const Vec2& pPos)
+Matrix3 Matrix3::TranslateMatrix(const Vec2& a_pos)
 {
 	Matrix3 out;
-	out.Set(2, 0, pPos.x);
-	out.Set(2, 1, pPos.y);
+	out.SetXPos(a_pos.x);
+	out.SetYPos(a_pos.y);
 	return out;
 }
 
-Matrix3 Matrix3::ScalingMatrix(const Vec2& pScale)
+Matrix3 Matrix3::ScalingMatrix(const Vec2& a_scale)
 {
 	Matrix3 out;
-	out.Set(0, 0, pScale.x);
+	out.Set(0, 0, a_scale.x);
 	out.Set(1, 0, 0);
 	out.Set(0, 1, 0);
-	out.Set(1, 1, pScale.y);
+	out.Set(1, 1, a_scale.y);
 	return out;
 }
 
-Matrix3 Matrix3::RotationMatrix(const Vec2& pRotVector)
+Matrix3 Matrix3::RotationMatrix(const Vec2& a_rotVector)
 {
-	Vec2 rotVecNorm = pRotVector.Normalized();
+	Vec2 rotVecNorm = a_rotVector.Normalized();
 
 	Matrix3 out;
 	out.Set(0, 0, rotVecNorm.x);
@@ -85,30 +101,30 @@ Matrix3 Matrix3::RotationMatrix(float a_radians)
 	return out;
 }
 
-void Matrix3::Translate(const Vec2& pPos)
+void Matrix3::Translate(const Vec2& a_pos)
 {
-	(*this) = (*this) * TranslateMatrix(pPos);
+	(*this) = (*this) * TranslateMatrix(a_pos);
 }
 
-void Matrix3::Scale(const Vec2& pScale)
+void Matrix3::Scale(const Vec2& a_scale)
 {
-	(*this) = (*this) * ScalingMatrix(pScale);
+	(*this) = (*this) * ScalingMatrix(a_scale);
 }
 
-void Matrix3::Rotate(const float pRadians)
+void Matrix3::Rotate(const float a_radians)
 {
-	(*this) = (*this) * RotationMatrix(pRadians);
+	(*this) = (*this) * RotationMatrix(a_radians);
 }
 
-Matrix3 Matrix3::operator=(const Matrix& pOther)
+Matrix3 Matrix3::operator=(const Matrix& a_other)
 {
-	if (pOther.GetColumns() != 3 || pOther.GetRows() != 3) throw std::out_of_range("Invalid size Matrix");
+	if (a_other.GetColumns() != 3 || a_other.GetRows() != 3) throw std::out_of_range("Invalid size Matrix");
 
-	for (unsigned int y = 0; y < pOther.GetRows(); y++)
+	for (unsigned int y = 0; y < a_other.GetRows(); y++)
 	{
-		for (unsigned int x = 0; x < pOther.GetColumns(); x++)
+		for (unsigned int x = 0; x < a_other.GetColumns(); x++)
 		{
-			this->Set(x, y, pOther.Get(x, y));
+			this->Set(x, y, a_other.Get(x, y));
 		}
 	}
 

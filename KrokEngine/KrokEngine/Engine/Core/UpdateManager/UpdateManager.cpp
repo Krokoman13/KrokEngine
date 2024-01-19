@@ -20,23 +20,11 @@ void UpdateManager::Update(Scene* pScene)
 	}
 }
 
-void UpdateManager::SetRenderer(Renderer& pRenderer)
-{
-	_renderer = &pRenderer;
-}
-
 void UpdateManager::update(GameObject*  pToUpdate)
 {
 	if (!pToUpdate || !pToUpdate->IsActive()) return;
 
 	pToUpdate->Update();
-
-	if (pToUpdate->CanRender())
-	{
-		Sprite* sprite = pToUpdate->GetSprite();
-		int currentRenderLayer = pToUpdate->GetRenderLayer();
-		_renderer->ToRender(sprite, currentRenderLayer);
-	}
 
 	for (unsigned int i = 0; i < pToUpdate->ChildCount(); i++) 
 	{

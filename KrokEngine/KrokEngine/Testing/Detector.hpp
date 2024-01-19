@@ -2,7 +2,7 @@
 #include "../Engine/KrokEngine.hpp"
 #include "../Engine/Add-on/Physics.hpp"
 
-class Detector : public ImageGameObject
+class Detector : public GameObject
 {
 public:
 	Detector(Vec2 pos);

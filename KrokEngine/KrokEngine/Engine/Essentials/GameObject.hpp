@@ -33,10 +33,7 @@ public:
 	void RemoveChild(GameObject* pChild);
 
 	int GetRenderLayer() const;
-	bool CanRender() const;
 	void SetRenderLayer(int pRenderlayer);
-
-	virtual Sprite* GetSprite();
 
 	void SetScene(Scene* scene);
 	Scene* GetScene() const;
@@ -51,7 +48,54 @@ public:
 
 	const std::vector<std::unique_ptr<Component>>& Components() const;
 
-	void AddComponent(Component* pComponent);
+	template<typename T>
+	std::vector<T*> GetComponents()
+	{
+		static_assert(std::is_base_of<Component, T>::value, "T must be a derived class of Component");
+
+		std::vector<T*> outp;
+
+		for (const std::unique_ptr<Component>& component : _components)
+		{
+			T* current = dynamic_cast<T*>(component.get());
+			if (!current) continue;
+
+			outp.push_back(current);
+		}
+
+		return outp;
+	}
+
+	template<typename T>
+	bool TryGetComponent(T*& outp)
+	{
+		static_assert(std::is_base_of<Component, T>::value, "T must be a derived class of Component");
+
+		for (const std::unique_ptr<Component>& component : _components)
+		{
+			T* current = dynamic_cast<T*>(component.get());
+			if (!current) continue;
+
+			outp = current;
+			return true;
+		}
+
+		return false;
+	};
+
+	template<typename T, typename... Args>
+	T* AddComponent(Args... args)
+	{
+		static_assert(std::is_base_of<Component, T>::value, "T must be a derived class of Component");
+
+		std::unique_ptr<T> component = std::make_unique<T>(args...);
+		component->SetGameObject(this);
+		
+		T* outp = component.get();
+		_components.push_back(std::move(component));
+
+		return outp;
+	}
 
 	void LateDestroy();
 

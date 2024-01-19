@@ -1,7 +1,7 @@
 #include "Scene.hpp"
 #include "SceneManager.hpp"
 
-Scene::Scene(std::string pName) : GameObject(pName)
+Scene::Scene(std::string pName) : GameObject(pName), sceneManager(nullptr)
 {
 	name = pName;
 	_scene = this;

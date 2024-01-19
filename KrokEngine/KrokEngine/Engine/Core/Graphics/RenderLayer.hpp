@@ -2,36 +2,21 @@
 #include <vector>
 #include <iostream>
 
+class Renderable;
+
 struct RenderLayer
 {
-	int layer = -1;
-	std::vector<Drawable*> drawables;
+	int layer;
+	std::vector<Renderable*> renderables;
 
-	RenderLayer(int layer)
-	{
-		this->layer = layer;
+	RenderLayer(int a_layer);
 
-		std::cout << "New layer created: " << this->layer << ".\n";
-	}
+	RenderLayer(int a_layer, const std::vector<Renderable*>& a_sprites);
 
-	RenderLayer(int layer, const std::vector<Drawable*>& sprites) : RenderLayer(layer)
-	{
-		this->drawables.insert(this->drawables.end(), sprites.begin(), sprites.end());
-	}
+	RenderLayer(int a_layer, Renderable* a_sprite);
 
-	RenderLayer(int layer, Drawable* sprite) : RenderLayer(layer)
-	{
-		this->drawables.push_back(sprite);
-	}
+	void Add(const std::vector<Renderable*>& a_toAdd);
 
-	void Add(const std::vector<Drawable*>& toAdd)
-	{
-		this->drawables.insert(this->drawables.end(), toAdd.begin(), toAdd.end());
-	}
-
-	void Add(Drawable* toAdd)
-	{
-		this->drawables.push_back(toAdd);
-	}
+	void Add(Renderable* a_toAdd);
 };
 

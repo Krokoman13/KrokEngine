@@ -1,19 +1,16 @@
 #include "PhysicsObject.hpp"
-#include "../../../Core/Graphics/ImageGameObject.hpp"
+#include "../Components/ColliderComponent.hpp"
+#include "../../../Core/Graphics/Core/Sprite/Sprite.hpp"
+#include "../../../Assets/fileIndex.hpp"
 
-PhysicsObject::PhysicsObject(ColliderComponent* pComponent, Vec2 pPos) : GameObject(pPos, "PhysicsObject")
+PhysicsObject::PhysicsObject(std::vector<Vec2> pShape, Vec2 pPos) : GameObject(pPos, "PhysicsObject")
 {
-	collider = pComponent;
-	AddComponent(collider);
+	collider = AddComponent<ColliderComponent>(pShape);
 }
 
-PhysicsObject::PhysicsObject(std::vector<Vec2> pShape, Vec2 pPos) : PhysicsObject(new ColliderComponent(pShape), pPos)
+PhysicsObject::PhysicsObject(CircleCollider* pCircle, Vec2 pPos) : GameObject(pPos)
 {
-
-}
-
-PhysicsObject::PhysicsObject(CircleCollider* pCircle, Vec2 pPos) : PhysicsObject(new ColliderComponent(pCircle), pPos)
-{
+	collider = AddComponent<ColliderComponent>(pCircle);
 }
 
 void PhysicsObject::ShowCollider()
@@ -26,10 +23,11 @@ void PhysicsObject::ShowCollider()
 
 		if (radius < 1.5f) continue;
 
-		ImageGameObject* imageCircle = new ImageGameObject("Debug/GreenCircle.png", circle->GetCenter());
-		imageCircle->centered = true;
-		imageCircle->SetSize(radius, radius);
-		AddChild(imageCircle);
+		Sprite* sprite = AddComponent<Sprite>(RS__BALL_PNG);
+		sprite->diffuseColor = Color(0, 255, 0);
+		sprite->SetLocalPosition(circle->GetCenter());
+		sprite->SetDisplayMode(DisplayMode::Center);
+		sprite->SetLocalScale(Vec2(radius, radius));
 	}
 
 	for (LineCollider* line : collider->GetLines())
@@ -37,12 +35,14 @@ void PhysicsObject::ShowCollider()
 		Vec2 lineVec = line->GetEnd() - line->GetStart();
 		Vec2 middle = lineVec / 2.0f + line->GetStart();
 
-		ImageGameObject* lineImage = new ImageGameObject("Debug/Greensquare.png", middle);
-		lineImage->centered = true;
-		lineImage->SetLocalRotation(lineVec.GetAngleRadians());
-		lineImage->SetSize(lineVec.Length(), 1.0f);
-		AddChild(lineImage);
+		Sprite* sprite = AddComponent<Sprite>(RS__PIXEL_PNG);
+		sprite->diffuseColor = Color(0, 255, 0);
+		sprite->SetLocalPosition(middle);
+		sprite->SetDisplayMode(DisplayMode::Center);
+		sprite->SetLocalRotation(lineVec.GetAngleRadians());
+		sprite->SetLocalScale(Vec2(lineVec.Length(), 2.0f));
 	}
+	std::cout << std::endl;
 
 	_collidersShown = true;
 }

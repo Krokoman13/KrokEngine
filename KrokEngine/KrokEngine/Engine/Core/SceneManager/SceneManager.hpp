@@ -10,8 +10,9 @@ class SceneManager
 public:
 	SceneManager(Game* pGame = nullptr);
 	SceneManager(Scene* startScene, Game* pGame = nullptr);
-	~SceneManager();
+	virtual ~SceneManager();
 
+public:
 	Scene* GetCurrentScene();
 
 	Scene* GetScene(Scene* scene);
@@ -34,6 +35,8 @@ public:
 protected:
 	void closeScene(Scene* scene);
 	void openScene(Scene* scene);
+
+	void clearAllScenes();
 
 private:
 	unsigned int findIdentifier(std::string name);

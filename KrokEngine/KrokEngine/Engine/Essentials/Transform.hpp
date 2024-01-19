@@ -14,7 +14,7 @@ public:
 	Matrix3 identity;
 
 protected:
-	Transform* m_parent = nullptr;
+	Transform* _parent = nullptr;
 
 public:
 	void SetParent(Transform* pParent);

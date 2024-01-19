@@ -15,6 +15,11 @@ SceneManager::SceneManager(Scene* startScene, Game* game) : SceneManager(game)
 
 SceneManager::~SceneManager()
 {
+	clearAllScenes();
+}
+
+void SceneManager::clearAllScenes()
+{
 	for (Scene* scene : _scenes)
 	{
 		delete scene;

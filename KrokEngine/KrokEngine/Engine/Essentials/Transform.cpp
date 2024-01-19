@@ -1,6 +1,6 @@
 #include "Transform.hpp"
 
-Transform::Transform() : identity(), m_parent(nullptr)
+Transform::Transform() : identity(), _parent(nullptr)
 {
 }
 
@@ -15,13 +15,12 @@ Transform::Transform(const float pX, const float pY) : Transform(Vec2(pX, pY))
 
 void Transform::SetParent(Transform* pParent)
 {
-	m_parent = pParent;
+	_parent = pParent;
 }
 
 void Transform::SetLocalPosition(const Vec2& pPos)
 {
-	Vec2 current = identity.GetPos();
-	identity.Translate(pPos - current);
+	identity.SetPos(pPos);
 }
 
 void Transform::SetLocalPosition(const float pX, const float pY)
@@ -100,12 +99,12 @@ void Transform::SetLocalScale(const float pUniformScale)
 
 float Transform::GetLocalXScale() const
 {
-	return identity.GetXScale();
+	return identity.GetXAxisScale();
 }
 
 float Transform::GetLocalYScale() const
 {
-	return identity.GetYScale();
+	return identity.GetYAxisScale();
 }
 
 Vec2 Transform::GetLocalScale() const
@@ -129,13 +128,13 @@ void Transform::SetGlobalScale(const float pUniformScale)
 float Transform::GetGlobalXScale() const
 {
 	Matrix3 globalMatrix = GetGlobalMatrix();
-	return globalMatrix.GetXScale();;
+	return globalMatrix.GetXAxisScale();;
 }
 
 float Transform::GetGlobalYScale() const
 {
 	Matrix3 globalMatrix = GetGlobalMatrix();
-	return globalMatrix.GetYScale();;
+	return globalMatrix.GetYAxisScale();;
 }
 
 Vec2 Transform::GetGlobalScale() const
@@ -148,8 +147,8 @@ Matrix3 Transform::GetGlobalMatrix() const
 {
 	Matrix3 outp = identity;
 
-	if (!m_parent) return identity;
-	return (Matrix3)(m_parent->GetGlobalMatrix() * identity);
+	if (!_parent) return identity;
+	return (Matrix3)(_parent->GetGlobalMatrix() * identity);
 }
 
 void Transform::SetGlobalMatrix(const Matrix3& pMatrix)
@@ -159,6 +158,6 @@ void Transform::SetGlobalMatrix(const Matrix3& pMatrix)
 
 Matrix3 Transform::InverseModificationMatrix() const
 {
-	if (!m_parent) return Matrix3();
-	return (Matrix3)m_parent->GetGlobalMatrix().Inverse();
+	if (!_parent) return Matrix3();
+	return (Matrix3)_parent->GetGlobalMatrix().Inverse();
 }

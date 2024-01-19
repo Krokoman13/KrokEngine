@@ -58,14 +58,8 @@ void ColliderComponent::Add(CircleCollider* pCollider)
 	_circles.push_back(pCollider);
 }
 
-void ColliderComponent::SetGameObject(GameObject* pGameObject)
+void ColliderComponent::setGameObject(GameObject* pGameObject)
 {
-	if (pGameObject == nullptr) throw std::invalid_argument("Component cannot be added to a nullptr");
-	if (pGameObject == _gameObject) return;
-	if (_gameObject != nullptr) throw std::logic_error("Components cannot switch gameobjects");
-
-	_gameObject = pGameObject;
-
 	for (Collider* collider : _circles)
 	{
 		collider->SetParent(pGameObject);

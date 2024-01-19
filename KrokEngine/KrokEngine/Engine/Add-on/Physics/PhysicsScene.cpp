@@ -4,12 +4,12 @@
 
 void PhysicsScene::PhysicsUpdate()
 {
-	handleDestroyed(ToDestroy());
 	load(ToLoad());
+	handleDestroyed(ToDestroy());
 
 	Game* game = sceneManager->GetGame();
 	
-	if (game->devControls && Input::IsPressed(Keyboard::Space) && !Input::WentDown(Keyboard::Right))
+	if (game->devControls && Input::IsPressed(Keyboard::Key::Space) && !Input::WentDown(Keyboard::Key::Right))
 	{
 		_cycleSpeed = 0.0f;
 	}
@@ -34,23 +34,23 @@ void PhysicsScene::load(const std::vector<GameObject*>& toLoad)
 
 void PhysicsScene::load(Component* pComponent)
 {
-	RigidBody* rb = dynamic_cast<RigidBody*>(pComponent);
-	if (rb)
+	if (typeid(*pComponent) == typeid(RigidBody))
 	{
+		RigidBody* rb = dynamic_cast<RigidBody*>(pComponent);
 		_rigidObjects.push_back(rb);
 		return;
 	}
 
-	TriggerColliderComponent* tc = dynamic_cast<TriggerColliderComponent*>(pComponent);
-	if (tc)
+	if (typeid(*pComponent) == typeid(TriggerColliderComponent))
 	{
+		TriggerColliderComponent* tc = dynamic_cast<TriggerColliderComponent*>(pComponent);
 		_triggerObjects.push_back(tc);
 		return;
 	}
 
-	ColliderComponent* stat = dynamic_cast<ColliderComponent*>(pComponent);
-	if (stat)
+	if (typeid(*pComponent) == typeid(ColliderComponent))
 	{
+		ColliderComponent* stat = dynamic_cast<ColliderComponent*>(pComponent);
 		_staticObjects.push_back(stat);
 		return;
 	}
@@ -71,7 +71,7 @@ void PhysicsScene::handleDestroyed(const std::vector<std::unique_ptr<GameObject>
 
 void PhysicsScene::handleDestroyed(Component* component)
 {
-	if (dynamic_cast<RigidBody*>(component))
+	if (typeid(*component) == typeid(RigidBody))
 	{
 		for (unsigned int i = 0; i < _rigidObjects.size(); i++)
 		{
@@ -85,7 +85,7 @@ void PhysicsScene::handleDestroyed(Component* component)
 		return;
 	}
 
-	if (dynamic_cast<TriggerColliderComponent*>(component))
+	if (typeid(*component) == typeid(TriggerColliderComponent))
 	{
 		for (unsigned int i = 0; i < _triggerObjects.size(); i++)
 		{
@@ -99,7 +99,7 @@ void PhysicsScene::handleDestroyed(Component* component)
 		return;
 	}
 
-	if (dynamic_cast<ColliderComponent*>(component))
+	if (typeid(*component) == typeid(ColliderComponent))
 	{
 		for (unsigned int i = 0; i < _staticObjects.size(); i++)
 		{

@@ -2,22 +2,28 @@
 #include "GameObject.hpp"
 #include <stdexcept>
 
+Component::Component() : m_gameObject(nullptr)
+{
+}
+
 Component::~Component()
 {
 }
 
-void Component::SetGameObject(GameObject* pGameObject)
+void Component::SetGameObject(GameObject* a_gameObject)
 {
-	if (!pGameObject) throw std::invalid_argument("Component cannot be added to a nullptr");
-	if (pGameObject == _gameObject) return;
-	if (_gameObject) throw std::logic_error("Components cannot switch gameobjects");
+	if (!a_gameObject) throw std::invalid_argument("Component cannot be added to a nullptr");
+	if (a_gameObject == m_gameObject) return;
+	if (m_gameObject) throw std::logic_error("Components cannot switch gameobjects");
 
-	_gameObject = pGameObject;
+	m_gameObject = a_gameObject;
+
+	setGameObject(a_gameObject);
 }
 
 GameObject* Component::GetGameObject() const
 {
-	return _gameObject;
+	return m_gameObject;
 }
 
 void Component::OnLoad()
@@ -38,19 +44,23 @@ void Component::OnDisable()
 }
 
 
-void Component::SetActive(bool pEnabled)
+void Component::SetActive(const bool a_enabled)
 {
-	if (pEnabled == _enabled) return;
+	if (a_enabled == m_enabled) return;
 	
-	_enabled = pEnabled;
+	m_enabled = a_enabled;
 
-	if (!_gameObject || _gameObject->IsActive()) return;
+	if (!m_gameObject || m_gameObject->IsActive()) return;
 
-	if (_enabled) OnEnable();
+	if (m_enabled) OnEnable();
 	else OnDisable();
 }
 
 bool Component::IsActive() const
 {
-	return _enabled;
+	return m_enabled;
+}
+
+void Component::setGameObject(GameObject* a_gameObject)
+{
 }

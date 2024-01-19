@@ -1,5 +1,9 @@
 #pragma once
-#include "../Components/RigidBody.hpp"
+#include "../../../Engine/Essentials/GameObject.hpp"
+
+class CircleCollider;
+class ColliderComponent;
+
 
 class PhysicsObject : public GameObject
 {
@@ -12,7 +16,6 @@ public:
 	void ShowCollider();
 
 private:
-	PhysicsObject(ColliderComponent* pCollider, Vec2 pPos);
 	bool _collidersShown = false;
 };
 

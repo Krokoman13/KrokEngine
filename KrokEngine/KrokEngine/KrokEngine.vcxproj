@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
+    <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{3fd525fe-301f-4d5a-b9a5-ecaf1ba2eec4}</ProjectGuid>
+    <ProjectGuid>{974b170b-533b-47f4-bdb1-d48042f6b295}</ProjectGuid>
     <RootNamespace>KrokEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -76,10 +76,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Dependencies\glfw-3.3.8.bin.WIN32\include;$(ProjectDir)\Dependencies\glew-2.1.0\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Dependencies\glfw-3.3.8.bin.WIN32\lib-vc2022;$(ProjectDir)\Dependencies\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -90,12 +94,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Dependencies\glfw-3.3.8.bin.WIN32\include;$(ProjectDir)\Dependencies\glew-2.1.0\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Dependencies\glfw-3.3.8.bin.WIN32\lib-vc2022;$(ProjectDir)\Dependencies\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -104,10 +112,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Dependencies\glfw-3.3.8.bin.WIN64\include;$(ProjectDir)\Dependencies\glew-2.1.0\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Dependencies\glfw-3.3.8.bin.WIN64\lib-vc2022;$(ProjectDir)\Dependencies\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -118,142 +130,123 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Dependencies\glfw-3.3.8.bin.WIN64\include;$(ProjectDir)\Dependencies\glew-2.1.0\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Dependencies\glfw-3.3.8.bin.WIN64\lib-vc2022;$(ProjectDir)\Dependencies\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Core\Math\DynamicFloatArray.hpp" />
-    <ClInclude Include="Testing\Detector.hpp" />
+    <ClInclude Include="Assets\fileIndex.hpp" />
     <ClInclude Include="Engine\Add-on\Physics.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\ColisionHandeling\CollisionInfo.hpp" />
-    <ClInclude Include="Engine\Essentials\GameObject.hpp" />
-    <ClInclude Include="Engine\Add-on\Physics\PhysicsScene.hpp" />
-    <ClInclude Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.hpp" />
-    <ClInclude Include="Engine\Add-on\Physics\Colliders\PointCollider.hpp" />
-    <ClInclude Include="Testing\Ball.hpp" />
-    <ClInclude Include="Engine\Add-on\Physics\Components\ColliderComponent.hpp" />
-    <ClInclude Include="Engine\Core\EventHandeler\EventHandeler.hpp" />
-    <ClInclude Include="Engine\Core\Graphics\ImageGameObject.hpp" />
-    <ClInclude Include="Engine\Core\Graphics\Renderer.hpp" />
-    <ClInclude Include="Engine\Core\Graphics\RenderLayer.hpp" />
-    <ClInclude Include="Engine\Core\Input\Input.hpp" />
-    <ClInclude Include="Engine\Core\Math\Matrix3.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\Colliders\CircleCollider.hpp" />
     <ClInclude Include="Engine\Add-on\Physics\Colliders\Collider.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\Colliders\LineCollider.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\Colliders\PointCollider.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\Colliders\PolyShape.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\Components\ColliderComponent.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\Components\RigidBody.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.hpp" />
+    <ClInclude Include="Engine\Add-on\Physics\PhysicsScene.hpp" />
+    <ClInclude Include="Engine\Core\Events\EventHandeler\EventHandeler.hpp" />
+    <ClInclude Include="Engine\Core\Events\Event\Event.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Animations\AnimationSprite\AnimationSprite.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Animations\Animation\Animation.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Animations\Animation\AnimationFrame.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Clolor.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Core\Counted\Counted.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Core\DisplayMode\DisplayMode.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Core\GLBuffer\GLBuffer.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Core\Shader\Shader.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Core\Sprite\Sprite.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Core\Sprite\TextureShader.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Core\Texture\Texture.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Core\Window\Renderable.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Core\Window\Window.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Loaders\ShaderUtil.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\Loaders\stb_image.h" />
+    <ClInclude Include="Engine\Core\Graphics\Renderer.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\RenderLayer.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\ResourceManager\PathManager.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\ResourceManager\ResourceCache\ResourceCache.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\ResourceManager\ResourceCache\SelfRegResourceCache.hpp" />
+    <ClInclude Include="Engine\Core\Graphics\ResourceManager\ResourceManager.hpp" />
+    <ClInclude Include="Engine\Core\Input\Input.hpp" />
+    <ClInclude Include="Engine\Core\Input\Keyboard.hpp" />
+    <ClInclude Include="Engine\Core\Input\Mouse.hpp" />
+    <ClInclude Include="Engine\Core\Math\DynamicFloatArray.hpp" />
+    <ClInclude Include="Engine\Core\Math\Matrix.hpp" />
+    <ClInclude Include="Engine\Core\Math\Matrix3.hpp" />
+    <ClInclude Include="Engine\Core\Math\Vec2.hpp" />
     <ClInclude Include="Engine\Core\SceneManager\Scene.hpp" />
     <ClInclude Include="Engine\Core\SceneManager\SceneManager.hpp" />
-    <ClInclude Include="Engine\Core\UI\Button.hpp" />
-    <ClInclude Include="Engine\Core\UI\Clickable.hpp" />
-    <ClInclude Include="Engine\Core\UI\Hoverable.hpp" />
-    <ClInclude Include="Engine\Core\UI\UI.hpp" />
-    <ClInclude Include="Engine\Core\UI\UIElement.hpp" />
     <ClInclude Include="Engine\Core\UpdateManager\UpdateManager.hpp" />
     <ClInclude Include="Engine\Essentials\Component.hpp" />
     <ClInclude Include="Engine\Essentials\Game.hpp" />
+    <ClInclude Include="Engine\Essentials\GameObject.hpp" />
     <ClInclude Include="Engine\Essentials\Transform.hpp" />
-    <ClInclude Include="Engine\Core\Math\Vec2.hpp" />
     <ClInclude Include="Engine\KrokEngine.hpp" />
     <ClInclude Include="Engine\Util\FileIO.hpp" />
     <ClInclude Include="Engine\Util\StringUtil.hpp" />
-    <ClInclude Include="Engine\Core\Math\Matrix.hpp" />
-    <ClInclude Include="Engine\Add-on\Physics\Colliders\LineCollider.hpp" />
-    <ClInclude Include="Engine\Add-on\Physics\Components\RigidBody.hpp" />
+    <ClInclude Include="Testing\Ball.hpp" />
+    <ClInclude Include="Testing\Detector.hpp" />
     <ClInclude Include="Testing\TestScene.hpp" />
-    <ClInclude Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Core\Math\DynamicFloatArray.cpp" />
-    <ClCompile Include="Testing\Detector.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.cpp" />
-    <ClCompile Include="Engine\Add-on\Physics\Colliders\PolyShape.cpp" />
-    <ClCompile Include="Engine\Add-on\Physics\Colliders\PolyShape.hpp" />
-    <ClCompile Include="Engine\Add-on\Physics\PhysicsScene.cpp" />
-    <ClCompile Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.cpp" />
-    <ClCompile Include="Testing\Ball.cpp" />
-    <ClCompile Include="Engine\Add-on\Physics\Components\ColliderComponent.cpp" />
-    <ClCompile Include="Engine\Core\EventHandeler\EventHandeler.cpp" />
-    <ClCompile Include="Engine\Core\Graphics\ImageGameObject.cpp" />
-    <ClCompile Include="Engine\Core\Graphics\Renderer.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Colliders\CircleCollider.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Colliders\Collider.cpp" />
-    <ClCompile Include="Engine\Essentials\Component.cpp" />
-    <ClCompile Include="Engine\Util\DynamicFloatArray.cpp" />
-    <ClCompile Include="Engine\Util\DynamicFloatArray.hpp" />
+    <ClCompile Include="Engine\Add-on\Physics\Colliders\LineCollider.cpp" />
+    <ClCompile Include="Engine\Add-on\Physics\Colliders\PolyShape.cpp" />
+    <ClCompile Include="Engine\Add-on\Physics\Components\ColliderComponent.cpp" />
+    <ClCompile Include="Engine\Add-on\Physics\Components\RigidBody.cpp" />
+    <ClCompile Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.cpp" />
+    <ClCompile Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.cpp" />
+    <ClCompile Include="Engine\Add-on\Physics\PhysicsScene.cpp" />
+    <ClCompile Include="Engine\Core\Events\EventHandeler\EventHandeler.cpp" />
+    <ClCompile Include="Engine\Core\Events\Event\Event.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Animations\AnimationSprite\AnimationSprite.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Animations\Animation\Animation.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Clolor.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Core\GLBuffer\GLBuffer.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Core\Shader\Shader.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Core\Sprite\Sprite.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Core\Sprite\TextureShader.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Core\Texture\Texture.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Core\Window\Renderable.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Core\Window\Window.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Loaders\ShaderUtil.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\Renderer.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\RenderLayer.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\ResourceManager\PathManager.cpp" />
+    <ClCompile Include="Engine\Core\Graphics\ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="Engine\Core\Input\Input.cpp" />
+    <ClCompile Include="Engine\Core\Math\DynamicFloatArray.cpp" />
+    <ClCompile Include="Engine\Core\Math\Matrix.cpp" />
     <ClCompile Include="Engine\Core\Math\Matrix3.cpp" />
+    <ClCompile Include="Engine\Core\Math\Vec2.cpp" />
     <ClCompile Include="Engine\Core\SceneManager\Scene.cpp" />
     <ClCompile Include="Engine\Core\SceneManager\SceneManager.cpp" />
-    <ClCompile Include="Engine\Core\UI\Button.cpp" />
-    <ClCompile Include="Engine\Core\UI\Clickable.cpp" />
-    <ClCompile Include="Engine\Core\UI\Hoverable.cpp" />
-    <ClCompile Include="Engine\Core\UI\UI.cpp" />
-    <ClCompile Include="Engine\Core\UI\UIElement.cpp" />
     <ClCompile Include="Engine\Core\UpdateManager\UpdateManager.cpp" />
+    <ClCompile Include="Engine\Essentials\Component.cpp" />
     <ClCompile Include="Engine\Essentials\Game.cpp" />
     <ClCompile Include="Engine\Essentials\GameObject.cpp" />
-    <ClCompile Include="Engine\Core\Math\Vec2.cpp" />
+    <ClCompile Include="Engine\Essentials\Transform.cpp" />
     <ClCompile Include="Engine\Util\FileIO.cpp" />
     <ClCompile Include="Engine\Util\StringUtil.cpp" />
-    <ClCompile Include="Engine\Core\Input\Input.cpp" />
-    <ClCompile Include="Engine\Add-on\Physics\Colliders\LineCollider.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Engine\Core\Math\Matrix.cpp" />
-    <ClCompile Include="Engine\Add-on\Physics\Components\RigidBody.cpp" />
-    <ClCompile Include="Engine\Essentials\Transform.cpp" />
+    <ClCompile Include="Testing\Ball.cpp" />
+    <ClCompile Include="Testing\Detector.cpp" />
     <ClCompile Include="Testing\TestScene.cpp" />
-    <ClCompile Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="x64\Debug\Ball.obj" />
-    <Object Include="x64\Debug\Button.obj" />
-    <Object Include="x64\Debug\CircleCollider.obj" />
-    <Object Include="x64\Debug\Clickable.obj" />
-    <Object Include="x64\Debug\Collider.obj" />
-    <Object Include="x64\Debug\ColliderComponent.obj" />
-    <Object Include="x64\Debug\CollisionCalculator.obj" />
-    <Object Include="x64\Debug\Component.obj" />
-    <Object Include="x64\Debug\DynamicFloatArray.obj" />
-    <Object Include="x64\Debug\EventHandeler.obj" />
-    <Object Include="x64\Debug\FileIO.obj" />
-    <Object Include="x64\Debug\Game.obj" />
-    <Object Include="x64\Debug\GameObject.obj" />
-    <Object Include="x64\Debug\Hoverable.obj" />
-    <Object Include="x64\Debug\ImageGameObject.obj" />
-    <Object Include="x64\Debug\Input.obj" />
-    <Object Include="x64\Debug\LineCollider.obj" />
-    <Object Include="x64\Debug\Main.obj" />
-    <Object Include="x64\Debug\Matrix.obj" />
-    <Object Include="x64\Debug\Matrix3.obj" />
-    <Object Include="x64\Debug\PhysicsScene.obj" />
-    <Object Include="x64\Debug\Renderer.obj" />
-    <Object Include="x64\Debug\RigidBody.obj" />
-    <Object Include="x64\Debug\Scene.obj" />
-    <Object Include="x64\Debug\SceneManager.obj" />
-    <Object Include="x64\Debug\StringUtil.obj" />
-    <Object Include="x64\Debug\TestScene.obj" />
-    <Object Include="x64\Debug\Transform.obj" />
-    <Object Include="x64\Debug\TriggerColliderComponent.obj" />
-    <Object Include="x64\Debug\UI.obj" />
-    <Object Include="x64\Debug\UIElement.obj" />
-    <Object Include="x64\Debug\UpdateManager.obj" />
-    <Object Include="x64\Debug\Vec2.obj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="x64\Debug\KrokEngine.Build.CppClean.log" />
-    <Text Include="x64\Debug\KrokEngine.log" />
-    <Text Include="x64\Debug\KrokEngine.vcxproj.FileListAbsolute.txt" />
-    <Text Include="x64\Debug\vcpkg.applocal.log" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="x64\Debug\KrokEngine.exe.recipe" />
-    <None Include="x64\Debug\KrokEngine.ilk" />
-    <None Include="x64\Debug\vc143.idb" />
-    <None Include="x64\Debug\vc143.pdb" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

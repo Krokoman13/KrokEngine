@@ -1,11 +1,13 @@
 #include "Detector.hpp"
 
-Detector::Detector(Vec2 pPos) : ImageGameObject("Debug/Redcircle.png", pPos.x, pPos.y)
+Detector::Detector(Vec2 pPos) : GameObject("Detector", pPos.x, pPos.y)
 {
-	centered = true;
+	Sprite* sprite = AddComponent<Sprite>(RS__BALL_PNG);
+	sprite->diffuseColor = Color(0, 255, 0);
+	sprite->SetDisplayMode(DisplayMode::Center);
 
-	tc = new TriggerColliderComponent(new CircleCollider(GetWidth() / 2.f));
-	AddComponent(tc);
+	tc = AddComponent <TriggerColliderComponent>(new CircleCollider(sprite->GetLocalXScale() / 2.f));
+
 	tc->onTriggerEnterAction = [this](Collider* pCollider) {this->report("TriggerEnter: ", pCollider); };
 	tc->onTriggerExitAction = [this](Collider* pCollider) {this->report("TriggerExit: ", pCollider); };
 }

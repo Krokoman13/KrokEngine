@@ -1,14 +1,16 @@
 #include "Renderer.hpp"
-#include "ImageGameObject.hpp"
 #include <iostream>
 #include "../SceneManager/Scene.hpp"
 
-Renderer::Renderer(RenderWindow& window)
-{
-	this->_window = &window;
-	this->_renderLayers.push_back(RenderLayer(0));
+//#include "../Graphics/ResourceManager/ResourceManager.hpp"
 
-	if (ImageGameObject::ASSET_PATH == "") 	std::cout << "WARNING: Asset path for ImageGameObjects is not defined\n";
+Renderer::Renderer(Window& a_window) : m_window(a_window)
+{
+	m_renderLayers.push_back(RenderLayer(0));
+
+	//ResourceManager::pShaderCache = &shaderCache;
+	//ResourceManager::pGLBufferCache = &bufferCache;
+
 	std::cout << "Renderer initialized.\n";
 }
 
@@ -21,86 +23,108 @@ void Renderer::Render()
 	render();
 }
 
+void Renderer::Add(const std::vector<GameObject*>& a_newlyAdded)
+{
+	if (a_newlyAdded.empty()) return;
+
+	for (GameObject* gameObject : a_newlyAdded)
+	{
+		GameObject* temp = gameObject;
+		for (Renderable* renderable : temp->GetComponents<Renderable>()) add(renderable);
+	}
+
+	for (RenderLayer& renderLayer : m_renderLayers)
+	{
+		std::cout << renderLayer.layer << ", " << renderLayer.renderables.size() << std::endl;
+	}
+	std::cout << std::endl;
+}
+
+void Renderer::Remove(const std::vector<std::unique_ptr<GameObject>>& a_toDestroy)
+{
+	for (unsigned int i = 0; i < a_toDestroy.size(); i++)
+	{
+		for (Renderable* renderable : a_toDestroy[i]->GetComponents<Renderable>())  remove(renderable);
+	}
+}
+
+void Renderer::CheckAndFix()
+{
+	std::vector<Renderable*> toFix;
+
+	for (RenderLayer& renderLayer : m_renderLayers)
+	{
+		for (Renderable* renderable : renderLayer.renderables)
+		{
+			if (!renderable->HasChangedLayer()) continue;
+			toFix.push_back(renderable);
+		}
+	}
+
+	for (Renderable* renderable : toFix)
+	{
+		remove(renderable);
+		add(renderable);
+	}
+}
+
 void Renderer::render()
 {
-	_window->clear();
+	m_window.Clear();
 
-	for (RenderLayer& renderLayer : _renderLayers)
+	for (RenderLayer& renderLayer : m_renderLayers)
 	{
-		//std::cout << renderLayer.layer << ": " << renderLayer.sprites.size() << '\n';
+		//std::cout << renderLayer.layer << ", " << renderLayer.renderables.size() << std::endl;
 
-		while (renderLayer.drawables.size() > 0)
+		for (Renderable* renderable : renderLayer.renderables)
 		{
-			Drawable* sprite = renderLayer.drawables[renderLayer.drawables.size() - 1];
-
-			if (sprite != nullptr)
-			{
-				_window->draw(*sprite);
-			}
-
-			renderLayer.drawables.pop_back();
+			m_window.Draw(renderable);
 		}
 	}
 
-	_window->display();
+	m_window.Display();
 }
 
-void Renderer::ToRender(const std::vector<Drawable*>& drawables, int layer)
+void Renderer::add(Renderable* renderable)
 {
-	if (drawables.size() < 1) return;
-	if (layer < 0) layer = 1;
+	int layer = renderable->GetLayer();
+	renderable->SetLayerUnchanged();
 
-	if (layer > this->_renderLayers[this->_renderLayers.size() - 1].layer)
+	if (layer > m_renderLayers[m_renderLayers.size() - 1].layer)
 	{
-		RenderLayer newLayer(layer, drawables);
-
-		_renderLayers.push_back(newLayer);
+		RenderLayer newLayer(layer, renderable);
+		m_renderLayers.push_back(newLayer);
 		return;
 	}
 
-	for (std::vector<RenderLayer>::iterator it = _renderLayers.begin(); it != _renderLayers.end(); ++it)
+	for (std::vector<RenderLayer>::iterator it = m_renderLayers.begin(); it != m_renderLayers.end(); ++it)
 	{
 		if (it->layer == layer)
 		{
-			it->Add(drawables);
+			it->Add(renderable);
 			return;
 		}
 
 		if (it->layer > layer)
 		{
-			RenderLayer newLayer(layer, drawables);
-			_renderLayers.insert(it, newLayer);
+			RenderLayer newLayer(layer, renderable);
+			m_renderLayers.insert(it, newLayer);
 
 			return;
 		}
 	}
 }
 
-void Renderer::ToRender(Drawable* drawable, int layer)
+void Renderer::remove(const Renderable* a_renderable)
 {
-	if (layer < 0) layer = 1;
-
-	if (layer > _renderLayers[_renderLayers.size() - 1].layer)
+	for (RenderLayer& renderLayer : m_renderLayers)
 	{
-		RenderLayer newLayer(layer, drawable);
+		if (renderLayer.layer != a_renderable->GetLayer()) continue;
 
-		_renderLayers.push_back(newLayer);
-		return;
-	}
-
-	for (std::vector<RenderLayer>::iterator it = _renderLayers.begin(); it != _renderLayers.end(); ++it)
-	{
-		if (it->layer == layer)
+		for (std::vector<Renderable*>::iterator it = renderLayer.renderables.begin(); it != renderLayer.renderables.end(); ++it)
 		{
-			it->Add(drawable);
-			return;
-		}
-
-		if (it->layer > layer)
-		{
-			RenderLayer newLayer(layer, drawable);
-			_renderLayers.insert(it, newLayer);
-
+			if (a_renderable != *it) continue;
+			renderLayer.renderables.erase(it);
 			return;
 		}
 	}

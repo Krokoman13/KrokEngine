@@ -8,7 +8,7 @@ TestScene::TestScene() : PhysicsScene("TestScene")
 
 void TestScene::update()
 {
-	if (Input::WentDown(Mouse::Left))
+	if (Input::WentDown(Mouse::Button::Left))
 	{
 		if (_current) return;
 		_current = new Ball(Input::mousePosition);
@@ -16,11 +16,12 @@ void TestScene::update()
 		AddChild(_current);
 	}
 
-	if (Input::WentDown(Mouse::Right))
+	if (Input::WentDown(Mouse::Button::Right))
 	{
-		ImageGameObject* sphere = new ImageGameObject("Debug/Redcircle.png", Vec2(Input::mousePosition));
-		sphere->centered = true;
-		sphere->AddComponent(new ColliderComponent(new CircleCollider(sphere->GetWidth() / 2.0f)));
+		GameObject* sphere = new GameObject(Vec2(Input::mousePosition));
+		Sprite* sprite = sphere->AddComponent<Sprite>(RS__BLUE_BALL_PNG);
+		sprite->SetDisplayMode(DisplayMode::Center);
+
 		AddChild(sphere);
 	}
 
@@ -29,11 +30,10 @@ void TestScene::update()
 
 void TestScene::onLoad()
 {
-
 	const float width = 1150.0f;
 	const float height = width/2.0f;
 
-	PhysicsObject* box = new PhysicsObject(PolyShape::Rectangle(Vec2(64.0f, 64.0f), width, height).Invert(), Vec2(0, 1.5f));
+	PhysicsObject* box = new PhysicsObject(PolyShape::Rectangle(Vec2(0.f, 0.f), width, height).Invert(), Vec2(1, 1));
 	AddChild(box);
 	box->ShowCollider();
 }

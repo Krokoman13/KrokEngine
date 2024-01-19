@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include "Mouse.hpp"
+#include "Keyboard.hpp"
 #include "../Math/Vec2.hpp"
 
 class Input
@@ -21,12 +23,12 @@ public:
 	static bool mouseInScreen;
 	static Vec2 mousePosition;
 	static Vec2 previousMousePosition;
-	static bool mouseButtons[Mouse::Button::ButtonCount];
-	static bool mouseButtonsUp[Mouse::Button::ButtonCount];
-	static bool mouseButtonsDown[Mouse::Button::ButtonCount];
+	static bool mouseButtons[Mouse::ButtonCount];
+	static bool mouseButtonsUp[Mouse::ButtonCount];
+	static bool mouseButtonsDown[Mouse::ButtonCount];
 
-	static bool key[Keyboard::Key::KeyCount];
-	static bool keyDown[Keyboard::Key::KeyCount];
-	static bool keyUp[Keyboard::Key::KeyCount];
+	static bool key[Keyboard::KeyCount];
+	static bool keyDown[Keyboard::KeyCount];
+	static bool keyUp[Keyboard::KeyCount];
 };
 

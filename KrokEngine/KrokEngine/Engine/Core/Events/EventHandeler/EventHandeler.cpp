@@ -1,137 +1,110 @@
 #include "EventHandeler.hpp"
+#include "../../Input/Input.hpp"
+#include "../../Graphics/Core/Window/Window.hpp"
 //#include "../../Core/Math/Vec2.hpp"
 
 EventHandeler::EventHandeler()
 {
-
 }
 
-void EventHandeler::HandleEvent(Event& event)
+void EventHandeler::setKeyDown(int a_buttonValue)
 {
-	if (!Input::focus)
+	Input::m_keyWentDown[a_buttonValue] = true;
+	Input::m_keyIsPressed[a_buttonValue] = true;
+}
+
+void EventHandeler::setKeyUp(int a_buttonValue)
+{
+	Input::m_keyWentUp[a_buttonValue] = true;
+	Input::m_keyIsPressed[a_buttonValue] = false;
+}
+
+void EventHandeler::setMouseButtonDown(int a_buttonValue)
+{
+	Input::m_mouseWentDown[a_buttonValue] = true;
+	Input::m_mouseIsPressed[a_buttonValue] = true;
+}
+
+void EventHandeler::setMouseButtonUp(int a_buttonValue)
+{
+	Input::m_mouseWentUp[a_buttonValue] = true;
+	Input::m_mouseIsPressed[a_buttonValue] = false;
+}
+
+void EventHandeler::UpdateEvents()
+{
+	Input::m_previousMousePosition = Input::m_mousePosition;
+	Input::m_mouseMoved = false;
+
+	for (auto& pair : Input::m_keyWentDown) pair.second = false;
+	for (auto& pair : Input::m_keyWentUp) pair.second = false;
+
+	for (auto& pair : Input::m_mouseWentDown) pair.second = false;
+	for (auto& pair : Input::m_mouseWentUp) pair.second = false;
+}
+
+void EventHandeler::SetCallbacks(const Window& a_window)
+{
+	glfwSetKeyCallback(a_window.Get(), key_callback);
+	glfwSetCursorPosCallback(a_window.Get(), cursor_position_callback);
+	glfwSetCursorEnterCallback(a_window.Get(), cursor_enter_callback);
+	glfwSetMouseButtonCallback(a_window.Get(), mouse_button_callback);
+}
+
+void EventHandeler::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_UNKNOWN) return;
+
+	switch (action)
 	{
-		if (event.type == Event::GainedFocus)
-		{
-			Input::focus = true;
-			Input::mouseInScreen = true;
-			return;
-		}
-
-		return;
-	}
-
-	switch (event.type)
-	{
-	case Event::Closed:
-		//_renderWindow->close();
+	case GLFW_RELEASE:
+		setKeyUp(key);
 		break;
 
-	case Event::LostFocus:
-		Input::focus = false;
-		break;
-
-	case Event::MouseLeft:
-		Input::mouseInScreen = false;
-		break;
-
-	case Event::MouseEntered:
-		Input::mouseInScreen = true;
-		break;
-
-	case Event::MouseMoved:
-		{
-			//Vector2i mousePosition = Mouse::getPosition(*_renderWindow);
-			//Input::mousePosition.Set((float)mousePosition.x, (float)mousePosition.y);
-			//setHovering(ui->GetHoverables());
-		}
-		break;
-
-	case Event::MouseButtonPressed:
-		if (Input::mouseInScreen)
-		{
-			//Input::mouseButtons[event.mouseButton.button] = true;
-			//Input::mouseButtonsDown[event.mouseButton.button] = true;
-			//HandleClicks(event.mouseButton.button);
-		}
-		break;
-
-	case Event::MouseButtonReleased:
-		if (Input::mouseInScreen)
-		{
-			//Input::mouseButtons[event.mouseButton.button] = false;
-			//Input::mouseButtonsUp[event.mouseButton.button] = true;
-		}
-		break;
-
-	case Event::KeyPressed:
-		//Input::key[event.key.code] = true;
-		//Input::keyDown[event.key.code] = true;
-		break;
-
-	case Event::KeyReleased:
-		//Input::key[event.key.code] = false;
-		//Input::keyUp[event.key.code] = true;
+	case GLFW_PRESS:
+		setKeyDown(key);
 		break;
 
 	default:
-		return;
+		break;
 	}
 }
 
-void EventHandeler::ClearButtons()
+void EventHandeler::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	//for (unsigned int i = 0; i < Keyboard::Key::KeyCount ; i++)
-	//{
-	//	Input::keyDown[i] = false;
-	//	Input::keyUp[i] = false;
-	//}
-
-	//for (unsigned int i = 0; i < Mouse::Button::ButtonCount; i++)
-	//{
-	//	Input::mouseButtonsDown[i] = false;
-	//	Input::mouseButtonsUp[i] = false;
-	//}
+	Input::m_mousePosition = Vec2((float)xpos, (float)ypos);
+	Input::m_mouseMoved = true;
 }
 
-//void EventHandeler::HandleClicks(Mouse::Button button)
-//{
-//	for (size_t i = _hoveringOver.size(); i != 0; i--)
-//	{
-//		Clickable* clickable = dynamic_cast<Clickable*>(_hoveringOver[i-1]);
-//
-//		if (clickable)
-//		{
-//			if (clickable->onClickButton == button)
-//			{
-//				clickable->OnClick();
-//				return;
-//			}
-//		}
-//	}
-//}
+void EventHandeler::cursor_enter_callback(GLFWwindow* window, int entered)
+{
+	if (entered)
+	{
+		Input::m_mouseInScreen = true;
+	}
+	else
+	{
+		Input::m_mouseInScreen = false;
+	}
+}
 
-//void EventHandeler::setHovering(const std::vector<Hoverable*>& hoverables)
-//{
-//	while (_hoveringOver.size() > 0)
-//	{
-//		Hoverable* oldHoverable = _hoveringOver[_hoveringOver.size() - 1];
-//
-//		if (oldHoverable != nullptr)
-//		{
-//			oldHoverable->hovering = false;
-//		}
-//
-//		_hoveringOver.pop_back();
-//	}
-//
-//	for (Hoverable* hoverable : hoverables)
-//	{
-//		if (hoverable == nullptr) continue;
-//
-//		if (hoverable->IsInside(Input::mousePosition.x, Input::mousePosition.y))
-//		{
-//			hoverable->hovering = true;
-//			_hoveringOver.push_back(hoverable);
-//		}
-//	}
-//}
+void EventHandeler::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button == GLFW_KEY_UNKNOWN) return;
+
+	std::cout << button << std::endl;
+
+	switch (action)
+	{
+	case GLFW_RELEASE:
+		setMouseButtonUp(button);
+		break;
+
+	case GLFW_PRESS:
+		setMouseButtonDown(button);
+		break;
+
+	default:
+		break;
+	}
+}

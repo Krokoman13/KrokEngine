@@ -1,11 +1,15 @@
 #include <iostream>
 #include "Game.hpp"
+
 #include "../Core/Graphics/ResourceManager/ResourceManager.hpp"
+#include "../Core/Input/Input.hpp"
 
 Game::Game(const std::string& pName, const unsigned int pWidth, const unsigned int pHeight, const unsigned int pTargetFPS)
 	: _window(pName.c_str(), pWidth, pHeight), SceneManager(this), EventHandeler(), _renderer(_window), _updateManger()
 {
 	std::cout << "Game initialized.\n";
+
+	SetCallbacks(_window);
 
 	srand((unsigned int)time(NULL));
 }
@@ -22,9 +26,9 @@ void Game::Run()
 
 	while (_window.IsOpen())
 	{
-		ClearButtons();
+		UpdateEvents();
+		_window.PollEvents();
 		Scene* currentScene = GetCurrentScene();
-		Input::previousMousePosition = Input::mousePosition;
 
 		//Handle Events
 		//while (_renderWindow.pollEvent(event))
@@ -37,7 +41,7 @@ void Game::Run()
 		deltaSeconds = ms_int.count() / 1000.f;
 		t1 = std::chrono::high_resolution_clock::now();
 
-		if (!Input::focus) continue;
+		if (!Input::MouseInScreen()) continue;
 
 		if (devControls) handleDevControls();
 

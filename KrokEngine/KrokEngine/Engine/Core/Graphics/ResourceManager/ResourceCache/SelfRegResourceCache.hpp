@@ -36,7 +36,7 @@ private:
     // A private method to find a lonely resource
     unsigned int findLonely()
     {
-        const unsigned int size = this->m_resources.size();
+        const unsigned int size = (unsigned int)this->m_resources.size();
 
         for (unsigned int i = 0; i < size; i++)
         {

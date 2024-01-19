@@ -12,6 +12,6 @@ Ball::Ball(Vec2 pPos) : GameObject("Ball", pPos.x, pPos.y)
 
 void Ball::update()
 {
-	Vec2 velocity = Input::mousePosition - GetGlobalPosition();
+	Vec2 velocity = Input::MousePos() - GetGlobalPosition();
 	rb->velocity = velocity;
 }

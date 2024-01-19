@@ -6,11 +6,6 @@ void error_callback(int a_error, const char* a_description)
 	std::cerr << "GLFW Error, " << a_error << ": " << a_description << std::endl;
 }
 
-//static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-//{
-//	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-//		glfwSetWindowShouldClose(window, GLFW_TRUE);
-//}
 
 Window::Window(const char* a_title, const unsigned int a_width, const unsigned int a_height, const bool a_hasVsync):
 	camera(a_width, a_height), m_width(a_width), m_height(a_height)
@@ -34,8 +29,6 @@ Window::Window(const char* a_title, const unsigned int a_width, const unsigned i
 		glfwTerminate();
 		throw std::runtime_error("Failed to create GLFW window");
 	}
-
-	//glfwSetKeyCallback(m_pWindow, key_callback);
 
 	//Make the created window the current context
 	glfwMakeContextCurrent(m_pWindow);
@@ -95,13 +88,16 @@ void Window::Display()
 {
 	//Swap the front and back buffers
 	glfwSwapBuffers(m_pWindow);
-
-	//Poll for and process events
-	glfwPollEvents();
 }
 
 void Window::Clear()
 {
 	//Clear the color buffer
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Window::PollEvents()
+{
+	//Poll for and process events
+	glfwPollEvents();
 }

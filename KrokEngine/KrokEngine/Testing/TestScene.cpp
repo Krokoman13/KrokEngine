@@ -11,14 +11,14 @@ void TestScene::update()
 	if (Input::WentDown(Mouse::Button::Left))
 	{
 		if (_current) return;
-		_current = new Ball(Input::mousePosition);
+		_current = new Ball(Input::MousePos());
 		_current->rb->onTriggerEnterAction = [this](Collider* pCollider) {TriggerColliderComponent::EnterReport(this, pCollider); };
 		AddChild(_current);
 	}
 
 	if (Input::WentDown(Mouse::Button::Right))
 	{
-		GameObject* sphere = new GameObject(Vec2(Input::mousePosition));
+		GameObject* sphere = new GameObject(Vec2(Input::MousePos()));
 		Sprite* sprite = sphere->AddComponent<Sprite>(RS__BLUE_BALL_PNG);
 		sprite->SetDisplayMode(DisplayMode::Center);
 

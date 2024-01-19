@@ -5,45 +5,53 @@ constexpr auto to_underlying(E e) noexcept {
 	return static_cast<std::underlying_type_t<E>>(e);
 }
 
-bool Input::focus = true;
+bool Input::m_mouseInScreen = true;
+bool Input::m_mouseMoved = false;
 
-bool Input::mouseInScreen = true;
-Vec2 Input::mousePosition = Vec2(0.0f, 0.0f);
-Vec2 Input::previousMousePosition = Vec2(0.0f, 0.0f);
-bool Input::mouseButtons[Mouse::ButtonCount] = { false };
-bool Input::mouseButtonsUp[Mouse::ButtonCount] = { false };
-bool Input::mouseButtonsDown[Mouse::ButtonCount] = { false };
+Vec2 Input::m_mousePosition = Vec2(0.0f, 0.0f);
+Vec2 Input::m_previousMousePosition = Vec2(0.0f, 0.0f);
 
-bool Input::key[Keyboard::KeyCount] = { false };
-bool Input::keyDown[Keyboard::KeyCount] = { false };
-bool Input::keyUp[Keyboard::KeyCount] = { false };
+std::unordered_map<int, bool> Input::m_keyWentDown;
+std::unordered_map<int, bool> Input::m_keyWentUp;
+std::unordered_map<int, bool> Input::m_keyIsPressed;
 
-bool Input::IsPressed(Keyboard::Key pKey)
+std::unordered_map<int, bool> Input::m_mouseWentDown;
+std::unordered_map<int, bool> Input::m_mouseWentUp;
+std::unordered_map<int, bool> Input::m_mouseIsPressed;
+
+bool Input::IsPressed(const Keyboard::Key a_key)
 {
-	return key[static_cast<unsigned int>(pKey)];
+	return read(m_keyIsPressed, (int)a_key);
 }
 
-bool Input::IsPressed(Mouse::Button pMouseButton)
+bool Input::IsPressed(const Mouse::Button a_mouseButton)
 {
-	return mouseButtons[static_cast<unsigned int>(pMouseButton)];
+	return read(m_mouseIsPressed, (int)a_mouseButton);
 }
 
-bool Input::WentDown(Keyboard::Key pKey)
+bool Input::WentDown(const Keyboard::Key a_key)
 {
-	return keyDown[static_cast<unsigned int>(pKey)];
+	return read(m_keyWentDown, (int)a_key);
 }
 
-bool Input::WentDown(Mouse::Button pMouseButton)
+bool Input::WentDown(const Mouse::Button a_mouseButton)
 {
-	return mouseButtonsDown[static_cast<unsigned int>(pMouseButton)];
+	return read(m_mouseWentDown, (int)a_mouseButton);
 }
 
-bool Input::WentUp(Keyboard::Key pKey)
+bool Input::WentUp(const Keyboard::Key a_key)
 {
-	return keyUp[static_cast<unsigned int>(pKey)];
+	return read(m_keyWentUp, (int)a_key);
 }
 
-bool Input::WentUp(Mouse::Button pMouseButton)
+bool Input::WentUp(const Mouse::Button a_mouseButton)
 {
-	return mouseButtonsUp[static_cast<unsigned int>(pMouseButton)];
+	return read(m_mouseWentUp, (int)a_mouseButton);
+}
+
+bool Input::read(const std::unordered_map<int, bool>& a_map, const int key)
+{
+	auto it = a_map.find(key);
+	if (it == a_map.end()) return false;
+	return it->second;
 }

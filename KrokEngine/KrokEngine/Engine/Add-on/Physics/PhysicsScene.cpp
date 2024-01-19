@@ -1,6 +1,7 @@
 #include "PhysicsScene.hpp"
 #include "../../Core/SceneManager/Scene.hpp"
 #include "../../Essentials/Game.hpp"
+#include "../../Core/Input/Input.hpp"
 
 void PhysicsScene::PhysicsUpdate()
 {

@@ -8,8 +8,6 @@
 
 #include "Renderable.hpp"
 
-void error_callback(int error, const char* description);
-
 class Camera
 {
 private:
@@ -40,11 +38,11 @@ private:
 	unsigned int m_width;
 	unsigned int m_height;
 
-public:
+public:	
+	Camera camera;
+
 	Window(const char* a_title, const unsigned int a_width, const unsigned int a_height, const bool a_hasVsync = true);
 	~Window();
-
-	Camera camera;
 
 public:
 	inline void SetVSync(const bool a_hasVsync);
@@ -56,5 +54,9 @@ public:
 
 	void Display();
 	void Clear();
+
+	void PollEvents();
+
+	GLFWwindow* Get() const { return m_pWindow; };
 };
 

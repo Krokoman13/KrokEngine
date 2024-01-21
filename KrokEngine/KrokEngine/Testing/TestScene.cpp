@@ -19,7 +19,8 @@ void TestScene::update()
 	if (Input::WentDown(Mouse::Button::Right))
 	{
 		GameObject* sphere = new GameObject(Vec2(Input::MousePos()));
-		Sprite* sprite = sphere->AddComponent<Sprite>(RS__BLUE_BALL_PNG);
+		Sprite* sprite = sphere->AddComponent<Sprite>(RS__BALL_PNG);
+		sprite->diffuseColor = Color::Blue();
 		sprite->SetDisplayMode(DisplayMode::Center);
 
 		AddChild(sphere);

@@ -92,7 +92,7 @@ void EventHandeler::mouse_button_callback(GLFWwindow* window, int button, int ac
 {
 	if (button == GLFW_KEY_UNKNOWN) return;
 
-	std::cout << button << std::endl;
+	//std::cout << button << std::endl;
 
 	switch (action)
 	{

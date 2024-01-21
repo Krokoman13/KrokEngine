@@ -29,6 +29,18 @@ struct Color
 
 	static Color Hex(const unsigned int a_hexValue);
 
+	static Color White();
+	static Color Black();
+	static Color Red();
+	static Color Green();
+	static Color Blue();
+
+	static Color Yellow();
+	static Color Pink();
+	static Color Gray();
+	static Color Orange();
+	static Color Maroon();
+
 private:
 	inline unsigned int clamp(const unsigned int a_value) { return a_value < max ? a_value : max; };
 };

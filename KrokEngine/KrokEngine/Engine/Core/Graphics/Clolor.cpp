@@ -61,3 +61,64 @@ Color Color::Hex(const unsigned int hexValue)
 	rgbColor.b = ((hexValue) & 0xFF);        // Extract the BB byte
 	return rgbColor;
 }
+
+#define C_WHITE 0xFFFFFF
+#define C_BLACK 0x000000
+#define C_RED 0xFF0000
+#define C_GREEN 0x00FF00
+#define C_BLUE 0x0000FF
+#define C_YELLOW 0xFFFF00
+#define C_PINK 0xFFC0CB
+#define C_GRAY 0x808080
+#define C_ORANGE 0xFFA500
+#define C_MAROON 0x800000
+
+Color Color::White()
+{
+	return Color::Hex(C_WHITE);
+}
+
+Color Color::Black()
+{
+	return Color::Hex(C_BLACK);
+}
+
+Color Color::Red()
+{
+	return Color::Hex(C_RED);
+}
+
+Color Color::Green()
+{
+	return Color::Hex(C_GREEN);
+}
+
+Color Color::Blue()
+{
+	return Color::Hex(C_BLUE);
+}
+
+Color Color::Yellow()
+{
+	return Color::Hex(C_YELLOW);
+}
+
+Color Color::Pink()
+{
+	return Color::Hex(C_PINK);
+}
+
+Color Color::Gray()
+{
+	return Color::Hex(C_GRAY);
+}
+
+Color Color::Orange()
+{
+	return Color::Hex(C_ORANGE);
+}
+
+Color Color::Maroon()
+{
+	return Color::Hex(C_MAROON);
+}

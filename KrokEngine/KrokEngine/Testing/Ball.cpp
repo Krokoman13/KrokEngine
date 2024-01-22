@@ -6,7 +6,7 @@ Ball::Ball(Vec2 pPos) : GameObject("Ball", pPos.x, pPos.y)
 	sprite->diffuseColor = Color::Maroon();
 	sprite->SetDisplayMode(DisplayMode::Center);
 
-	rb = AddComponent<RigidBody>(new CircleCollider(sprite->GetLocalXScale()));
+	rb = AddComponent<RigidBody>(new CircleCollider(128.0f / 2));
 	rb->bounciness = 0.9f;
 }
 

@@ -197,6 +197,7 @@
     <ClInclude Include="Engine\KrokEngine.hpp" />
     <ClInclude Include="Engine\Util\FileIO.hpp" />
     <ClInclude Include="Engine\Util\StringUtil.hpp" />
+    <ClInclude Include="Engine\Core\Math\Shapes\Rectangle.hpp" />
     <ClInclude Include="Testing\Ball.hpp" />
     <ClInclude Include="Testing\Detector.hpp" />
     <ClInclude Include="Testing\TestScene.hpp" />
@@ -245,6 +246,7 @@
     <ClCompile Include="Engine\Util\FileIO.cpp" />
     <ClCompile Include="Engine\Util\StringUtil.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Engine\Core\Math\Shapes\Rectangle.cpp" />
     <ClCompile Include="Testing\Ball.cpp" />
     <ClCompile Include="Testing\Detector.cpp" />
     <ClCompile Include="Testing\TestScene.cpp" />

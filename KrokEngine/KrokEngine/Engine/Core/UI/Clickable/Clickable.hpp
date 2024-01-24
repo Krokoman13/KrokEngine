@@ -20,7 +20,7 @@ public:
 protected:
 	virtual void changeHovering(const bool a_isOver) override;
 
-	virtual void onClick(Mouse::Button a_mouseButton);
+	virtual void onPressed(Mouse::Button a_mouseButton);
 	virtual void onRelease(Mouse::Button a_mouseButton);
 };
 

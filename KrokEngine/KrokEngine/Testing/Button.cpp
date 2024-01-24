@@ -1,6 +1,6 @@
 #include "Button.hpp"
 
-Button::Button(const int a_spriteAID, const int a_spriteBID, const int a_layer, const Rectangle a_rectangle)
+ButtonObject::ButtonObject(const int a_spriteAID, const int a_spriteBID, const Rectangle a_rectangle, const int a_layer)
 {
 	m_spriteA = AddComponent<Sprite>(a_spriteAID);
 	m_spriteA->SetRenderLayer(a_layer);
@@ -10,15 +10,14 @@ Button::Button(const int a_spriteAID, const int a_spriteBID, const int a_layer, 
 	m_spriteB->SetRenderLayer(a_layer);
 	m_spriteB->SetLocalScale(Vec2(a_rectangle.Width(), a_rectangle.Height()));
 
-	m_cliclable = AddComponent<Clickable>(a_rectangle, a_layer);
+	m_buttonComp = AddComponent<ButtonComponent>(a_rectangle, a_layer);
 }
 
-void Button::update()
+void ButtonObject::update()
 {
-	bool isHovering = m_cliclable->IsHovering();
+	bool isHovering = m_buttonComp->IsHovering();
 
-	if (m_cliclable->IsPressed(Mouse::Button::Left)) isHovering = !isHovering;
-	//std::cout << isHovering << std::endl;
+	if (m_buttonComp->IsPressed(Mouse::Button::Left)) isHovering = !isHovering;
 	m_spriteA->SetActive(!isHovering);
 	m_spriteB->SetActive(isHovering);
 }

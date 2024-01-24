@@ -8,27 +8,27 @@ private:
 	float m_height;
 
 public:
-	Rectangle(const Vec2 a_middle, const float a_width, const float a_height) : m_width(a_width), m_height(a_height) { SetMiddle(a_middle); };
+	Rectangle(const float a_width, const float a_height, const Vec2 a_middle = Vec2(0.f, 0.f)) : m_width(a_width), m_height(a_height) { SetMiddle(a_middle); };
 	
 public:
 	static Rectangle FromTopLeft(const Vec2 a_topLeft, const float a_width, const float a_height)
 	{
-		return Rectangle(a_topLeft + Vec2(a_width, -a_height) / 2.f, a_width, a_height);
+		return Rectangle(a_width, a_height, a_topLeft + Vec2(a_width, -a_height) / 2.f);
 	}
 
 	static Rectangle FromTopRight(const Vec2 a_topRight, const float a_width, const float a_height)
 	{
-		return Rectangle(a_topRight + Vec2(-a_width, -a_height) / 2.f, a_width, a_height);
+		return Rectangle(a_width, a_height, a_topRight + Vec2(-a_width, -a_height) / 2.f);
 	}
 
 	static Rectangle FromBottemLeft(const Vec2 a_bottemLeft, const float a_width, const float a_height)
 	{
-		return Rectangle(a_bottemLeft + Vec2(a_width, a_height) / 2.f, a_width, a_height);
+		return Rectangle(a_width, a_height, a_bottemLeft + Vec2(a_width, a_height) / 2.f);
 	}
 
 	static Rectangle FromBottemRight(const Vec2 a_bottemRight, const float a_width, const float a_height)
 	{
-		return Rectangle(a_bottemRight + Vec2(-a_width, a_height) / 2.f, a_width, a_height);
+		return Rectangle(a_width, a_height, a_bottemRight + Vec2(-a_width, a_height) / 2.f);
 	}
 
 	Vec2 TopLeft() const { return GetMiddle() + Vec2(-m_width,  m_height) / 2.f; };
@@ -41,7 +41,8 @@ public:
 
 	bool IsInside(const Vec2 a_point, const Matrix3& a_identity) const override
 	{
-		return Rectangle(GetMiddle() + a_identity.GetPos(), m_width, m_height).isInside(a_point);
+		const Vec2 scale = a_identity.GetScale();
+		return Rectangle(m_width * scale.x, m_height * scale.y, GetMiddle() + a_identity.GetPos()).isInside(a_point);
 	};
 
 private:

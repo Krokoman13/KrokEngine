@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Assets\fileIndex.hpp" />
+    <ClInclude Include="Engine\Core\UI\Clickable\ButtonComponent.hpp" />
     <ClInclude Include="Testing\Button.hpp" />
     <ClInclude Include="Engine\Core\UI\Clickable\Clickable.hpp" />
     <ClInclude Include="Engine\Add-on\Physics.hpp" />

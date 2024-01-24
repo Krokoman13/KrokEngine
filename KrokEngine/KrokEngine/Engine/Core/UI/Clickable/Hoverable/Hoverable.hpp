@@ -23,7 +23,7 @@ public:
 	void SetShape(const Rectangle a_rectangle);
 
 	void SetLayer(const int a_layer) { m_layer = a_layer; };
-	int GetLayer() { return m_layer; };
+	int GetLayer() const { return m_layer; };
 
 	bool IsInside(const Vec2 a_point) const;
 	void SetHovering(const bool a_isOver);

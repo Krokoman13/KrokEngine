@@ -4,7 +4,7 @@ void Clickable::OnClick(Mouse::Button a_mouseButton)
 {
 	m_isPressed[(int)a_mouseButton] = true;
 
-	onClick(a_mouseButton);
+	onPressed(a_mouseButton);
 }
 
 void Clickable::OnRelease(Mouse::Button a_mouseButton)
@@ -29,7 +29,7 @@ void Clickable::changeHovering(const bool a_isOver)
 	for (auto& pair : m_isPressed) pair.second = false;
 }
 
-void Clickable::onClick(Mouse::Button a_mouseButton)
+void Clickable::onPressed(Mouse::Button a_mouseButton)
 {
 }
 

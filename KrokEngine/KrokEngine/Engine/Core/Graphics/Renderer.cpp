@@ -26,20 +26,11 @@ void Renderer::Render()
 
 void Renderer::Add(const std::vector<GameObject*>& a_newlyAdded)
 {
-	if (a_newlyAdded.empty()) return;
-
 	for (GameObject* gameObject : a_newlyAdded)
 	{
 		GameObject* temp = gameObject;
 		for (Renderable* renderable : temp->GetComponents<Renderable>()) add(renderable);
 	}
-
-	for (RenderLayer& renderLayer : m_renderLayers)
-	{
-		std::cout << renderLayer.layer << ", " << renderLayer.renderables.size() << std::endl;
-	}
-
-	std::cout << std::endl;
 }
 
 void Renderer::Remove(const std::vector<std::unique_ptr<GameObject>>& a_toDestroy)
@@ -86,6 +77,7 @@ void Renderer::render()
 
 		for (Renderable* renderable : renderLayer.renderables)
 		{
+			if (!renderable->IsActive()) continue;
 			m_window.Draw(renderable);
 		}
 	}

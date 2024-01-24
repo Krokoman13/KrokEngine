@@ -1,68 +1,65 @@
 #pragma once
-#include "../Vec2.hpp"
+#include "Shape.hpp"
 
-class Rectangle
+class Rectangle : public Shape
 {
 private:
-	Vec2 m_topLeft;
-	
 	float m_width;
 	float m_height;
 
 public:
-	Rectangle(const Vec2 a_topleft, const float a_width, const float a_height) : m_topLeft(a_topleft), m_width(a_width), m_height(a_height) {};
+	Rectangle(const Vec2 a_middle, const float a_width, const float a_height) : m_width(a_width), m_height(a_height) { SetMiddle(a_middle); };
 	
 public:
-	static Rectangle FromMiddle(const Vec2 a_middle, const float a_width, const float a_height)
+	static Rectangle FromTopLeft(const Vec2 a_topLeft, const float a_width, const float a_height)
 	{
-		return Rectangle(a_middle + Vec2(-a_width, a_height)/2, a_width, a_height);
-	}
-
-	static Rectangle FromBottemRight(const Vec2 a_bottemRight, const float a_width, const float a_height)
-	{
-		return Rectangle(a_bottemRight + Vec2(-a_width, a_height), a_width, a_height);
+		return Rectangle(a_topLeft + Vec2(a_width, -a_height) / 2.f, a_width, a_height);
 	}
 
 	static Rectangle FromTopRight(const Vec2 a_topRight, const float a_width, const float a_height)
 	{
-		return Rectangle(a_topRight + Vec2(-a_width, 0), a_width, a_height);
+		return Rectangle(a_topRight + Vec2(-a_width, -a_height) / 2.f, a_width, a_height);
 	}
 
 	static Rectangle FromBottemLeft(const Vec2 a_bottemLeft, const float a_width, const float a_height)
 	{
-		return Rectangle(a_bottemLeft + Vec2(0, a_height), a_width, a_height);
+		return Rectangle(a_bottemLeft + Vec2(a_width, a_height) / 2.f, a_width, a_height);
 	}
 
-	Vec2 Middle() const { return m_topLeft + Vec2(m_width, -m_height)/2.f; };
-	Vec2 TopLeft() const { return m_topLeft; }
-	Vec2 TopRight() const { return m_topLeft + Vec2(m_width, 0); };
-	Vec2 BottemLeft() const { return m_topLeft + Vec2(0, -m_height); };
-	Vec2 BottemRight() const { return m_topLeft + Vec2(m_width, -m_height); };
+	static Rectangle FromBottemRight(const Vec2 a_bottemRight, const float a_width, const float a_height)
+	{
+		return Rectangle(a_bottemRight + Vec2(-a_width, a_height) / 2.f, a_width, a_height);
+	}
+
+	Vec2 TopLeft() const { return GetMiddle() + Vec2(-m_width,  m_height) / 2.f; };
+	Vec2 TopRight() const { return GetMiddle() + Vec2( m_width,  m_height) / 2.f; };
+	Vec2 BottemLeft() const { return GetMiddle() + Vec2(-m_width, -m_height) / 2.f; };
+	Vec2 BottemRight() const { return GetMiddle() + Vec2( m_width, -m_height) / 2.f; };
 
 	float Width() const { return m_width; }
 	float Height() const { return m_height; }
 
-	bool IsInside(const Vec2 a_point) const
+	bool IsInside(const Vec2 a_point, const Matrix3& a_identity) const override
 	{
-		if (!couldBeInside(a_point)) return false;
+		return Rectangle(GetMiddle() + a_identity.GetPos(), m_width, m_height).isInside(a_point);
+	};
 
-		if (a_point.x < m_topLeft.x || a_point.y > m_topLeft.y) return false;
-		
+private:
+	bool isInside(const Vec2 a_point) const
+	{
+		const Vec2 middle = GetMiddle();
+		const Vec2 diffrence = a_point - middle;
+		const Vec2 maxRange = Vec2(m_width / 2.f, m_height / 2.f) ;
+
+		if (maxRange.LengthSquared() < diffrence.LengthSquared()) return false;
+		const Vec2 topleft = TopLeft();
+
+		if (a_point.x < topleft.x || a_point.y > topleft.y) return false;
 		const Vec2 bottemRight = BottemRight();
 
 		if (a_point.x > bottemRight.x || a_point.y < bottemRight.y) return false;
 
 		return true;
-	};
-
-private:
-	bool couldBeInside(const Vec2 a_point) const
-	{
-		const Vec2 middle = Middle();
-		const Vec2 maxRange = m_topLeft - middle;
-		const Vec2 diffrence = a_point - middle;
-
-		return maxRange.LengthSquared() > diffrence.LengthSquared();
-	};
+	}
 };
 

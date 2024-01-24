@@ -12,6 +12,8 @@
 #define RS__BRICKS_JPG	5		 //Assets\textures\bricks.jpg
 #define RS__BALL_PNG	6		 //Assets\textures\Debug\Ball.png
 #define RS__PIXEL_PNG	7		 //Assets\textures\Debug\Pixel.png
+#define RS__DEFAULT_BUTTON_2_PNG	14		 //Assets\textures\Default Button-2.png
+#define RS__DEFAULT_BUTTON_PNG	15		 //Assets\textures\Default Button.png
 #define RS__LAND_JPG	8		 //Assets\textures\land.jpg
 #define RS__POOLTABLEFRAME_PNG	9		 //Assets\textures\PoolTableFrame.png
 #define RS__RUNICFLOOR_PNG	10		 //Assets\textures\runicfloor.png

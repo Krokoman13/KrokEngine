@@ -5,11 +5,11 @@
 #include "../Core/Input/Input.hpp"
 
 Game::Game(const std::string& pName, const unsigned int pWidth, const unsigned int pHeight, const unsigned int pTargetFPS)
-	: _window(pName.c_str(), pWidth, pHeight), SceneManager(this), EventHandeler(), _renderer(_window), _updateManger()
+	: _window(pName.c_str(), pWidth, pHeight), SceneManager(this), _renderer(_window), _updateManger()
 {
 	std::cout << "Game initialized.\n";
 
-	SetCallbacks(_window);
+	_eventManager.SetCallbacks(_window);
 
 	srand((unsigned int)time(NULL));
 }
@@ -26,7 +26,7 @@ void Game::Run()
 
 	while (_window.IsOpen())
 	{
-		UpdateEvents();
+		_eventManager.UpdateEvents();
 		_window.PollEvents();
 		Scene* currentScene = GetCurrentScene();
 
@@ -44,6 +44,9 @@ void Game::Run()
 		if (!Input::MouseInScreen()) continue;
 
 		if (devControls) handleDevControls();
+
+		_eventManager.Add(currentScene->ToLoad());
+		_eventManager.Remove(currentScene->ToDestroy());
 
 		_updateManger.Update(currentScene);
 

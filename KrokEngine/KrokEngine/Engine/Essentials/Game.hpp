@@ -8,7 +8,7 @@
 #include "../Core/UpdateManager/UpdateManager.hpp"
 
 class Game 
-	: public SceneManager, public EventHandeler
+	: public SceneManager
 {
 public:
 	Game(const std::string& pName, const unsigned int pWidth, const unsigned int pHeight, const unsigned int pTargetFPS);
@@ -25,6 +25,7 @@ public:
 private:
 	Renderer _renderer;
 	UpdateManager _updateManger;
+	EventHandeler _eventManager;
 
 	Window _window;
 

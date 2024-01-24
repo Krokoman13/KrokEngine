@@ -2,6 +2,7 @@
 #include "Testing/TestScene.hpp"
 
 #include "Testing/UpdateComponent.hpp"
+#include "Testing/Button.hpp"
 #include <stdlib.h>
 
 int main()
@@ -12,7 +13,31 @@ int main()
 	Game myGame("Demo", 1280, 720, 120);
 	myGame.devControls = true;
 
-	myGame.AddScene(new TestScene());
+	myGame.AddScene(new Scene("Test"));
+
+	{
+		Button* button = new Button(RS__DEFAULT_BUTTON_PNG, RS__DEFAULT_BUTTON_2_PNG, 10, Rectangle(Vec2(0, 0), 200, 100));
+		myGame.GetCurrentScene()->AddChild(button);
+		button->SetLocalPosition(500, 500);
+	}
+
+	{
+		Button* button = new Button(RS__DEFAULT_BUTTON_PNG, RS__DEFAULT_BUTTON_2_PNG, 11, Rectangle(Vec2(0, 0), 200, 100));
+		myGame.GetCurrentScene()->AddChild(button);
+		button->SetLocalPosition(550, 550);
+	}
+
+	{
+		Button* button = new Button(RS__DEFAULT_BUTTON_PNG, RS__DEFAULT_BUTTON_2_PNG, 12, Rectangle(Vec2(0, 0), 200, 100));
+		myGame.GetCurrentScene()->AddChild(button);
+		button->SetLocalPosition(500, 550);
+	}
+
+	{
+		Button* button = new Button(RS__DEFAULT_BUTTON_PNG, RS__DEFAULT_BUTTON_2_PNG, 13, Rectangle(Vec2(0, 0), 200, 100));
+		myGame.GetCurrentScene()->AddChild(button);
+		button->SetLocalPosition(550, 500);
+	}
 
 	{
 		GameObject* image = new GameObject();

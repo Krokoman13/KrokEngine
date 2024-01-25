@@ -116,7 +116,7 @@ void EventHandeler::cursor_position_callback(GLFWwindow* window, double xpos, do
 	Input::m_mouseMoved = true;
 	Hoverable* nextHoverable = nullptr;
 
-	for (int i = m_hoverables.size() - 1; i >= 0; --i) {
+	for (int i = (int)m_hoverables.size() - 1; i >= 0; --i) {
 		Hoverable* it = m_hoverables[i];
 
 		if (!it->IsInside(Input::m_mousePosition)) continue;

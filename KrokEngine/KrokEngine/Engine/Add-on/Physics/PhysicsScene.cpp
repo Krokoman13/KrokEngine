@@ -5,9 +5,6 @@
 
 void PhysicsScene::PhysicsUpdate()
 {
-	load(ToLoad());
-	handleDestroyed(ToDestroy());
-
 	Game* game = sceneManager->GetGame();
 	
 	if (game->devControls && Input::IsPressed(Keyboard::Key::Space) && !Input::WentDown(Keyboard::Key::Right))
@@ -187,7 +184,7 @@ void PhysicsScene::applyVelocities(const float pMultiplier)
 			TriggerColliderComponent* tCollider = _triggerObjects[i];
 			if (!tCollider->IsActive()) continue;
 
-			CollisionInfo info = getCollision(rigidBody, translation, tCollider, -1.0f);
+			CollisionInfo info = getCollision(rigidBody, translation, tCollider);
 
 			if (info.TOI < pMultiplier)
 			{
@@ -254,7 +251,7 @@ CollisionInfo PhysicsScene::checkRigid(RigidBody* pRigidBody, const float pMulti
 		ColliderComponent* staticCollider = _staticObjects[i];
 		if (!staticCollider->IsActive()) continue;
 
-		CollisionInfo info = getCollision(pRigidBody, desiredTranslation, staticCollider, _minToi);
+		CollisionInfo info = getCollision(pRigidBody, desiredTranslation, staticCollider);
 
 		if (info.TOI < shortest.TOI)
 		{
@@ -270,7 +267,6 @@ CollisionInfo PhysicsScene::checkRigid(RigidBody* pRigidBody, const float pMulti
 
 		const Vec2 otherDesiredTranslation = otherRigid->velocity * _cycleSpeed * pMultiplier;
 		CollisionInfo info = getCollision(pRigidBody, desiredTranslation, otherRigid, otherDesiredTranslation, _minToi);
-
 
 		if (info.TOI < shortest.TOI)
 		{
@@ -365,7 +361,7 @@ void PhysicsScene::clearScene()
 	Scene::clearScene();
 }
 
-CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody, const Vec2& pDesiredTranslation, ColliderComponent* pStaticCollider, const float minToi)
+CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody, const Vec2& pDesiredTranslation, ColliderComponent* pStaticCollider)
 {
 	CollisionInfo shortest;
 
@@ -374,12 +370,6 @@ CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody, const Vec2& pDes
 		for (LineCollider* line : pStaticCollider->GetLines())
 		{
 			CollisionInfo info = CollisionCalculator::CalculateCollision(circle, pDesiredTranslation, line);
-
-			if (info.TOI < minToi)
-			{
-				resolveCollision(pRigidBody, info.collider2, info.normal);
-				continue;
-			}
 
 			if (info.TOI < shortest.TOI)
 			{
@@ -390,12 +380,6 @@ CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody, const Vec2& pDes
 		for (CircleCollider* circle2 : pStaticCollider->GetCircles())
 		{
 			CollisionInfo info = CollisionCalculator::CalculateCollision(circle, pDesiredTranslation, circle2);
-
-			if (info.TOI < minToi)
-			{
-				resolveCollision(pRigidBody, info.collider2, info.normal);
-				continue;
-			}
 
 			if (info.TOI < shortest.TOI)
 			{
@@ -409,12 +393,6 @@ CollisionInfo PhysicsScene::getCollision(RigidBody* pRigidBody, const Vec2& pDes
 		for (CircleCollider* circle : pStaticCollider->GetCircles())
 		{
 			CollisionInfo info = CollisionCalculator::CalculateCollision(circle, Vec2(), line, pDesiredTranslation);
-
-			if (info.TOI < minToi)
-			{
-				resolveCollision(pRigidBody, info.collider2, info.normal);
-				continue;
-			}
 
 			if (info.TOI < shortest.TOI)
 			{

@@ -23,8 +23,12 @@ public:
 
 	virtual void HandleObjectsInScene() override
 	{
-		PhysicsUpdate();
+		load(ToLoad());
+		handleDestroyed(ToDestroy());
+
 		Scene::HandleObjectsInScene();
+
+		PhysicsUpdate();
 	}
 
 private:
@@ -48,7 +52,7 @@ private:
 	static void resolveCollision(RigidBody* pRigidBody, Collider* pCol, const Vec2& pNormal);
 	static float calculateBounciness(ColliderComponent* pA, ColliderComponent* pB);
 	CollisionInfo checkRigid(RigidBody* pRigidBody, const float pMultiplier, unsigned int pChecked);
-	static CollisionInfo getCollision(RigidBody* pRigidBody, const Vec2& pDesiredTranslation, ColliderComponent* pStaticCollider, const float minToi);
+	static CollisionInfo getCollision(RigidBody* pRigidBody, const Vec2& pDesiredTranslation, ColliderComponent* pStaticCollider);
 	static CollisionInfo getCollision(RigidBody* pRigidBody1, const Vec2& pDesTran1, RigidBody* pRigidBody2, const Vec2& pDestran2, const float minToi);
 
 	virtual void clearScene() override;

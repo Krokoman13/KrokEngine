@@ -30,12 +30,6 @@ void Game::Run()
 		_window.PollEvents();
 		Scene* currentScene = GetCurrentScene();
 
-		//Handle Events
-		//while (_renderWindow.pollEvent(event))
-		//{
-		//	HandleEvent(event);
-		//}
-
 		std::chrono::steady_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 		std::chrono::milliseconds ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
 		deltaSeconds = ms_int.count() / 1000.f;

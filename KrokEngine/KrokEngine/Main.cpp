@@ -13,31 +13,43 @@ int main()
 	Game myGame("Demo", 1280, 720, 120);
 	myGame.devControls = true;
 
-	myGame.AddScene(new Scene("Test"));
+	myGame.AddScene(new PhysicsScene("Test"));
 
 	{
+		Scene* scene = myGame.GetCurrentScene();
+
 		ButtonObject* button = new ButtonObject(RS__BUTTON_PNG, RS__BUTTON_2_PNG, Rectangle(200, 100));
-		myGame.GetCurrentScene()->AddChild(button);
+		scene->AddChild(button);
 		button->SetLocalPosition(500, 500);
-		button->SetFunction([]() { std::cout << "Click1!"; });
-	}
+		button->SetFunction([scene]()
+			{ 
+				GameObject* object = new GameObject("Bullet");
+				object->SetLocalPosition(Vec2(100, 100));
 
-	{
-		ButtonObject* button = new ButtonObject(RS__BUTTON_PNG, RS__BUTTON_2_PNG, Rectangle(200, 100));
-		myGame.GetCurrentScene()->AddChild(button);
-		button->SetLocalPosition(550, 550);
-	}
+				float size = 50.f;
+				RigidBody* rb = object->AddComponent<RigidBody>(new CircleCollider(size/2.f));
+				rb->velocity = Vec2(100, 0);
 
-	{
-		ButtonObject* button = new ButtonObject(RS__BUTTON_PNG, RS__BUTTON_2_PNG, Rectangle(200, 100));
-		myGame.GetCurrentScene()->AddChild(button);
-		button->SetLocalPosition(500, 550);
-	}
+				Sprite* sp = object->AddComponent<Sprite>(RS__BALL_PNG);
+				sp->SetSize(Vec2(size, size));
 
-	{
-		ButtonObject* button = new ButtonObject(RS__BUTTON_PNG, RS__BUTTON_2_PNG, Rectangle(200, 100));
-		myGame.GetCurrentScene()->AddChild(button);
-		button->SetLocalPosition(550, 500);
+				scene->AddChild(object);
+			});
+
+		GameObject* laser = new GameObject(Vec2(1000, 100), "Laser");
+		TriggerColliderComponent* trigger = laser->AddComponent<TriggerColliderComponent>(std::vector<Vec2>({ Vec2(0, 50), Vec2(0, -50) }));
+		Sprite* sprite = laser->AddComponent<Sprite>(RS__PIXEL_PNG);
+		sprite->diffuseColor = Color::Red();
+		sprite->SetLocalScale(Vec2(2, 100));
+
+		trigger->onTriggerEnterAction = [laser](Collider* a_pCollider)
+			{
+				TriggerColliderComponent::EnterReport(laser, a_pCollider);
+				GameObject* gameObject = a_pCollider->GetColliderComponent()->GetGameObject();
+				gameObject->LateDestroy();
+			};
+
+		scene->AddChild(laser);
 	}
 
 	myGame.Run();

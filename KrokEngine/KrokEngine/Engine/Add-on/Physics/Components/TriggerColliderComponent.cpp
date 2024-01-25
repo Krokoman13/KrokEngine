@@ -15,7 +15,7 @@ void TriggerColliderComponent::CollidesWith(Collider* pOther)
 	_colliding.push_back(pOther);
 	//std::cout << pOther->GetGameObject()->name << std::endl;
 
-	if (onTriggerExitAction && !WasColliding(pOther)) onTriggerEnterAction(pOther);
+	if (onTriggerEnterAction && !WasColliding(pOther)) onTriggerEnterAction(pOther);
 }
 
 void TriggerColliderComponent::Update()

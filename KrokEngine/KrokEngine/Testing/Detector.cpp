@@ -8,8 +8,8 @@ Detector::Detector(Vec2 pPos) : GameObject("Detector", pPos.x, pPos.y)
 
 	tc = AddComponent <TriggerColliderComponent>(new CircleCollider(sprite->GetLocalXScale() / 2.f));
 
-	tc->onTriggerEnterAction = [this](Collider* pCollider) {this->report("TriggerEnter: ", pCollider); };
-	tc->onTriggerExitAction = [this](Collider* pCollider) {this->report("TriggerExit: ", pCollider); };
+	tc->onTriggerEnterAction = [this](Collider* pCollider) {report("TriggerEnter: ", pCollider); };
+	tc->onTriggerExitAction = [this](Collider* pCollider) {report("TriggerExit: ", pCollider); };
 }
 
 void Detector::report(const std::string& text, Collider* pCollider)

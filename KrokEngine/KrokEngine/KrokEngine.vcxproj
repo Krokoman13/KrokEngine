@@ -143,12 +143,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BulletHell\Barry.hpp" />
-    <ClInclude Include="BulletHell\Arena.hpp" />
     <ClInclude Include="Assets\fileIndex.hpp" />
     <ClInclude Include="Engine\Core\UI\Clickable\ButtonComponent.hpp" />
     <ClInclude Include="Engine\Util\Time.hpp" />
-    <ClInclude Include="BulletHell\Pillar.hpp" />
     <ClInclude Include="Testing\Button.hpp" />
     <ClInclude Include="Engine\Core\UI\Clickable\Clickable.hpp" />
     <ClInclude Include="Engine\Add-on\Physics.hpp" />
@@ -211,8 +208,6 @@
     <ClInclude Include="Testing\UpdateComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BulletHell\Barry.cpp" />
-    <ClCompile Include="BulletHell\Arena.cpp" />
     <ClCompile Include="Testing\Button.cpp" />
     <ClCompile Include="Engine\Core\UI\Clickable\Clickable.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.cpp" />

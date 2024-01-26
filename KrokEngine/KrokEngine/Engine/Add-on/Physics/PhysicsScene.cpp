@@ -11,7 +11,7 @@ void PhysicsScene::PhysicsUpdate()
 	{
 		_cycleSpeed = 0.0f;
 	}
-	else _cycleSpeed = _physicsSpeed * game->deltaSeconds;
+	else _cycleSpeed = _physicsSpeed * Time::DeltaTimeSeconds();
 
 	calculateVelocities();
 	checkRigids();
@@ -120,6 +120,12 @@ void PhysicsScene::checkRigids(const float pMultiplier)
 	{
 		CollisionInfo info = checkRigid(_rigidObjects[i], pMultiplier, i);
 
+		if (info.TOI < 0.1f)
+		{
+			resolveCollision(info);
+			continue;
+		}
+
 		if (info.TOI < shortest.TOI)
 		{
 			shortest = info;
@@ -198,11 +204,12 @@ void PhysicsScene::applyVelocities(const float pMultiplier)
 
 void PhysicsScene::resolveCollision(const CollisionInfo& pCollision)
 {
+	//pCollision.rigidBody1->GetGameObject()->GlobalTranslate(pCollision.trans1 * 2.f);
 	pCollision.rigidBody1->CollidesWith(pCollision.collider2);
 
 	if (pCollision.rigidBody2) {
-		pCollision.rigidBody2->CollidesWith(pCollision.collider1);
 		resolveCollision(pCollision.rigidBody1, pCollision.rigidBody2, pCollision.normal);
+		//pCollision.rigidBody1->GetGameObject()->GlobalTranslate(pCollision.trans2 * 2.f);
 	}
 	else {
 		resolveCollision(pCollision.rigidBody1, pCollision.collider2, pCollision.normal);
@@ -235,7 +242,9 @@ float PhysicsScene::calculateBounciness(ColliderComponent* pA, ColliderComponent
 	outp += pB->bounciness;
 	outp /= 2.0f;
 
-	return std::abs(outp);
+	if (outp < 0) outp = 0;
+
+	return outp;
 }
 
 CollisionInfo PhysicsScene::checkRigid(RigidBody* pRigidBody, const float pMultiplier, unsigned int pChecked)

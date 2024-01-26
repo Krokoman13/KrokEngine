@@ -24,15 +24,15 @@ CollisionInfo CollisionCalculator::CalculateCollision
 
     float TOI;
 
-    if (a >= 0.0f)
-    {
+    if (a >= 0.0f) {
         TOI = a / b;
     }
-    else if (a >= -circleRadius)
-    {
+    else if (a >= -circleRadius) {
         TOI = a / b;
     }
-    else return outp;
+    else {
+        return outp;
+    }
 
     if (TOI <= 1.0f)
     {
@@ -44,6 +44,7 @@ CollisionInfo CollisionCalculator::CalculateCollision
             outp.collider1 = pCircle;
             outp.collider2 = pLine;
 
+            //outp.trans1 = pTranslation * TOI;
             outp.TOI = TOI;
 
             outp.normal = lineNormal;
@@ -106,6 +107,9 @@ CollisionInfo CollisionCalculator::CalculateCollision
             outp.collider1 = pCircle;
             outp.collider2 = pLine;
 
+            //outp.trans1 = pTranslation1 * TOI;
+            //outp.trans2 = pTranslation2 * TOI;
+
             outp.TOI = TOI;
 
             outp.normal = lineNormal;
@@ -131,8 +135,7 @@ CollisionInfo CollisionCalculator::CalculateCollision
     const float b = 2 * u.Dot(v);
     const float c = sqr(u.Length()) - sqr(r1 + r2);
 
-    if (c < 0.0f)
-    {
+    if (c < 0.0f) {
         if (b >= 0.0f) return outp;
 
         outp.collider1 = pCircle1;
@@ -141,7 +144,7 @@ CollisionInfo CollisionCalculator::CalculateCollision
         outp.TOI = 0.0f;
         
         const Vec2 normal = u.Normalized();
-        outp.normal - normal;
+        outp.normal = normal;
 
         return outp;
     }
@@ -156,14 +159,14 @@ CollisionInfo CollisionCalculator::CalculateCollision
 
     const float t = (-b - sqrt(D)) / (2 * a);
 
-    if (0.0f <= t && t < 1.0f)
-    {
+    if (0.0f <= t && t < 1.0f) {
         outp.collider1 = pCircle1;
         outp.collider2 = pCircle2;
 
         outp.TOI = t;
 
         const Vec2 translation = pTranslation1 * t;
+        //outp.trans1 = translation;
 
         const Vec2 POI = p1 + translation;
         const Vec2 normal = (POI - p2).Normalized();
@@ -221,6 +224,8 @@ CollisionInfo CollisionCalculator::CalculateCollision
         outp.collider1 = pCircle1;
         outp.collider2 = pCircle2;
 
+        //outp.trans1 = pTranslation1 * t;
+        //outp.trans2 = pTranslation2 * t;
         outp.TOI = t;
 
         const Vec2 POI1 = p1 + pTranslation1 * t;

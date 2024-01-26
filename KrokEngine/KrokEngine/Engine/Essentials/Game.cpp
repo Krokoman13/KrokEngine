@@ -5,11 +5,11 @@
 #include "../Core/Input/Input.hpp"
 
 Game::Game(const std::string& pName, const unsigned int pWidth, const unsigned int pHeight, const unsigned int pTargetFPS)
-	: _window(pName.c_str(), pWidth, pHeight), SceneManager(this), _renderer(_window), _updateManger()
+	: m_window(pName.c_str(), pWidth, pHeight), SceneManager(this), m_renderer(m_window), m_updateManger()
 {
 	std::cout << "Game initialized.\n";
 
-	_eventManager.SetCallbacks(_window);
+	m_eventManager.SetCallbacks(m_window);
 
 	srand((unsigned int)time(NULL));
 }
@@ -17,36 +17,36 @@ Game::Game(const std::string& pName, const unsigned int pWidth, const unsigned i
 Game::~Game()
 {
 	clearAllScenes();
-	_renderer.ClearCaches();
+	m_renderer.ClearCaches();
 }
 
 void Game::Run()
 {
 	//Event event;
 
-	while (_window.IsOpen())
+	while (m_window.IsOpen())
 	{
-		_eventManager.UpdateEvents();
-		_window.PollEvents();
+		m_eventManager.UpdateEvents();
+		m_window.PollEvents();
 		Scene* currentScene = GetCurrentScene();
 
 		std::chrono::steady_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-		std::chrono::milliseconds ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
-		deltaSeconds = ms_int.count() / 1000.f;
-		t1 = std::chrono::high_resolution_clock::now();
+		std::chrono::milliseconds ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - m_t1);
+		Time::m_deltaTimeSeconds = ms_int.count() / 1000.f;
+		m_t1 = std::chrono::high_resolution_clock::now();
 
 		if (!Input::MouseInScreen()) continue;
 
 		if (devControls) handleDevControls();
 
-		_eventManager.Add(currentScene->ToLoad());
-		_eventManager.Remove(currentScene->ToDestroy());
+		m_eventManager.Add(currentScene->ToLoad());
+		m_eventManager.Remove(currentScene->ToDestroy());
 
-		_updateManger.Update(currentScene);
+		m_updateManger.Update(currentScene);
 
-		_renderer.Add(currentScene->ToLoad());
-		_renderer.Remove(currentScene->ToDestroy());
-		_renderer.Render();
+		m_renderer.Add(currentScene->ToLoad());
+		m_renderer.Remove(currentScene->ToDestroy());
+		m_renderer.Render();
 
 		currentScene->HandleObjectsInScene();
 	}

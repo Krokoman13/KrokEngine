@@ -143,8 +143,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BulletHell\Barry.hpp" />
+    <ClInclude Include="BulletHell\Arena.hpp" />
     <ClInclude Include="Assets\fileIndex.hpp" />
     <ClInclude Include="Engine\Core\UI\Clickable\ButtonComponent.hpp" />
+    <ClInclude Include="Engine\Util\Time.hpp" />
+    <ClInclude Include="BulletHell\Pillar.hpp" />
     <ClInclude Include="Testing\Button.hpp" />
     <ClInclude Include="Engine\Core\UI\Clickable\Clickable.hpp" />
     <ClInclude Include="Engine\Add-on\Physics.hpp" />
@@ -204,12 +208,11 @@
     <ClInclude Include="Engine\Util\StringUtil.hpp" />
     <ClInclude Include="Engine\Core\Math\Shapes\Rectangle.hpp" />
     <ClInclude Include="Engine\Core\Math\Shapes\Shape.hpp" />
-    <ClInclude Include="Testing\Ball.hpp" />
-    <ClInclude Include="Testing\Detector.hpp" />
-    <ClInclude Include="Testing\TestScene.hpp" />
     <ClInclude Include="Testing\UpdateComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BulletHell\Barry.cpp" />
+    <ClCompile Include="BulletHell\Arena.cpp" />
     <ClCompile Include="Testing\Button.cpp" />
     <ClCompile Include="Engine\Core\UI\Clickable\Clickable.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.cpp" />
@@ -255,9 +258,6 @@
     <ClCompile Include="Engine\Util\FileIO.cpp" />
     <ClCompile Include="Engine\Util\StringUtil.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Testing\Ball.cpp" />
-    <ClCompile Include="Testing\Detector.cpp" />
-    <ClCompile Include="Testing\TestScene.cpp" />
     <ClCompile Include="Testing\UpdateComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

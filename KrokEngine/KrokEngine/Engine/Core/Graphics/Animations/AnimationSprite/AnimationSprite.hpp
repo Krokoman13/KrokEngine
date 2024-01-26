@@ -16,17 +16,19 @@ private:
 	std::unordered_map<std::string_view, unsigned int> m_animationNames;
 
 public:
-	AnimationSprite(const unsigned int a_resourceID, const unsigned int a_columns, const unsigned int a_rows);
-	AnimationSprite(const unsigned int a_resourceID, const unsigned int a_columns, const unsigned int a_rows, const unsigned int a_frameCountAnimation);
+	AnimationSprite(const unsigned int a_resourceID, const unsigned int a_columns, const unsigned int a_rows, const bool a_generateDefaultAnimation = false);
+	AnimationSprite(const unsigned int a_resourceID, const unsigned int a_columns, const unsigned int a_rows, const unsigned int a_frameCountDefaultAnimation);
 	AnimationSprite(const unsigned int a_resourceID, const unsigned int a_columns, const unsigned int a_rows, const Animation& a_animation);
 
 public:
-	void Update();
+	virtual void Update() override;
+	virtual void OnLoad() override;
+
 	void SetCurrentFrame(const unsigned int a_frame);
 
 	void SetCurrentAnimation(const unsigned int a_animationIndex);
 	void SetCurrentAnimation(const std::string_view a_name);
-	inline Animation& GetCurrentAnimation() { return m_animations[m_currentAnimationIndex]; };
+	inline Animation* GetCurrentAnimation() { return m_animations.empty() ? nullptr : &m_animations[m_currentAnimationIndex]; };
 
 	unsigned int AddAnimation(const Animation& a_animation, const std::string_view a_name);
 	Animation& GetAnimation(const unsigned int a_animationIndex);

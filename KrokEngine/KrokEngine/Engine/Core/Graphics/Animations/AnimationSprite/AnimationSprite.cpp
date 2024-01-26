@@ -4,18 +4,24 @@
 #include "../../resourceManager/ResourceManager.hpp"
 #include "../../../../../Assets/fileIndex.hpp"
 
-AnimationSprite::AnimationSprite(const unsigned int a_resourceID, const unsigned int a_columns, const unsigned int a_rows)
-	:AnimationSprite(a_resourceID, a_columns, a_rows, a_columns* a_rows)
+#include "../../../../Util/Time.hpp"
+
+AnimationSprite::AnimationSprite(const unsigned int a_resourceID, const unsigned int a_columns, const unsigned int a_rows, const bool a_generateDefaultAnimation)
+	: Sprite(a_resourceID)
 {
+	setValues(a_columns, a_rows);
+
+	if (!a_generateDefaultAnimation) return;
+	AddAnimation(Animation(0, a_columns * a_rows - 1, 1.f / 60.f), "Default");
 }
 
-AnimationSprite::AnimationSprite(const unsigned int a_resourceID, const unsigned int a_columns, const unsigned int a_rows, const unsigned int a_frameCountAnimation) 
+AnimationSprite::AnimationSprite(const unsigned int a_resourceID, const unsigned int a_columns, const unsigned int a_rows, const unsigned int a_frameCountDefaultAnimation)
 	: Sprite(a_resourceID)
 {
 	setValues(a_columns, a_rows);
 
 	const unsigned int maxFrameCount = a_columns * a_rows;
-	const unsigned int frameCountAnimation = (a_frameCountAnimation > maxFrameCount) ? maxFrameCount : a_frameCountAnimation;
+	const unsigned int frameCountAnimation = (a_frameCountDefaultAnimation > maxFrameCount) ? maxFrameCount : a_frameCountDefaultAnimation;
 	AddAnimation(Animation(0, frameCountAnimation - 1, 1.f / 60.f), "Default");
 }
 
@@ -50,7 +56,18 @@ bool AnimationSprite::isValidAnimation(const Animation& a_animation)
 
 void AnimationSprite::Update()
 {
-	SetCurrentFrame(GetCurrentAnimation().CurrentFrame().GetFrameIndex());
+	if (m_animations.empty()) return;
+
+	Animation* currentAnim = GetCurrentAnimation();
+	currentAnim->Animate(Time::DeltaTimeSeconds());
+	SetCurrentFrame(currentAnim->CurrentFrame().GetFrameIndex());
+}
+
+void AnimationSprite::OnLoad()
+{
+	Sprite::OnLoad();
+
+	identity.Scale(Vec2(m_xValue, m_yValue));
 }
 
 void AnimationSprite::SetCurrentFrame(const unsigned int a_frame)
@@ -70,7 +87,7 @@ void AnimationSprite::SetCurrentAnimation(const unsigned int a_animationIndex)
 	if (a_animationIndex == m_currentAnimationIndex) return;
 	if (a_animationIndex >= m_animations.size()) throw std::out_of_range("Frame does not exist");
 	m_currentAnimationIndex = a_animationIndex;
-	GetCurrentAnimation().Reset();
+	GetCurrentAnimation()->Reset();
 }
 
 void AnimationSprite::SetCurrentAnimation(const std::string_view a_name)

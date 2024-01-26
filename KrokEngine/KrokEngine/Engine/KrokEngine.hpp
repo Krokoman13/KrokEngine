@@ -2,7 +2,7 @@
 #include "Core/Graphics/ResourceManager/PathManager.hpp"
 #include "Core/Input/Input.hpp"
 
-#include "Core/Graphics/Core/Sprite/Sprite.hpp"
+#include "Core/Graphics/Animations/AnimationSprite/AnimationSprite.hpp"
 #include "../Assets/fileIndex.hpp"
 
 #include "Core/UI/Clickable/ButtonComponent.hpp"

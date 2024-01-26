@@ -44,6 +44,9 @@ public:
 	void SetDisplayMode(const DisplayMode a_displayMode);
 	Vec2 GetSize();
 	void SetSize(const Vec2 a_size);
+	
+	void Flip();
+	void FlipBack();
 
 protected:
 	bool loadTexture();

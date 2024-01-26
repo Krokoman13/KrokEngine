@@ -93,6 +93,16 @@ void Sprite::SetSize(const Vec2 a_size)
 	SetLocalScale(a_size);
 }
 
+void Sprite::Flip()
+{
+	identity.Scale(Vec2(-1.f, 1.f));
+}
+
+void Sprite::FlipBack()
+{
+	if (GetLocalXScale() > 0.f) return;
+	Flip();
+}
 
 bool Sprite::loadShader()
 {

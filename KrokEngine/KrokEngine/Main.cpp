@@ -1,5 +1,5 @@
 #include "Engine/KrokEngine.hpp"
-#include "BulletHell/Arena.hpp"
+#include "RogueLike/Arena.hpp"
 
 int main()
 {
@@ -8,7 +8,6 @@ int main()
 
 	Game myGame("Demo", 1280, 720, 120);
 	myGame.devControls = true;
-
 	myGame.AddScene(new Arena());
 
 	myGame.Run();

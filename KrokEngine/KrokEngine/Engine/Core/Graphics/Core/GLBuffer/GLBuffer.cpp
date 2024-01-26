@@ -34,10 +34,10 @@ GLBuffer::GLBuffer(const DisplayMode a_displayMode)
 		break;
 	case BottomLeft:
 		floatArray = new GLfloat[size]{
-			-1.f,  1.f,  // Top left
-			-1.f,  0.f,  // Bottom left
-			 0.f,  1.f,  // Top right
-			 0.f,  0.f,  // Bottom right
+			 0.f,  0.f,  // Top left
+			 0.f, -1.f,  // Bottom left
+			 1.f,  0.f,  // Top right
+			 1.f, -1.f,  // Bottom right
 		};
 		break;
 	case BottomRight:

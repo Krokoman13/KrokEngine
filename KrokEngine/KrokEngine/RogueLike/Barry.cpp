@@ -1,5 +1,11 @@
 #include "Barry.hpp"
 
+#include "Components/SpriteFlipper.hpp"
+#include "Components/GridLayerer.hpp"
+#include "Components/Health.hpp"
+
+#include "Sword.hpp"
+
 Barry::Barry(const Vec2 a_pos) : GameObject(a_pos, "Barry")
 {
 	float size = 16.f;
@@ -9,25 +15,29 @@ Barry::Barry(const Vec2 a_pos) : GameObject(a_pos, "Barry")
 	m_animSprite->AddAnimation(Animation(0, 5, 0.1f), "IDLE");
 	m_animSprite->AddAnimation(Animation(6, 11, 0.1f), "RIGHT");
 	m_animSprite->SetRenderLayer(1);
-	//m_animSprite->SetActive(false);
 
+	m_rigBody = AddComponent<RigidBody>();
 	float colliderSize = 10;
 	Vec2 colliderOffset = Vec2(0, -colliderSize / 2.f);
+	m_rigBody->Add(new CircleCollider(colliderSize / 2.f, colliderOffset));
+	m_rigBody->bounciness = 0;
 
-	m_rb = AddComponent<RigidBody>(new CircleCollider(colliderSize / 2.f, colliderOffset));
-	m_rb->bounciness = 0;
+	Health* m_health = AddComponent<Health>();
+	m_health->SetHealth(3);
+	Sprite* sprite = m_animSprite;
+	m_health->SetOnInvicibleEnter([sprite]() { sprite->diffuseColor = Color::Red(); });
+	m_health->SetOnInvicibleExit([sprite]() { sprite->diffuseColor = Color::White(); });
 
-	//Sprite* colliderSprite = AddComponent<Sprite>(RS__BALL_PNG);
-	//colliderSprite->SetDisplayMode(DisplayMode::Center);
-	//colliderSprite->SetSize(Vec2(colliderSize, colliderSize));
-	//colliderSprite->SetLocalPosition(colliderOffset);
+	AddComponent<SpriteFlipper>();
+	AddComponent<GridLayerer>();
+
+	Sword* sword = new Sword();
+	sword->SetLocalPosition(Vec2(0, -6));
+	AddChild(sword);
 }
 
 void Barry::update()
 {
-	const Vec2 pos = GetGlobalPosition();
-	m_animSprite->SetRenderLayer((unsigned int)pos.y / 16.f);
-
 	Vec2 direction;
 	float speed = 25.f;
 
@@ -40,25 +50,14 @@ void Barry::update()
 	if (direction.LengthSquared() < 0.1f)
 	{
 		m_animSprite->SetCurrentAnimation("IDLE");
-		m_rb->velocity = direction;
+		m_rigBody->velocity = direction;
 		return;
 	}
 
 	m_animSprite->SetCurrentAnimation("RIGHT");
 
-	if (direction.x > 0.f && m_currentDirection != Right)
-	{
-		m_animSprite->Flip();
-		m_currentDirection = Right;
-	}
-	else if (direction.x < 0.f && m_currentDirection != Left)
-	{
-		m_animSprite->Flip();
-		m_currentDirection = Left;
-	}
-
 	//m_animSprite->GetCurrentAnimation()->speed = speed/25.f;
 
 	direction.SetLength(speed);
-	m_rb->velocity = direction;
+	m_rigBody->velocity = direction;
 }

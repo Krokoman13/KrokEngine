@@ -144,11 +144,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Assets\fileIndex.hpp" />
+    <ClInclude Include="RogueLike\Components\Health.hpp" />
+    <ClInclude Include="RogueLike\Components\GridLayerer.hpp" />
+    <ClInclude Include="RogueLike\Monsters\Goblin.hpp" />
+    <ClInclude Include="RogueLike\Components\FollowBehaviour.hpp" />
     <ClInclude Include="RogueLike\Arena.hpp" />
     <ClInclude Include="RogueLike\Barry.hpp" />
-    <ClInclude Include="RogueLike\Pillar.hpp" />
+    <ClInclude Include="RogueLike\Monsters\Bat.hpp" />
+    <ClInclude Include="RogueLike\Chest.hpp" />
     <ClInclude Include="Engine\Core\UI\Clickable\ButtonComponent.hpp" />
     <ClInclude Include="Engine\Util\Time.hpp" />
+    <ClInclude Include="RogueLike\Components\SpriteFlipper.hpp" />
+    <ClInclude Include="RogueLike\Monsters\Monster.hpp" />
+    <ClInclude Include="RogueLike\Monsters\Slime.hpp" />
+    <ClInclude Include="RogueLike\Sword.hpp" />
     <ClInclude Include="Testing\Button.hpp" />
     <ClInclude Include="Engine\Core\UI\Clickable\Clickable.hpp" />
     <ClInclude Include="Engine\Add-on\Physics.hpp" />
@@ -211,8 +220,14 @@
     <ClInclude Include="Testing\UpdateComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RogueLike\Components\GridLayerer.cpp" />
+    <ClCompile Include="RogueLike\Monsters\Goblin.cpp" />
+    <ClCompile Include="RogueLike\Components\FollowBehaviour.cpp" />
     <ClCompile Include="RogueLike\Arena.cpp" />
     <ClCompile Include="RogueLike\Barry.cpp" />
+    <ClCompile Include="RogueLike\Components\SpriteFlipper.cpp" />
+    <ClCompile Include="RogueLike\Monsters\Slime.cpp" />
+    <ClCompile Include="RogueLike\Sword.cpp" />
     <ClCompile Include="Testing\Button.cpp" />
     <ClCompile Include="Engine\Core\UI\Clickable\Clickable.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.cpp" />
@@ -221,7 +236,6 @@
     <ClCompile Include="Engine\Add-on\Physics\Colliders\LineCollider.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Colliders\PolyShape.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Components\ColliderComponent.cpp" />
-    <ClCompile Include="Engine\Add-on\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\PhysicsScene.cpp" />

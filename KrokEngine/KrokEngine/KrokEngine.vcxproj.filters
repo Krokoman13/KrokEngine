@@ -210,7 +210,34 @@
     <ClInclude Include="RogueLike\Barry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RogueLike\Pillar.hpp">
+    <ClInclude Include="RogueLike\Components\GridLayerer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueLike\Monsters\Goblin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueLike\Components\FollowBehaviour.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueLike\Monsters\Bat.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueLike\Chest.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueLike\Components\SpriteFlipper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueLike\Monsters\Monster.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueLike\Monsters\Slime.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueLike\Components\Health.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueLike\Sword.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -231,9 +258,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Add-on\Physics\Components\ColliderComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Add-on\Physics\Components\RigidBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.cpp">
@@ -357,6 +381,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RogueLike\Barry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RogueLike\Components\GridLayerer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RogueLike\Monsters\Goblin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RogueLike\Components\FollowBehaviour.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RogueLike\Components\SpriteFlipper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RogueLike\Monsters\Slime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RogueLike\Sword.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

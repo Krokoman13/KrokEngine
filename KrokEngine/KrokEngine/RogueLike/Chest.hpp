@@ -2,6 +2,8 @@
 #include "../Engine/Add-on/Physics.hpp"
 #include "../Engine/KrokEngine.hpp"
 
+#include "Components/GridLayerer.hpp"
+
 class Chest : public GameObject
 {
 private:
@@ -17,7 +19,6 @@ public:
 		m_animSprite->AddAnimation(shineingAnimation, "SHINEING");
 		m_animSprite->SetDisplayMode(DisplayMode::BottomCenter);
 		//m_animSprite->SetCurrentFrame(0);
-		m_animSprite->SetRenderLayer((unsigned int) a_pos.y / 16.f);
 
 		float xsize = 16;
 		float ysize = 10;
@@ -25,11 +26,7 @@ public:
 		ColliderComponent* colliderComp = AddComponent<ColliderComponent>(PolyShape::Rectangle(offset, xsize, ysize));
 		colliderComp->bounciness = 0;
 
-		//Sprite* colliderSprite = AddComponent<Sprite>(RS__PIXEL_PNG);
-		//colliderSprite->SetRenderLayer(0);
-		//colliderSprite->SetDisplayMode(DisplayMode::TopLeft);
-		//colliderSprite->SetSize(Vec2(xsize, ysize));
-		//colliderSprite->SetLocalPosition(offset);
+		AddComponent<GridLayerer>();
 	}
 };
 

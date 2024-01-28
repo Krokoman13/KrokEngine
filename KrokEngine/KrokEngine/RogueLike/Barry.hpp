@@ -6,7 +6,7 @@ class Barry : public GameObject
 {
 private:
 	AnimationSprite* m_animSprite = nullptr;
-	RigidBody* m_rb = nullptr;
+	RigidBody* m_rigBody = nullptr;
 	enum Direction
 	{
 		Left, Right

@@ -6,9 +6,13 @@
 
 class ColliderComponent : public Component
 {
+protected:
+	ColliderComponent();
+
 public:
-	ColliderComponent(CircleCollider* toAdd = nullptr);
-	ColliderComponent(const std::vector<Vec2>& pPoints);
+	ColliderComponent(CircleCollider* a_circleCollider);
+	ColliderComponent(LineCollider* a_lineCollider);
+	ColliderComponent(const std::vector<Vec2>& a_points);
 	virtual ~ColliderComponent();
 
 	const std::vector<CircleCollider*>& GetCircles() const;
@@ -16,6 +20,7 @@ public:
 
 	void Add(LineCollider* pCollider);
 	void Add(CircleCollider* pCollider);
+	void Add(const std::vector<Vec2>& a_points);
 
 	float bounciness = 0.5f;	//1.0f is 100% bouncy
 

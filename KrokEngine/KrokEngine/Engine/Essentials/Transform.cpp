@@ -109,7 +109,7 @@ float Transform::GetLocalYScale() const
 
 Vec2 Transform::GetLocalScale() const
 {
-	return Vec2(GetLocalXScale(), GetLocalYScale());
+	return identity.GetScale();
 }
 
 void Transform::SetGlobalScale(const Vec2& pScale)
@@ -148,7 +148,7 @@ Matrix3 Transform::GetGlobalMatrix() const
 	Matrix3 outp = identity;
 
 	if (!_parent) return identity;
-	return (Matrix3)(_parent->GetGlobalMatrix() * identity);
+	return _parent->GetGlobalMatrix() * identity;
 }
 
 void Transform::SetGlobalMatrix(const Matrix3& pMatrix)

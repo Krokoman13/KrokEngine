@@ -45,9 +45,9 @@ public:
 	bool operator==(const Matrix& a_other);
 	bool operator!=(const Matrix& a_other);
 
+	Matrix operator*(const Matrix& a_other) const;
+	Matrix operator*=(const Matrix& a_other);
+
 	std::string ToString() const;
 	friend std::ostream& operator<<(std::ostream& os, const Matrix& dt);
 };
-
-Matrix operator*(const Matrix& left, const Matrix& right);
-Matrix operator*=(Matrix& left, const Matrix& right);

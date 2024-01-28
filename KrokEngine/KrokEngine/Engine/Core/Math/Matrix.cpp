@@ -2,7 +2,7 @@
 #include "Matrix.hpp"
 #include "Vec2.hpp"
 
-Matrix::Matrix(const unsigned int a_rows, const unsigned int a_columns) : m_elements(a_rows * a_columns)
+Matrix::Matrix(const unsigned int a_rows, const unsigned int a_columns) : m_elements(a_rows* a_columns)
 {
 	m_rowCount = a_rows;
 	m_columnCount = a_columns;
@@ -46,7 +46,7 @@ Matrix Matrix::Identity(const unsigned int a_size)
 {
 	Matrix out(a_size, a_size);
 
-	for (unsigned int i = 0; i < a_size; i++) out.Set(i,i, 1);
+	for (unsigned int i = 0; i < a_size; i++) out.Set(i, i, 1);
 
 	return out;
 }
@@ -254,7 +254,6 @@ Matrix Matrix::Inverse() const
 
 	return outp;
 }
-	
 
 Matrix Matrix::operator=(const Matrix& a_other)
 {
@@ -277,6 +276,39 @@ bool Matrix::operator==(const Matrix& a_other)
 bool Matrix::operator!=(const Matrix& a_other)
 {
 	return !(*this == a_other);
+}
+
+Matrix Matrix::operator*(const Matrix& a_other) const
+{
+	if (a_other.GetColumns() != GetRows())
+	{
+		throw std::invalid_argument("Invalid size of Matrices to multiply");
+	}
+
+	Matrix out(GetColumns(), a_other.GetRows());
+
+	for (unsigned int i = 0; i < GetColumns(); i++)
+	{
+		for (unsigned int j = 0; j < a_other.GetRows(); j++)
+		{
+			float value = 0;
+
+			for (unsigned int k = 0; k < a_other.GetColumns(); k++)
+			{
+				value += a_other.Get(i, k) * Get(k, j);
+			}
+
+			out.Set(i, j, value);
+		}
+
+	}
+
+	return out;
+}
+
+Matrix Matrix::operator*=(const Matrix& a_other)
+{
+	return *this = *this * a_other;;
 }
 
 std::string Matrix::ToString() const
@@ -303,38 +335,4 @@ std::ostream& operator<<(std::ostream& os, const Matrix& dt)
 {
 	os << dt.ToString();
 	return os;
-}
-
-Matrix operator*(const Matrix& left, const Matrix& right)
-{
-	if (right.GetColumns() != left.GetRows())
-	{
-		throw std::invalid_argument("Invalid size of Matrices to multiply");
-	}
-
-	Matrix out(left.GetColumns(), right.GetRows());
-
-	for (unsigned int i = 0; i < left.GetColumns(); i++) 
-	{
-		for (unsigned int j = 0; j < right.GetRows(); j++) 
-		{
-			float value = 0;
-
-			for (unsigned int k = 0; k < right.GetColumns(); k++)
-			{
-				value += right.Get(i,k) * left.Get(k,j);
-			}
-
-			out.Set(i, j, value);
-		}
-
-	}
-
-	return out;
-}
-
-Matrix operator*=(Matrix& left, const Matrix& right)
-{
-	left = left * right;
-	return left;
 }

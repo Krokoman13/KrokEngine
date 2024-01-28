@@ -3,7 +3,7 @@
 
 Matrix3::Matrix3(): Matrix(3, 3)
 {
-	*this = Matrix::Identity(3);
+	*this = Matrix3(Matrix::Identity(3));
 }
 
 Matrix3::Matrix3(const Matrix& a_other) : Matrix(3, 3)
@@ -33,14 +33,14 @@ Vec2 Matrix3::GetPos() const
 	return Vec2(Get(2, 0), Get(2, 1));
 }
 
-float Matrix3::GetXAxisScale() const
+float Matrix3::GetXAxisScale() const	//Gets the xAxis and returns the length of that axis
 {
-	return Vec2(Get(0, 0), Get(1, 0)).Length();		//Gets the xAxis and returns the length
+	return Vec2(Get(0, 0), Get(1, 0)).Length() * m_xFlippedValue;		
 }
 
-float Matrix3::GetYAxisScale() const
+float Matrix3::GetYAxisScale() const	//Gets the yAxis and returns the length
 {
-	return Vec2(Get(0, 1), Get(1, 1)).Length();		//Gets the yAxis and returns the length
+	return Vec2(Get(0, 1), Get(1, 1)).Length() * m_yFlippedValue;
 }
 
 Vec2 Matrix3::GetScale() const
@@ -74,6 +74,9 @@ Matrix3 Matrix3::ScalingMatrix(const Vec2& a_scale)
 	out.Set(1, 0, 0);
 	out.Set(0, 1, 0);
 	out.Set(1, 1, a_scale.y);
+
+	out.m_xFlippedValue = int(a_scale.x / abs(a_scale.x));
+	out.m_yFlippedValue = int(a_scale.y / abs(a_scale.y));
 	return out;
 }
 
@@ -116,7 +119,7 @@ void Matrix3::Rotate(const float a_radians)
 	(*this) = (*this) * RotationMatrix(a_radians);
 }
 
-Matrix3 Matrix3::operator=(const Matrix& a_other)
+Matrix3 Matrix3::operator=(const Matrix3& a_other)
 {
 	if (a_other.GetColumns() != 3 || a_other.GetRows() != 3) throw std::out_of_range("Invalid size Matrix");
 
@@ -124,9 +127,20 @@ Matrix3 Matrix3::operator=(const Matrix& a_other)
 	{
 		for (unsigned int x = 0; x < a_other.GetColumns(); x++)
 		{
-			this->Set(x, y, a_other.Get(x, y));
+			Set(x, y, a_other.Get(x, y));
 		}
 	}
 
+	m_xFlippedValue = a_other.m_xFlippedValue;
+	m_yFlippedValue = a_other.m_yFlippedValue;
+
 	return *this;
+}
+
+Matrix3 Matrix3::operator*(const Matrix3& a_other) const
+{
+	Matrix3 outp = Matrix3(Matrix::operator*(a_other));
+	outp.m_xFlippedValue = m_xFlippedValue * a_other.m_xFlippedValue;
+	outp.m_yFlippedValue = m_yFlippedValue * a_other.m_yFlippedValue;
+	return outp;
 }

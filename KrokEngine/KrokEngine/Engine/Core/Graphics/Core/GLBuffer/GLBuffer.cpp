@@ -48,6 +48,38 @@ GLBuffer::GLBuffer(const DisplayMode a_displayMode)
 			 0.f, -1.f,  // Bottom right
 		};
 		break;
+	case TopCenter:
+		floatArray = new GLfloat[size]{
+			-0.5f,  1.f,  // Top left
+			-0.5f,  0.f,  // Bottom left
+			 0.5f,  1.f,  // Top right
+			 0.5f,  0.f,  // Bottom right
+		};
+		break;
+	case LeftCenter:
+		floatArray = new GLfloat[size]{
+			 0.f,  0.5f,  // Top left
+			 0.f, -0.5f,  // Bottom left
+			 1.f,  0.5f,  // Top right
+			 1.f, -0.5f,  // Bottom rightt
+		};
+		break;
+	case RightCenter:
+		floatArray = new GLfloat[size]{
+			-1.f,  0.5f,  // Top left
+			-1.f, -0.5f,  // Bottom left
+			 0.f,  0.5f,  // Top right
+			 0.f, -0.5f,  // Bottom rightt
+		};
+		break;
+	case BottomCenter:
+		floatArray = new GLfloat[size]{
+			-0.5f,  0.f,  // Top left
+			-0.5f, -1.f,  // Bottom left
+			 0.5f,  0.f,  // Top right
+			 0.5f, -1.f,  // Bottom right
+		};
+		break;
 	default:
 		throw std::invalid_argument("One or more displaymodes are not implimented");
 		break;

@@ -18,7 +18,7 @@ void Hoverable::SetShape(const Rectangle a_rectangle)
 
 bool Hoverable::IsInside(const Vec2 a_point) const
 {
-	Matrix3 global = GetGameObject()->GetGlobalMatrix();
+	Matrix3 global = GetGameObject()->MatrixInScreen();
 	return m_shape->IsInside(a_point, global);
 }
 

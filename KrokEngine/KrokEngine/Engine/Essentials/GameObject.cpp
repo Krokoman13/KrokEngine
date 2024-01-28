@@ -1,5 +1,7 @@
 #include "GameObject.hpp"
 #include "../Core/SceneManager/Scene.hpp"
+#include "../Core/SceneManager/SceneManager.hpp"
+#include "Game.hpp"
 
 GameObject::GameObject(const Vec2& position, const std::string& pName) : Transform(position)
 {
@@ -82,6 +84,15 @@ void GameObject::SetScene(Scene* pScene)
 Scene* GameObject::GetScene() const
 {
 	return _scene;
+}
+
+Matrix3 GameObject::MatrixInScreen()
+{
+	Camera& camera = _scene->sceneManager->GetGame()->GetCamera();
+	Matrix3 cameraMatrix = camera.identity;
+	cameraMatrix.SetPos(Vec2(0, 0));
+	cameraMatrix.Scale(Vec2(camera.GetScale(), camera.GetScale()));
+	return Matrix3(GetGlobalMatrix() * cameraMatrix);
 }
 
 void GameObject::SetActive(const bool pEnabled)

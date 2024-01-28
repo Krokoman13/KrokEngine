@@ -28,6 +28,8 @@ public:
 	virtual ~Game();
 
 public:
+	Camera& GetCamera() { return m_window.camera; };
+
 	void Run();
 
 	unsigned int GetWitdth();

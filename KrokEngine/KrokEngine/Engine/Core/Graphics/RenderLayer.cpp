@@ -5,7 +5,7 @@ RenderLayer::RenderLayer(int a_layer)
 {
 	layer = a_layer;
 
-	std::cout << "New layer created: " << layer << ".\n";
+	//std::cout << "New layer created: " << layer << ".\n";
 }
 
 RenderLayer::RenderLayer(int a_layer, const std::vector<Renderable*>& a_sprites) : RenderLayer(a_layer)

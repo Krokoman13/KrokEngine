@@ -3,10 +3,15 @@
 
 struct Matrix3 : public Matrix
 {
+private:
+	int m_xFlippedValue = 1;
+	int m_yFlippedValue = 1;
+
 public:
 	Matrix3();
 	explicit Matrix3(const Matrix& other);
 
+public:
 	void SetXPos(const float a_x);
 	void SetYPos(const float a_y);
 	void SetPos(const Vec2 a_pos);
@@ -28,6 +33,7 @@ public:
 	void Scale(const Vec2& a_scale);
 	void Rotate(const float a_radians);
 
-	Matrix3 operator=(const Matrix& a_other);
+	Matrix3 operator=(const Matrix3& a_other);
+	Matrix3 operator*(const Matrix3& a_other) const;
 };
 

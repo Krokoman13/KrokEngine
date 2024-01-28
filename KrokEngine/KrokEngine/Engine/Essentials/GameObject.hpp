@@ -38,6 +38,8 @@ public:
 	void SetScene(Scene* scene);
 	Scene* GetScene() const;
 
+	Matrix3 MatrixInScreen();
+
 	void SetActive(const bool pEnabled = true);
 	bool IsActive() const;
 

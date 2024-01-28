@@ -41,7 +41,7 @@ void PhysicsObject::ShowCollider()
 		sprite->SetLocalPosition(middle);
 		sprite->SetDisplayMode(DisplayMode::Center);
 		sprite->SetLocalRotation(lineVec.GetAngleRadians());
-		sprite->SetLocalScale(Vec2(lineVec.Length(), 2.0f));
+		sprite->SetLocalScale(Vec2(lineVec.Length(), 2.f));
 	}
 	std::cout << std::endl;
 

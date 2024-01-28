@@ -15,8 +15,7 @@ private:
 	std::vector<Collider*>_colliding = std::vector<Collider*>();
 
 public:
-	TriggerColliderComponent(CircleCollider* toAdd = nullptr);
-	TriggerColliderComponent(const std::vector<Vec2>& pPoints);
+	using ColliderComponent::ColliderComponent;
 
 public:
 	std::function<void(Collider*)> onTriggerEnterAction = nullptr;

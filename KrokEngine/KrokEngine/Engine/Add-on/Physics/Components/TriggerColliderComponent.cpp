@@ -1,13 +1,5 @@
 #include "TriggerColliderComponent.hpp"
 
-TriggerColliderComponent::TriggerColliderComponent(CircleCollider* toAdd) : ColliderComponent (toAdd)
-{
-}
-
-TriggerColliderComponent::TriggerColliderComponent(const std::vector<Vec2>& pPoints) : ColliderComponent(pPoints)
-{
-}
-
 void TriggerColliderComponent::CollidesWith(Collider* pOther)
 {
 	if (IsColliding(pOther)) return;

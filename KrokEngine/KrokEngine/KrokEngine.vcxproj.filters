@@ -224,9 +224,6 @@
     <ClCompile Include="Engine\Add-on\Physics\Components\ColliderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Add-on\Physics\Components\RigidBody.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

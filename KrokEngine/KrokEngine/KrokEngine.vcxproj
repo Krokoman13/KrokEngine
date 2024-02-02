@@ -216,7 +216,6 @@
     <ClCompile Include="Engine\Add-on\Physics\Colliders\LineCollider.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Colliders\PolyShape.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Components\ColliderComponent.cpp" />
-    <ClCompile Include="Engine\Add-on\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\Components\TriggerColliderComponent.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\PhysicsObject\PhysicsObject.cpp" />
     <ClCompile Include="Engine\Add-on\Physics\PhysicsScene.cpp" />

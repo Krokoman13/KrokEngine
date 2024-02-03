@@ -1,6 +1,6 @@
 #include "Button.hpp"
 
-ButtonObject::ButtonObject(const int a_spriteAID, const int a_spriteBID, const Rectangle a_rectangle, const int a_layer)
+ButtonObject::ButtonObject(const int a_spriteAID, const int a_spriteBID, const Rectangle a_rectangle, const int a_layer) : GameObject(a_rectangle.TopLeft(), "Button")
 {
 	m_spriteA = AddComponent<Sprite>(a_spriteAID);
 	m_spriteA->SetRenderLayer(a_layer);

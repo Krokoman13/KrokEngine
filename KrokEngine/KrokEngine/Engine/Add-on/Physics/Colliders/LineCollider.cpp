@@ -21,3 +21,13 @@ Vec2 LineCollider::GetEnd() const
 {
 	return _end.GetGlobalPosition();
 }
+
+Vec2 LineCollider::GetLocalStart() const
+{
+	return _start.GetLocalPosition();
+}
+
+Vec2 LineCollider::GetLocalEnd() const
+{
+	return  _end.GetLocalPosition();
+}

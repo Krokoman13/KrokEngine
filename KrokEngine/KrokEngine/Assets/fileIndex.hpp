@@ -6,12 +6,12 @@
 
 #define RS__BLANK_WALKING_PNG	0		 //Assets\animationSheets\blank-walking.png
 #define RS__HOLOGRAM_FRAG	1		 //Assets\shaders\hologram.frag
+#define RS__BALL_PNG	82		 //Assets\textures\Debug\Ball.png
 #define RS__HOLOGRAM_VERT	2		 //Assets\shaders\hologram.vert
+#define RS__PIXEL_PNG	83		 //Assets\textures\Debug\Pixel.png
 #define RS__TEXTURE_FRAG	3		 //Assets\shaders\texture.frag
 #define RS__TEXTURE_VERT	4		 //Assets\shaders\texture.vert
 #define RS__BRICKS_JPG	5		 //Assets\textures\bricks.jpg
-#define RS__BALL_PNG	6		 //Assets\textures\Debug\Ball.png
-#define RS__PIXEL_PNG	7		 //Assets\textures\Debug\Pixel.png
 #define RS__BUTTON_2_PNG	14		 //Assets\textures\Default Button-2.png
 #define RS__BUTTON_PNG	15		 //Assets\textures\Default Button.png
 #define RS__LAND_JPG	8		 //Assets\textures\land.jpg

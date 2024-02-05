@@ -35,15 +35,14 @@ Vec2 Transform::GetLocalPosition() const
 
 void Transform::GlobalTranslate(const Vec2& pTrans)
 {
-	identity = Matrix3::TranslateMatrix(pTrans) * identity * InverseModificationMatrix();
+	SetGlobalMatrix(GetGlobalMatrix() * Matrix3::TranslateMatrix(pTrans));
 }
 
 void Transform::SetGlobalPosition(const Vec2& pPos)
 {
-	Matrix3 global = GetGlobalMatrix();
 	identity = Matrix3::TranslateMatrix(pPos) *
 		Matrix3::RotationMatrix(identity.GetRotVec()) *
-		Matrix3::ScalingMatrix(global.GetScale()) *
+		Matrix3::ScalingMatrix(identity.GetScale()) *
 		InverseModificationMatrix();
 }
 

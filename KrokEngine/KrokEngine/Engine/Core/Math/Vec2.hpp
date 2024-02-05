@@ -27,6 +27,9 @@ struct Vec2
 	friend Vec2 operator*(const float pScalar, const Vec2& vec);
 	Vec2& operator*=(const float pScalar);
 
+	Vec2 operator*(const Vec2& pOther) const;
+	Vec2& operator*=(const Vec2& pOther);
+
 	Vec2 operator/(const float pScalar) const;
 	friend Vec2 operator/(const float pScalar, const Vec2& vec);
 	Vec2& operator/=(const float pScalar);

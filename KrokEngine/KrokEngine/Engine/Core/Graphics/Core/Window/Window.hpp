@@ -37,7 +37,6 @@ public:
 		m_ortho.Scale(Vec2(1.f / currentScale.x, 1.f / currentScale.y));	//Sets scale to 1.f
 
 		Vec2 normalScale = identity.GetScale();
-		std::cout << currentScale << "," << normalScale << std::endl;
 
 		Vec2 nextScale = Vec2(2.f / float(m_width), -2.f / float(m_height)) * a_scale;
 		m_ortho.Scale(nextScale);	//Sets scale to desired value;

@@ -66,6 +66,16 @@ Vec2& Vec2::operator*=(const float pScalar)
 	return *this;
 }
 
+Vec2 Vec2::operator*(const Vec2& pOther) const
+{
+	return Vec2(x * pOther.x, y* pOther.y);
+}
+
+Vec2& Vec2::operator*=(const Vec2& pOther)
+{
+	return *this = Vec2(x * pOther.x, x * pOther.y);
+}
+
 //------------------------------------------------------------------------------------------------------------------------
 //														/ operator
 //------------------------------------------------------------------------------------------------------------------------

@@ -30,6 +30,8 @@ public:
 	bool IsColliding(Collider* pOther) const;
 	bool WasColliding(Collider* pOther) const;
 
+	inline const std::vector<Collider*>& AllColliding() { return _colliding; };
+
 	static void EnterReport(GameObject* pSource, Collider* pCollider);
 	static void ExitReport(GameObject* pSource, Collider* pCollider);
 	//const std::vector<ColliderComponent*>& Colliding() const;

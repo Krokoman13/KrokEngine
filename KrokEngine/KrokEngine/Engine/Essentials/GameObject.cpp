@@ -119,7 +119,9 @@ void GameObject::Update()
 {
 	for (unsigned int i = 0; i < _components.size(); i++)
 	{
-		_components[i]->Update();
+		Component* component = _components[i].get();
+		if (!component->IsActive()) continue;
+		component->Update();
 	}
 
 	update();

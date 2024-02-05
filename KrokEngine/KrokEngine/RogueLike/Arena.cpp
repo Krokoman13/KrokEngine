@@ -7,10 +7,13 @@
 
 void Arena::onLoad()
 {
+	_physicsSpeed = 0.f;
+
 	const float scale = 4.f;
 	const float gridSize = 16.f;
 
-	sceneManager->GetGame()->GetCamera().SetScale(scale);
+	//sceneManager->GetGame()->GetCamera().SetScale(scale);
+	//SetLocalScale(scale);
 
 	Sprite::defaultMagFilterParam = GL_NEAREST;
 	Sprite::defaultMinFilterParam = GL_NEAREST;
@@ -43,9 +46,29 @@ void Arena::onLoad()
 	Slime* slime = new Slime(toGrid(1, 11));
 	AddChild(slime);
 	slime->SetTarget(player);
+
+	GameObject* spriteObject = new GameObject();
+	circleSprite = spriteObject->AddComponent<Sprite>(RS__BALL_PNG);
+	circleSprite->SetDisplayMode(DisplayMode::Center);
+	circleSprite->SetRenderLayer(100);
+	AddChild(spriteObject);
+}
+
+void Arena::update()
+{
+	circleSprite->SetGlobalPosition(Input::MousePos());
+
+	if (!Input::WentDown(Mouse::Button::Left)) return;
+
+	for (Collider* colliding : OverLayCircle(circleSprite->GetGameObject(),	circleSprite->GetSize().x / 2))
+	{
+		std::cout << colliding->GetColliderComponent()->GetGameObject()->name << std::endl;
+	}
+
+	std::cout << std::endl;
 }
 
 Vec2 Arena::toGrid(const unsigned int a_x, const unsigned int a_y)
 {
-	return Vec2(float(a_x), float(a_y)) * m_gridSize + Vec2(m_gridSize, m_gridSize) / 2.f;
+	return Vec2(float(a_x), float(a_y)) * float(m_gridSize) + Vec2(float(m_gridSize), float(m_gridSize)) / 2.f;
 }

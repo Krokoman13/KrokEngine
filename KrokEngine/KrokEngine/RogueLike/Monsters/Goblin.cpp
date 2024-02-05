@@ -21,7 +21,7 @@ Goblin::Goblin(const Vec2 a_pos) : GameObject(a_pos, "Goblin")
 	m_rigBody->bounciness = 0;
 
 	m_follBehaviour = AddComponent<FollowBehaviour>();
-	m_follBehaviour->minDistance = 5 * size;
+	m_follBehaviour->minDistance = 5 * (size * 4);
 
 	health = AddComponent<Health>();
 	health->SetHealth(1);

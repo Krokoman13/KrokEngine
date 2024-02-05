@@ -11,7 +11,7 @@ public:
 	GameObject* target = nullptr;
 
 	float speed = 10.f;
-	float minDistance = 16.f;
+	float minDistance = 64.f;
 	bool found = false;
 
 public:

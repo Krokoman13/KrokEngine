@@ -14,7 +14,14 @@ Sword::Sword() : GameObject(Vec2(0.f, 0.f), "Sword")
 	m_slashAnimSprite->SetLocalPosition(offset);
 	AnimationSprite* copy = m_slashAnimSprite;
 	m_slashAnimSprite->AddAnimation(Animation(0, 2, 0.1f, [copy]() { copy->SetActive(false); }), "SLASH");
+
 	copy->SetActive(false);
+}
+
+void Sword::onLoad()
+{
+	m_pPhysicsScene = dynamic_cast<PhysicsScene*>(GetScene());
+	if (!m_pPhysicsScene) std::cout << "Warning: Sword is not in a PhysicsScene";
 }
 
 void Sword::update()
@@ -26,13 +33,25 @@ void Sword::update()
 
 	if (diffrence.x > 0.f && !m_isRight)
 	{
-		m_swordSprite->identity.Scale(Vec2(1, -1));
+		m_swordSprite->Scale(Vec2(1, -1));
 		m_isRight = true;
 	}
 	else if (diffrence.x < 0.f && m_isRight) {
-		m_swordSprite->identity.Scale(Vec2(1, -1));
+		m_swordSprite->Scale(Vec2(1, -1));
 		m_isRight = false;
 	}
 
-	if (Input::WentDown(Mouse::Button::Left)) m_slashAnimSprite->SetActive(true);
+	if (Input::WentDown(Mouse::Button::Left) && !m_slashAnimSprite->IsActive()) startSlash();
+}
+
+void Sword::startSlash()
+{
+	m_slashAnimSprite->SetActive(true);
+
+	slash();
+}
+
+void Sword::slash()
+{
+
 }

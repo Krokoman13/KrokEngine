@@ -19,6 +19,7 @@ public:
 
 		m_follBehaviour = AddComponent<FollowBehaviour>();
 		m_follBehaviour->speed = 15.f;
+		m_follBehaviour->minDistance = 16.f;
 
 		health = AddComponent<Health>();
 		health->SetHealth(1);

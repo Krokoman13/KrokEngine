@@ -17,6 +17,11 @@ Vec2 CircleCollider::GetCenter() const
 	return _center.GetGlobalPosition();
 }
 
+Vec2 CircleCollider::LocalCenter() const
+{
+    return _center.GetLocalPosition();
+}
+
 float CircleCollider::GetRadius() const
 {
     Vec2 scale = _center.GetGlobalScale();

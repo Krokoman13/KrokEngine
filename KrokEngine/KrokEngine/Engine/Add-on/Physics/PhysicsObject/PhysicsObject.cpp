@@ -25,15 +25,15 @@ void PhysicsObject::ShowCollider()
 
 		Sprite* sprite = AddComponent<Sprite>(RS__BALL_PNG);
 		sprite->diffuseColor = Color(0, 255, 0);
-		sprite->SetLocalPosition(circle->GetCenter());
+		sprite->SetLocalPosition(circle->LocalCenter());
 		sprite->SetDisplayMode(DisplayMode::Center);
-		sprite->SetLocalScale(Vec2(radius, radius));
+		sprite->SetLocalScale(Vec2(radius, radius) * 2);
 	}
 
 	for (LineCollider* line : collider->GetLines())
 	{
-		Vec2 lineVec = line->GetEnd() - line->GetStart();
-		Vec2 middle = lineVec / 2.0f + line->GetStart();
+		Vec2 lineVec = line->GetLocalStart() - line->GetLocalEnd();
+		Vec2 middle = lineVec / 2.0f + line->GetLocalEnd();
 
 		Sprite* sprite = AddComponent<Sprite>(RS__PIXEL_PNG);
 		sprite->SetFilter(GL_NEAREST, GL_NEAREST);

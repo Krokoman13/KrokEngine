@@ -40,10 +40,19 @@ void Transform::GlobalTranslate(const Vec2& pTrans)
 
 void Transform::SetGlobalPosition(const Vec2& pPos)
 {
-	identity = Matrix3::TranslateMatrix(pPos) *
-		Matrix3::RotationMatrix(identity.GetRotVec()) *
-		Matrix3::ScalingMatrix(identity.GetScale()) *
-		InverseModificationMatrix();
+	if (!_parent)
+	{
+		SetLocalPosition(pPos);
+		return;
+	}
+
+	const Matrix3 globalparentMatrix = _parent->GetGlobalMatrix();
+	const Matrix3 globalMatrix = globalparentMatrix * identity;
+
+	identity = Matrix3(globalparentMatrix.Inverse()) *
+		Matrix3::TranslateMatrix(pPos) *
+		Matrix3::RotationMatrix(globalMatrix.GetRotVec()) *
+		Matrix3::ScalingMatrix(globalMatrix.GetScale());
 }
 
 void Transform::SetGlobalPosition(const float pX, const float pY)
@@ -70,10 +79,19 @@ float Transform::GetLocalRotationRad() const
 
 void Transform::SetGlobalRotation(const float pRadians)
 {
-	identity = Matrix3::TranslateMatrix(identity.GetPos()) *
+	if (!_parent)
+	{
+		SetLocalRotation(pRadians);
+		return;
+	}
+
+	const Matrix3 globalparentMatrix = _parent->GetGlobalMatrix();
+	const Matrix3 globalMatrix = globalparentMatrix * identity;
+
+	identity = Matrix3(globalparentMatrix.Inverse()) *
+		Matrix3::TranslateMatrix(globalMatrix.GetPos()) *
 		Matrix3::RotationMatrix(pRadians) *
-		Matrix3::ScalingMatrix(identity.GetScale()) *
-		InverseModificationMatrix();
+		Matrix3::ScalingMatrix(globalMatrix.GetScale());
 }
 
 float Transform::GetGlobalRotationRad() const
@@ -113,10 +131,19 @@ Vec2 Transform::GetLocalScale() const
 
 void Transform::SetGlobalScale(const Vec2& pScale)
 {
-	identity = Matrix3::TranslateMatrix(identity.GetPos()) *
-		Matrix3::RotationMatrix(identity.GetRotVec()) *
-		Matrix3::ScalingMatrix(pScale) *
-		InverseModificationMatrix();
+	if (!_parent)
+	{
+		SetLocalScale(pScale);
+		return;
+	}
+
+	const Matrix3 globalparentMatrix = _parent->GetGlobalMatrix();
+	const Matrix3 globalMatrix = globalparentMatrix * identity;
+
+	identity = Matrix3(globalparentMatrix.Inverse()) *
+		Matrix3::TranslateMatrix(globalMatrix.GetPos()) *
+		Matrix3::RotationMatrix(globalMatrix.GetRotRad()) *
+		Matrix3::ScalingMatrix(pScale);
 }
 
 void Transform::SetGlobalScale(const float pUniformScale)

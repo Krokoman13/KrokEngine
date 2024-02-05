@@ -31,6 +31,8 @@ public:
 		PhysicsUpdate();
 	}
 
+	std::vector<Collider*> OverLayCircle(GameObject* a_source, const float a_radius, const Vec2 a_offset = Vec2());
+
 private:
 	const float _minToi = 0.1f;
 
@@ -54,6 +56,8 @@ private:
 	CollisionInfo checkRigid(RigidBody* pRigidBody, const float pMultiplier, unsigned int pChecked);
 	static CollisionInfo getCollision(RigidBody* pRigidBody, const Vec2& pDesiredTranslation, ColliderComponent* pStaticCollider);
 	static CollisionInfo getCollision(RigidBody* pRigidBody1, const Vec2& pDesTran1, RigidBody* pRigidBody2, const Vec2& pDestran2, const float minToi);
+
+	void overLayCircle(std::vector<Collider*>& a_isOverlaying, ColliderComponent* a_toCheck, const CircleCollider* a_circleCollider);
 
 	virtual void clearScene() override;
 };

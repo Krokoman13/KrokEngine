@@ -17,6 +17,69 @@ void PhysicsScene::PhysicsUpdate()
 	checkRigids();
 }
 
+std::vector<Collider*> PhysicsScene::OverLayCircle(GameObject* a_source, const float a_radius, const Vec2 a_offset)
+{
+	std::vector<Collider*> outp;
+	CircleCollider circle = CircleCollider(a_radius, a_offset);
+	circle.SetParent(a_source);
+
+	std::cout << circle.GetCenter() << std::endl;
+
+	for (ColliderComponent* colliderComp : _staticObjects) overLayCircle(outp, colliderComp, &circle);
+	for (TriggerColliderComponent* colliderComp : _triggerObjects) overLayCircle(outp, colliderComp, &circle);
+	for (RigidBody* colliderComp : _rigidObjects) overLayCircle(outp, colliderComp, &circle);
+
+	return outp;
+}
+
+
+void PhysicsScene::overLayCircle(std::vector<Collider*>& a_isOverlaying, ColliderComponent* a_toCheck, const CircleCollider* a_circleCollider) {
+	for (CircleCollider* circle : a_toCheck->GetCircles()) {
+		const float r1 = a_circleCollider->GetRadius();
+		const float r2 = circle->GetRadius();
+		const Vec2 p1 = a_circleCollider->GetCenter();
+		const Vec2 p2 = circle->GetCenter();
+
+		const Vec2 diffrence = p1 - p2;     //Relative position
+
+		if (diffrence.Length() <= (r1 + r2)) {
+			a_isOverlaying.push_back(circle);
+		}
+	}
+
+	for (LineCollider* line : a_toCheck->GetLines()) {
+		Vec2 p1 = line->GetStart();
+		Vec2 p2 = line->GetEnd();
+
+		Vec2 c = a_circleCollider->GetCenter();
+		float r = a_circleCollider->GetRadius();
+
+		Vec2 lineDir = p2 - p1; // Corrected direction of the line
+		Vec2 lineCenter = (p1 + p2) / 2.0f; // midpoint of the line segment
+		Vec2 dirToCircleCenter = c - lineCenter; // direction from line center to circle center
+
+		float t = dirToCircleCenter.Dot(lineDir) / lineDir.Dot(lineDir); // projection scalar
+
+		Vec2 closestPointOnLine;
+		if (t < 0.0f) {
+			closestPointOnLine = p1;
+		}
+		else if (t > 1.0f) {
+			closestPointOnLine = p2;
+		}
+		else {
+			closestPointOnLine = lineCenter;
+		}
+
+		float distance = (closestPointOnLine - c).Length();
+
+		if (distance <= r) {
+			a_isOverlaying.push_back(line);
+		}
+	}
+}
+
+
 void PhysicsScene::load(const std::vector<GameObject*>& toLoad)
 {
 	for (unsigned int i = 0; i < toLoad.size(); i++)

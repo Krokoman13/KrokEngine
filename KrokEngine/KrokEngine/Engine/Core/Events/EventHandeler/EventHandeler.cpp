@@ -13,6 +13,13 @@ EventHandeler::EventHandeler()
 {
 }
 
+void EventHandeler::ClearAll()
+{
+	m_hoverables.clear();
+	m_currentHoverable = nullptr;
+	m_currentClickable = nullptr;
+}
+
 void EventHandeler::setKeyDown(int a_buttonValue)
 {
 	Input::m_keyWentDown[a_buttonValue] = true;
@@ -119,8 +126,9 @@ void EventHandeler::cursor_position_callback(GLFWwindow* window, double xpos, do
 	for (int i = (int)m_hoverables.size() - 1; i >= 0; --i) {
 		Hoverable* it = m_hoverables[i];
 
+		if (!it->IsActive()) continue;
 		if (!it->IsInside(Input::m_mousePosition)) continue;
-		
+
 		if (nextHoverable)
 		{
 			if (it->GetLayer() > nextHoverable->GetLayer()) nextHoverable = it;

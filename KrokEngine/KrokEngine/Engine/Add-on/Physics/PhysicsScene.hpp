@@ -33,6 +33,8 @@ public:
 
 	std::vector<Collider*> OverLayCircle(GameObject* a_source, const float a_radius, const Vec2 a_offset = Vec2());
 
+	void SetPhyicsSpeed(float a_speed);
+
 private:
 	const float _minToi = 0.1f;
 

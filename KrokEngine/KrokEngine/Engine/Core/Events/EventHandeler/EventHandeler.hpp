@@ -26,6 +26,8 @@ public:
 	void Add(const std::vector<GameObject*>& a_newlyAdded);
 	void Remove(const std::vector<std::unique_ptr<GameObject>>& a_toDestroy);
 
+	void ClearAll();
+
 private:
 	static void setKeyDown(const int a_buttonValue);
 	static void setKeyUp(const int a_buttonValue);

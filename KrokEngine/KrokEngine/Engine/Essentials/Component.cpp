@@ -50,7 +50,7 @@ void Component::SetActive(const bool a_enabled)
 	
 	m_enabled = a_enabled;
 
-	if (!m_gameObject || m_gameObject->IsActive()) return;
+	if (!m_gameObject || !m_gameObject->IsActive()) return;
 
 	if (m_enabled) OnEnable();
 	else OnDisable();
@@ -58,6 +58,7 @@ void Component::SetActive(const bool a_enabled)
 
 bool Component::IsActive() const
 {
+	if (!m_gameObject || !m_gameObject->IsActive()) return false;
 	return m_enabled;
 }
 

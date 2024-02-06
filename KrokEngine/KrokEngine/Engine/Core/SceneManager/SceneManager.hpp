@@ -32,11 +32,15 @@ public:
 
 	Game* GetGame();
 
+	bool IsNewScene() { return _sceneIsNew; };
+
 protected:
 	void closeScene(Scene* scene);
 	void openScene(Scene* scene);
 
 	void clearAllScenes();
+
+	bool _sceneIsNew = true;
 
 private:
 	unsigned int findIdentifier(std::string name);

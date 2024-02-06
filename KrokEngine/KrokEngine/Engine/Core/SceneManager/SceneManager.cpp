@@ -131,6 +131,7 @@ void SceneManager::ReloadCurrentScene()
 {
 	GetCurrentScene()->Close();
 	GetCurrentScene()->Load();
+	_sceneIsNew = true;
 }
 
 Game* SceneManager::GetGame()
@@ -152,6 +153,7 @@ void SceneManager::openScene(Scene* scene)
 	scene->Load();
 	std::cout << scene->name << " loaded\n";
 
+	_sceneIsNew = true;
 	_currentScene = scene;
 }
 

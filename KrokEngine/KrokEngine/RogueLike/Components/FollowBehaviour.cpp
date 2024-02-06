@@ -15,7 +15,9 @@ void FollowBehaviour::Update()
 
 	Vec2 direction = target->GetGlobalPosition() - pos;
 
-	if (direction.LengthSquared() < (minDistance * minDistance)) return;
+	if (found = direction.LengthSquared() < (minDistance * minDistance)) {
+		return;
+	}
 
 	direction.SetLength(speed);
 	m_myRigidBody->velocity = direction;

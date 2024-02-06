@@ -86,6 +86,7 @@
 #define RS__HOLOGRAM_VERT	79		 //Assets\shaders\hologram.vert
 #define RS__TEXTURE_FRAG	80		 //Assets\shaders\texture.frag
 #define RS__TEXTURE_VERT	81		 //Assets\shaders\texture.vert
+#define RS__COVER_PNG	85		 //Assets\textures\Cover.png
 #define RS__BALL_PNG	82		 //Assets\textures\Debug\Ball.png
 #define RS__PIXEL_PNG	83		 //Assets\textures\Debug\Pixel.png
 #define RS__LEVELONEBACKGROUND_PNG	84		 //Assets\textures\LevelOneBackground.png

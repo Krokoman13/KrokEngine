@@ -23,8 +23,11 @@ Goblin::Goblin(const Vec2 a_pos) : GameObject(a_pos, "Goblin")
 	m_follBehaviour = AddComponent<FollowBehaviour>();
 	m_follBehaviour->minDistance = 5 * (size * 4);
 
-	health = AddComponent<Health>();
-	health->SetHealth(1);
+	m_health = AddComponent<Health>();
+	m_health->SetHealth(2);
+	Sprite* sprite = m_animSprite;
+	m_health->SetOnInvicibleEnter([sprite]() { sprite->diffuseColor = Color::Red(); });
+	m_health->SetOnInvicibleExit([sprite]() { sprite->diffuseColor = Color::White(); });
 
 	AddComponent<SpriteFlipper>();
 	AddComponent<GridLayerer>();

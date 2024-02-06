@@ -6,13 +6,15 @@ class Arena : public PhysicsScene
 {
 private:
 	const unsigned int m_gridSize = 16;
-	Sprite* circleSprite = nullptr;
+
+	GameObject* m_gameOverScreen = nullptr;
+	GameObject* m_barry = nullptr;
 
 public:
 	Arena() : PhysicsScene("Arena") { _gravity = Vec2(0, 0);  _resistanceCoefficient = 0.f;};
 
 public:
-	virtual void onLoad() override;
+	void onLoad() override;
 
 protected:
 	void update() override;

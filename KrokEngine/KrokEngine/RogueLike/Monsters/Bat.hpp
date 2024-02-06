@@ -12,7 +12,7 @@ public:
 
 		m_animSprite = AddComponent<AnimationSprite>(RS__FLY_ANIM_SPRITESHEET_PNG, 4, 1, false);
 		m_animSprite->SetDisplayMode(DisplayMode::BottomCenter);
-		m_animSprite->AddAnimation(Animation(0, 3, 0.1f), "DEFAULT");
+		m_animSprite->AddAnimation(Animation(0, 3, 0.1f, [this]() { this->TryToAttack(); }), "DEFAULT");
 		m_animSprite->SetRenderLayer(100);
 
 		m_rigBody = AddComponent<RigidBody>();
@@ -21,9 +21,13 @@ public:
 		m_follBehaviour->speed = 15.f;
 		m_follBehaviour->minDistance = 16.f;
 
-		health = AddComponent<Health>();
-		health->SetHealth(1);
+		m_health = AddComponent<Health>();
+		m_health->SetHealth(1);
+		Sprite* sprite = m_animSprite;
+		m_health->SetOnInvicibleEnter([sprite]() { sprite->diffuseColor = Color::Red(); });
+		m_health->SetOnInvicibleExit([sprite]() { sprite->diffuseColor = Color::White(); });
 
+		AddComponent<TriggerColliderComponent>(new CircleCollider(8, Vec2(0, 8)));
 		AddComponent<SpriteFlipper>();
 	}
 };

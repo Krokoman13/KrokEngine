@@ -22,11 +22,16 @@ Barry::Barry(const Vec2 a_pos) : GameObject(a_pos, "Barry")
 	m_rigBody->Add(new CircleCollider(colliderSize / 2.f, colliderOffset));
 	m_rigBody->bounciness = 0;
 
-	Health* m_health = AddComponent<Health>();
-	m_health->SetHealth(3);
+	Health* health = AddComponent<Health>();
+	health->destroyOnDeath = false;
+	health->SetHealth(3);
 	Sprite* sprite = m_animSprite;
-	m_health->SetOnInvicibleEnter([sprite]() { sprite->diffuseColor = Color::Red(); });
-	m_health->SetOnInvicibleExit([sprite]() { sprite->diffuseColor = Color::White(); });
+	health->SetOnInvicibleEnter([sprite]() { sprite->diffuseColor = Color::Red(); });
+	health->SetOnInvicibleExit([sprite]() { sprite->diffuseColor = Color::White(); });
+	health->SetOnDeath([this]() { 
+			PhysicsScene* scene = static_cast<PhysicsScene*>(this->GetScene()->GetScene()); 
+			scene->SetPhyicsSpeed(0.f);
+		});
 
 	AddComponent<SpriteFlipper>();
 	AddComponent<GridLayerer>();

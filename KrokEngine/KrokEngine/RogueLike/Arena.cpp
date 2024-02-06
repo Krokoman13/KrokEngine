@@ -4,16 +4,16 @@
 #include "Monsters/Bat.hpp"
 #include "Monsters/Goblin.hpp"
 #include "Monsters/Slime.hpp"
+#include "../Testing/Button.hpp"
 
 void Arena::onLoad()
 {
-	_physicsSpeed = 0.f;
+	_physicsSpeed = 5.f;
 
 	const float scale = 4.f;
 	const float gridSize = 16.f;
 
-	//sceneManager->GetGame()->GetCamera().SetScale(scale);
-	//SetLocalScale(scale);
+	SetLocalScale(scale);
 
 	Sprite::defaultMagFilterParam = GL_NEAREST;
 	Sprite::defaultMinFilterParam = GL_NEAREST;
@@ -32,40 +32,38 @@ void Arena::onLoad()
 
 	AddChild(new Chest(toGrid(8, 8)));
 
-	Barry* player = new Barry(toGrid(1, 1));
-	AddChild(player);
+	m_barry = new Barry(toGrid(10, 5));
+	AddChild(m_barry);
 
 	Bat* bat = new Bat(toGrid(20, 0));
 	AddChild(bat);
-	bat->SetTarget(player);
+	bat->SetTarget(m_barry);
+
+	Slime* slime = new Slime(toGrid(20, 0));
+	AddChild(slime);
+	slime->SetTarget(m_barry);
 
 	Goblin* goblin = new Goblin(toGrid(20, 11));
 	AddChild(goblin);
-	goblin->SetTarget(player);
+	goblin->SetTarget(m_barry);
 
-	Slime* slime = new Slime(toGrid(1, 11));
-	AddChild(slime);
-	slime->SetTarget(player);
+	Slime* slime2 = new Slime(toGrid(0, 11));
+	AddChild(slime2);
+	slime2->SetTarget(m_barry);
 
-	GameObject* spriteObject = new GameObject();
-	circleSprite = spriteObject->AddComponent<Sprite>(RS__BALL_PNG);
-	circleSprite->SetDisplayMode(DisplayMode::Center);
-	circleSprite->SetRenderLayer(100);
-	AddChild(spriteObject);
+	m_gameOverScreen = new GameObject("Game Over Screen");
+	m_gameOverScreen->AddComponent<Sprite>(RS__COVER_PNG)->SetRenderLayer(1000);
+	ButtonObject* button = new ButtonObject(RS__MENU_BUTTON_PNG, RS__MENU_BUTTON_PRESS_PNG, Rectangle(96, 32), 1000);
+	button->SetLocalPosition(Vec2(160, 88));
+	SceneManager* sceneMng = sceneManager;
+	button->SetFunction([sceneMng]() {sceneMng->ReloadCurrentScene(); });
+	m_gameOverScreen->AddChild(button);
+	AddChild(m_gameOverScreen);
 }
 
 void Arena::update()
 {
-	circleSprite->SetGlobalPosition(Input::MousePos());
-
-	if (!Input::WentDown(Mouse::Button::Left)) return;
-
-	for (Collider* colliding : OverLayCircle(circleSprite->GetGameObject(),	circleSprite->GetSize().x / 2))
-	{
-		std::cout << colliding->GetColliderComponent()->GetGameObject()->name << std::endl;
-	}
-
-	std::cout << std::endl;
+	m_gameOverScreen->SetActive(_physicsSpeed < 0.01f);
 }
 
 Vec2 Arena::toGrid(const unsigned int a_x, const unsigned int a_y)

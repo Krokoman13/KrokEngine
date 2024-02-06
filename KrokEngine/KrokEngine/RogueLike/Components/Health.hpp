@@ -11,12 +11,13 @@ private:
 	float m_invincibleDuration = 0.f;
 	float m_invincibleTime = 0.3f;
 
-	bool m_destroyOnDeath = true;
-
 	std::function<void()> m_onInvincibleEnter;
 	std::function<void()> m_onInvicibleOver;
 
 	std::function<void()> m_onDeath;
+
+public:
+	bool destroyOnDeath = true;
 
 public:
 	Health() {};
@@ -35,11 +36,6 @@ public:
 		m_hitPoints -= a_hitPoints;
 
 		if (m_hitPoints < 0) m_hitPoints = 0;
-		if (m_hitPoints == 0)
-		{
-			onDeath();
-			return;
-		}
 
 		if (m_onInvincibleEnter) m_onInvincibleEnter();
 		m_invincibleDuration = m_invincibleTime;
@@ -52,14 +48,20 @@ public:
 	void Update() override
 	{
 		if (!IsInvincible()) return;
+
 		m_invincibleDuration -= Time::DeltaTimeSeconds();
-		if (!IsInvincible() && m_onInvicibleOver) m_onInvicibleOver();
+
+		if (!IsInvincible())
+		{
+			if (IsDead()) onDeath();
+			if (m_onInvicibleOver) m_onInvicibleOver();
+		}
 	};
 
 private:
 	void onDeath() 
 	{
-		if (m_destroyOnDeath) m_gameObject->LateDestroy();
+		if (destroyOnDeath) m_gameObject->LateDestroy();
 		if (m_onDeath) m_onDeath();
 	};
 };

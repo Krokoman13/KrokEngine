@@ -23,13 +23,17 @@ std::vector<Collider*> PhysicsScene::OverLayCircle(GameObject* a_source, const f
 	CircleCollider circle = CircleCollider(a_radius, a_offset);
 	circle.SetParent(a_source);
 
-	std::cout << circle.GetCenter() << std::endl;
-
 	for (ColliderComponent* colliderComp : _staticObjects) overLayCircle(outp, colliderComp, &circle);
 	for (TriggerColliderComponent* colliderComp : _triggerObjects) overLayCircle(outp, colliderComp, &circle);
 	for (RigidBody* colliderComp : _rigidObjects) overLayCircle(outp, colliderComp, &circle);
 
 	return outp;
+}
+
+void PhysicsScene::SetPhyicsSpeed(float a_speed)
+{
+	if (a_speed < 0) a_speed = 0.f;
+	_physicsSpeed = a_speed;
 }
 
 

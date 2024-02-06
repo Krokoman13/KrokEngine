@@ -8,6 +8,8 @@ private:
 	int m_renderLayer = 0;
 	int m_previousRenderLayer = 0;
 
+	bool m_visable = false;
+
 public:
 	Renderable() {};
 	virtual ~Renderable() {};
@@ -15,6 +17,10 @@ public:
 public:
 	virtual void OnLoad() override { SetLayerUnchanged(); };
 	virtual void Display(const Matrix3& a_pojectionMatrix) const = 0;
+
+	bool IsVisable() { return m_visable; };
+	void OnEnable() { m_visable = true; };
+	void OnDisable() { m_visable = false; };
 
 	void SetRenderLayer(int a_renderLayer)
 	{

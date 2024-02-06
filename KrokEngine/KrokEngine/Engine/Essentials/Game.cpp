@@ -28,6 +28,13 @@ void Game::Run()
 	{
 		m_eventManager.UpdateEvents();
 		m_window.PollEvents();
+
+		if (IsNewScene()) {
+			m_renderer.ClearAll();
+			m_eventManager.ClearAll();
+			_sceneIsNew = false;
+		}
+
 		Scene* currentScene = GetCurrentScene();
 
 		std::chrono::steady_clock::time_point t2 = std::chrono::high_resolution_clock::now();
@@ -35,7 +42,7 @@ void Game::Run()
 		Time::m_deltaTimeSeconds = ms_int.count() / 1000.f;
 		m_t1 = std::chrono::high_resolution_clock::now();
 
-		if (!Input::MouseInScreen()) continue;
+		//if (!Input::MouseInScreen()) continue;
 
 		if (devControls) handleDevControls();
 

@@ -26,8 +26,8 @@ public:
 	void Remove(const std::vector<std::unique_ptr<GameObject>>& a_toDestroy);
 
 	void CheckAndFix();
-
 	void ClearCaches();
+	void ClearAll();
 
 private :
 	void add(Renderable* a_renderable);

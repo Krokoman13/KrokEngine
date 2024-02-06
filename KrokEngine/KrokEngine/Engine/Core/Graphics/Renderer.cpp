@@ -28,8 +28,7 @@ void Renderer::Add(const std::vector<GameObject*>& a_newlyAdded)
 {
 	for (GameObject* gameObject : a_newlyAdded)
 	{
-		GameObject* temp = gameObject;
-		for (Renderable* renderable : temp->GetComponents<Renderable>()) add(renderable);
+		for (Renderable* renderable : gameObject->GetComponents<Renderable>()) add(renderable);
 	}
 }
 
@@ -67,6 +66,12 @@ void Renderer::ClearCaches()
 	m_bufferCache.Clear();
 }
 
+void Renderer::ClearAll()
+{
+	m_renderLayers.clear();
+	m_renderLayers.push_back(RenderLayer(0));
+}
+
 void Renderer::render()
 {
 	m_window.Clear();
@@ -77,7 +82,7 @@ void Renderer::render()
 
 		for (Renderable* renderable : renderLayer.renderables)
 		{
-			if (!renderable->IsActive()) continue;
+			if (!renderable->IsVisable() || !renderable->IsActive()) continue;
 			m_window.Draw(renderable);
 		}
 	}

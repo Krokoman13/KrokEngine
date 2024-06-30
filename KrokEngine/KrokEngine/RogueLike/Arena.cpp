@@ -5,6 +5,7 @@
 #include "Monsters/Goblin.hpp"
 #include "Monsters/Slime.hpp"
 #include "../Testing/Button.hpp"
+#include "Bomb.hpp"
 
 void Arena::onLoad()
 {
@@ -63,18 +64,19 @@ void Arena::onLoad()
 
 void Arena::update()
 {
-	m_gameOverScreen->SetActive(m_paused);
+	Game* current = sceneManager->GetGame();
+	m_gameOverScreen->SetActive(current->gameSpeed <= 0.0f);
 
 	if (m_paused) {
 		if (Input::WentDown(Keyboard::Key::Space)) {
-			_physicsSpeed = 5.f;
+			current->gameSpeed = 1.f;
 			m_paused = false;
 		}
 		return;
 	}
 
 	if (Input::WentDown(Keyboard::Key::Space)) {
-		_physicsSpeed = 0.f;
+		current->gameSpeed = 0.f;
 		m_paused = true;
 		return;
 	}

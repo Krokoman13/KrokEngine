@@ -36,6 +36,6 @@ protected:
 			if (!m_follBehaviour->target->TryGetComponent<Health>(m_targetHealth)) return;
 		}
 
-		m_targetHealth->GainDamage(1); 
+		m_targetHealth->GainDamage(2); 
 	};
 };

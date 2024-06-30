@@ -2,6 +2,7 @@
 
 #include "../Components/SpriteFlipper.hpp"
 #include "../Components/GridLayerer.hpp"
+#include "../Components/Burnable.hpp"
 
 Slime::Slime(const Vec2 a_pos) : GameObject(a_pos, "Slime")
 {
@@ -27,11 +28,12 @@ Slime::Slime(const Vec2 a_pos) : GameObject(a_pos, "Slime")
 	m_follBehaviour->speed = 5.f;
 
 	m_health = AddComponent<Health>();
-	m_health->SetHealth(3);
+	m_health->SetHealth(6);
 	Sprite* sprite = m_animSprite;
 	m_health->SetOnInvicibleEnter([sprite]() { sprite->diffuseColor = Color::Red(); });
 	m_health->SetOnInvicibleExit([sprite]() { sprite->diffuseColor = Color::White(); });
 
+	AddComponent<Burnable>();
 	AddComponent<SpriteFlipper>();
 	AddComponent<GridLayerer>();
 }

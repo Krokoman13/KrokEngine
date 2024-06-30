@@ -71,6 +71,6 @@ void Sword::slash()
 		Health* health = nullptr;
 		if (!previous->TryGetComponent<Health>(health)) continue;
 
-		health->GainDamage(1);
+		health->GainDamage(2);
 	}
 }

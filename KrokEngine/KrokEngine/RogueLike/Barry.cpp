@@ -3,6 +3,7 @@
 #include "Components/SpriteFlipper.hpp"
 #include "Components/GridLayerer.hpp"
 #include "Components/Health.hpp"
+#include "Components/Burnable.hpp"
 
 #include "Sword.hpp"
 
@@ -24,7 +25,7 @@ Barry::Barry(const Vec2 a_pos) : GameObject(a_pos, "Barry")
 
 	Health* health = AddComponent<Health>();
 	health->destroyOnDeath = false;
-	health->SetHealth(3);
+	health->SetHealth(6);
 	Sprite* sprite = m_animSprite;
 	health->SetOnInvicibleEnter([sprite]() { sprite->diffuseColor = Color::Red(); });
 	health->SetOnInvicibleExit([sprite]() { sprite->diffuseColor = Color::White(); });
@@ -35,6 +36,7 @@ Barry::Barry(const Vec2 a_pos) : GameObject(a_pos, "Barry")
 
 	AddComponent<SpriteFlipper>();
 	AddComponent<GridLayerer>();
+	AddComponent<Burnable>();
 
 	Sword* sword = new Sword();
 	sword->SetLocalPosition(Vec2(0, -6));

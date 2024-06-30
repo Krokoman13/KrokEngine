@@ -29,9 +29,10 @@ public:
 	bool IsDead() { return m_hitPoints <= 0; };
 	bool IsInvincible() { return m_invincibleDuration > 0.f; };
 
-	void GainDamage(const unsigned int a_hitPoints)
+	void GainDamage(const unsigned int a_hitPoints, bool a_ignoreInvinsible = false)
 	{
-		if (IsDead() || IsInvincible()) return;
+		if (IsDead()) return;
+		if (a_ignoreInvinsible && IsInvincible()) return;
 
 		m_hitPoints -= a_hitPoints;
 

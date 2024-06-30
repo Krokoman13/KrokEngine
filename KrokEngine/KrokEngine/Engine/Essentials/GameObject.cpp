@@ -15,16 +15,6 @@ GameObject::GameObject(const std::string& pName, const float pX, const float pY)
 
 GameObject::~GameObject()
 {
-	if (!_scene)
-	{
-		_children.clear();
-		return;
-	}
-
-	for (unsigned int i = 0; i < _children.size(); i++)
-	{
-		_scene->Parentless(_children[i]);
-	}
 }
 
 void GameObject::LateDestroy()

@@ -22,7 +22,7 @@ public:
         else
         {
             std::cout << "Found a lonely Resouce, will be overwritten by a new one!" << std::endl;
-            const TKey& previous = findByValue(index);
+            const TKey& previous = this->findByValue(index);
             this->m_resources[index] = a_resource;
             this->m_resourceMap.erase(previous);
         }
@@ -47,15 +47,5 @@ private:
         // If no lonely resource is found, return the size of the resources vector
         return size;
     };
-
-    TKey findByValue(const unsigned int a_value)
-    {
-        for (auto it : this->m_resourceMap)
-        {
-            if (it.second == a_value) return it.first;
-        }
-
-        throw std::invalid_argument("Value was not found in resourceMap");
-    }
 };
 

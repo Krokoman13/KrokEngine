@@ -39,7 +39,7 @@ void Game::Run()
 
 		std::chrono::steady_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 		std::chrono::milliseconds ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - m_t1);
-		Time::m_deltaTimeSeconds = ms_int.count() / 1000.f;
+		Time::m_deltaTimeSeconds = ms_int.count() / 1000.f * gameSpeed;
 		m_t1 = std::chrono::high_resolution_clock::now();
 
 		//if (!Input::MouseInScreen()) continue;

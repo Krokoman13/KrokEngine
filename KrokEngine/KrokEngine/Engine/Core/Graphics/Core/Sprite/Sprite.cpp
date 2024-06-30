@@ -21,23 +21,20 @@ Sprite::~Sprite()
 
 void Sprite::OnLoad()
 {
-	if (!loadTexture())
-	{
+	if (!loadTexture()) {
 		std::cerr << "Something went wrong when loading the Texure" << std::endl;
 	}
 
-	if (!loadShader())
-	{
+	if (!loadShader()) {
 		std::cerr << "Something went wrong when loading the shader" << std::endl;
 	}
+	
 
-	if (!loadUVBuffer())
-	{
+	if (!loadUVBuffer()) {
 		std::cerr << "Something went wrong when loading the UV buffer" << std::endl;
 	}
 
-	if (!loadVertexBuffer())
-	{
+	if (!loadVertexBuffer()) {
 		std::cerr << "Something went wrong when loading the Vertex buffer" << std::endl;
 	}
 }
@@ -104,6 +101,11 @@ void Sprite::FlipBack()
 	Flip();
 }
 
+void Sprite::SetShader(const Shader& a_shader)
+{
+	m_texShader = a_shader;
+}
+
 bool Sprite::loadShader()
 {
 	m_texShader = ResourceManager::GetShader(RS__TEXTURE_VERT, RS__TEXTURE_FRAG);
@@ -143,7 +145,6 @@ void Sprite::Display(const Matrix3& a_pojectionMatrix) const
 void Sprite::initializeShader() const
 {
 	glUseProgram(m_texShader.GetProgramID());
-
 }
 
 void Sprite::setShaderValues(const Matrix3& a_pojectionMatrix) const

@@ -22,6 +22,7 @@ private:
 
 public:
 	bool devControls = false;
+	float gameSpeed = 1.0f;
 
 public:
 	Game(const std::string& pName, const unsigned int pWidth, const unsigned int pHeight, const unsigned int pTargetFPS);

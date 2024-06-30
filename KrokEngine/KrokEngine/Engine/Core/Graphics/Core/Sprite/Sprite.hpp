@@ -48,6 +48,9 @@ public:
 	void Flip();
 	void FlipBack();
 
+	void SetShader(const Shader& a_shader);
+	inline TextureShader GetShader() { return m_texShader; };
+
 protected:
 	bool loadTexture();
 	virtual bool loadShader();

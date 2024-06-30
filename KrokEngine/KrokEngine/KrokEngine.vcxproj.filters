@@ -240,6 +240,9 @@
     <ClInclude Include="RogueLike\Sword.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RogueLike\Components\Burnable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Add-on\Physics\ColisionHandeling\CollisionCalculator.cpp">
@@ -399,6 +402,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RogueLike\Sword.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RogueLike\Components\Burnable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RogueLike\Bomb.hpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

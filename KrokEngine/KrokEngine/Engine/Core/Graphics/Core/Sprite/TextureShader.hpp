@@ -11,7 +11,6 @@ private:
 	GLint m_diffuseTextureIndex = -1;
 	GLint m_diffuseColorIndex = -1;
 
-
 public:
 	TextureShader() {};
 	TextureShader(const Shader& a_other);

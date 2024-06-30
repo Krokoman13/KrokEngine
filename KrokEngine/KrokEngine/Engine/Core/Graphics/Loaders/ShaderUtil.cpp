@@ -82,7 +82,7 @@ GLuint ShaderUtil::loadShader (const std::string& a_shaderPath, GLenum a_shaderT
     glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &compileStatus);
 
     if (compileStatus == GL_FALSE) {
-        std::cerr << "Shader compilation failed:" << std::endl;
+        std::cerr << "Shader " << a_shaderPath << " compilation failed:" << std::endl;
 
         GLint logLength = 0;
         glGetShaderiv(shaderHandle, GL_INFO_LOG_LENGTH, &logLength);

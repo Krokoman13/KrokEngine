@@ -6,7 +6,7 @@
 class Shader : public Counted
 {
 protected:
-	GLuint m_programID = -1;
+	GLuint m_programID = 0;
 
 public:
 	Shader() {};

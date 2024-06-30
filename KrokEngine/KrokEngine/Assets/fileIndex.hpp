@@ -16,7 +16,7 @@
 #define RS__BARREL_PNG	9		 //Assets\o_lobster\dungeon crawler pack\props_items\barrel.png
 #define RS__BOMB_ANIM_SPRITESHEET_PNG	10		 //Assets\o_lobster\dungeon crawler pack\props_items\bomb_anim_spritesheet.png
 #define RS__BOOKSHELF_PNG	11		 //Assets\o_lobster\dungeon crawler pack\props_items\bookshelf.png
-#define RS__PIXEL_PNG	12		 //Assets\o_lobster\dungeon crawler pack\props_items\chest_open.png
+#define RS__CHEST_OPEN_PNG	12		 //Assets\o_lobster\dungeon crawler pack\props_items\chest_open.png
 #define RS__CHEST_SPRITESHEET_PNG	13		 //Assets\o_lobster\dungeon crawler pack\props_items\chest_spritesheet.png
 #define RS__FLAG_GREEN_PNG	14		 //Assets\o_lobster\dungeon crawler pack\props_items\flag_green.png
 #define RS__FLAG_RED_PNG	15		 //Assets\o_lobster\dungeon crawler pack\props_items\flag_red.png
@@ -82,10 +82,11 @@
 #define RS__MENU_BUTTON_PRESS_PNG	75		 //Assets\o_lobster\dungeon crawler pack\ui\menu_button_press.png
 #define RS__PAUSE_BUTTON_PNG	76		 //Assets\o_lobster\dungeon crawler pack\ui\pause_button.png
 #define RS__PAUSE_BUTTON_PRESS_PNG	77		 //Assets\o_lobster\dungeon crawler pack\ui\pause_button_press.png
-#define RS__FIREEFFECT_FRAG	84		 //Assets\shaders\fireEffect.frag
-#define RS__FIREEFFECT_VERT	86		 //Assets\shaders\fireEffect.vert
+#define RS__FIREEFFECT_FRAG	78		 //Assets\shaders\fireEffect.frag
+#define RS__FIREEFFECT_VERT	79		 //Assets\shaders\fireEffect.vert
 #define RS__TEXTURE_FRAG	80		 //Assets\shaders\texture.frag
 #define RS__TEXTURE_VERT	81		 //Assets\shaders\texture.vert
-#define RS__COVER_PNG	82		 //Assets\textures\Debug\Ball.png
-#define RS__BALL_PNG	83		 //Assets\textures\Debug\Pixel.png
+#define RS__COVER_PNG	82		 //Assets\textures\Cover.png
+#define RS__BALL_PNG	83		 //Assets\textures\Debug\Ball.png
+#define RS__PIXEL_PNG	84		 //Assets\textures\Debug\Pixel.png
 #define RS__LEVELONEBACKGROUND_PNG	85		 //Assets\textures\LevelOneBackground.png

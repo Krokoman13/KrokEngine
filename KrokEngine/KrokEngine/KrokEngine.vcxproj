@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Assets\fileIndex.hpp" />
+    <ClInclude Include="RogueLike\Components\Burnable.hpp" />
     <ClInclude Include="RogueLike\Components\Health.hpp" />
     <ClInclude Include="RogueLike\Components\GridLayerer.hpp" />
     <ClInclude Include="RogueLike\Monsters\Goblin.hpp" />
@@ -220,6 +221,8 @@
     <ClInclude Include="Testing\UpdateComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RogueLike\Bomb.hpp" />
+    <ClCompile Include="RogueLike\Components\Burnable.cpp" />
     <ClCompile Include="RogueLike\Components\GridLayerer.cpp" />
     <ClCompile Include="RogueLike\Monsters\Goblin.cpp" />
     <ClCompile Include="RogueLike\Components\FollowBehaviour.cpp" />

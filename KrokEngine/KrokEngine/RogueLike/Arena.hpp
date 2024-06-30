@@ -10,6 +10,8 @@ private:
 	GameObject* m_gameOverScreen = nullptr;
 	GameObject* m_barry = nullptr;
 
+	bool m_paused = false;
+
 public:
 	Arena() : PhysicsScene("Arena") { _gravity = Vec2(0, 0);  _resistanceCoefficient = 0.f;};
 

@@ -31,22 +31,22 @@ void Arena::onLoad()
 	AddChild(box);
 
 	AddChild(new Chest(toGrid(8, 8)));
-
+	
 	m_barry = new Barry(toGrid(10, 5));
 	AddChild(m_barry);
-
+	
 	Bat* bat = new Bat(toGrid(20, 0));
 	AddChild(bat);
 	bat->SetTarget(m_barry);
-
+	
 	Slime* slime = new Slime(toGrid(20, 0));
 	AddChild(slime);
 	slime->SetTarget(m_barry);
-
+	
 	Goblin* goblin = new Goblin(toGrid(20, 11));
 	AddChild(goblin);
 	goblin->SetTarget(m_barry);
-
+	
 	Slime* slime2 = new Slime(toGrid(0, 11));
 	AddChild(slime2);
 	slime2->SetTarget(m_barry);
@@ -63,7 +63,21 @@ void Arena::onLoad()
 
 void Arena::update()
 {
-	m_gameOverScreen->SetActive(_physicsSpeed < 0.01f);
+	m_gameOverScreen->SetActive(m_paused);
+
+	if (m_paused) {
+		if (Input::WentDown(Keyboard::Key::Space)) {
+			_physicsSpeed = 5.f;
+			m_paused = false;
+		}
+		return;
+	}
+
+	if (Input::WentDown(Keyboard::Key::Space)) {
+		_physicsSpeed = 0.f;
+		m_paused = true;
+		return;
+	}
 }
 
 Vec2 Arena::toGrid(const unsigned int a_x, const unsigned int a_y)

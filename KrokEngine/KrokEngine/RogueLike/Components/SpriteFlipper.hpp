@@ -12,11 +12,11 @@ private:
 
 	Sprite* m_mySprite = nullptr;
 
-	enum Direction
+	enum class Direction
 	{
 		Left, Right
 	};
-	Direction m_currentDirection = Right;
+	Direction m_currentDirection = Direction::Right;
 
 public:
 	void OnLoad() override;	

@@ -12,8 +12,12 @@ public:
 
 		m_animSprite = AddComponent<AnimationSprite>(RS__FLY_ANIM_SPRITESHEET_PNG, 4, 1, false);
 		m_animSprite->SetDisplayMode(DisplayMode::BottomCenter);
-		m_animSprite->AddAnimation(Animation(0, 3, 0.1f, [this]() { this->TryToAttack(); }), "DEFAULT");
-		m_animSprite->SetRenderLayer(100);
+		Animation defaultAnimation = Animation(0, 3, 0.1f,
+			[this]() {
+				this->TryToAttack();
+			});
+		m_animSprite->AddAnimation(defaultAnimation, "DEFAULT");
+		m_animSprite->SetRenderLayer(500);
 
 		m_rigBody = AddComponent<RigidBody>();
 

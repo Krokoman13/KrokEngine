@@ -7,7 +7,7 @@
 class Sword : public GameObject
 {
 private:
-	Sprite* m_parentSprite;
+	Sprite* m_parentSprite = nullptr;
 
 	Sprite* m_swordSprite;
 	AnimationSprite* m_slashAnimSprite;

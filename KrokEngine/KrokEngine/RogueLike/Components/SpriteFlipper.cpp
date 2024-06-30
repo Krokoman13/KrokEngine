@@ -50,16 +50,16 @@ void SpriteFlipper::flipBasedOnFollowBehaviour()
 
 void SpriteFlipper::flipBasedOnDirection(const Vec2 a_direction)
 {
-	if (m_currentDirection != Right && a_direction.x > 0.f)
+	if (m_currentDirection != Direction::Right && a_direction.x > 0.f)
 	{
 		m_mySprite->Flip();
-		m_currentDirection = Right;
+		m_currentDirection = Direction::Right;
 		return;
 	}
 
-	if (m_currentDirection != Left && a_direction.x < 0.f)
+	if (m_currentDirection != Direction::Left && a_direction.x < 0.f)
 	{
 		m_mySprite->Flip();
-		m_currentDirection = Left;
+		m_currentDirection = Direction::Left;
 	}
 }

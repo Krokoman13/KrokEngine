@@ -59,7 +59,7 @@ void Sword::slash()
 {
 	GameObject* previous = nullptr;
 
-	for (Collider* colliding : m_pPhysicsScene->OverLayCircle(this, 32))
+	for (Collider* colliding : m_pPhysicsScene->OverLayCircle(this, 24))
 	{
 		GameObject* current = colliding->GetColliderComponent()->GetGameObject();
 

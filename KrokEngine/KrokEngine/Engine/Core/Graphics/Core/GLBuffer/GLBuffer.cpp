@@ -8,7 +8,7 @@ GLBuffer::GLBuffer(const DisplayMode a_displayMode)
 	const int size = 8;
 
 	switch (a_displayMode) {
-	case TopLeft:
+	case DisplayMode::TopLeft:
 		floatArray = new GLfloat[size]{
 			 0.f,  1.f,  // Top left
 			 0.f,  0.f,  // Bottom left
@@ -16,7 +16,7 @@ GLBuffer::GLBuffer(const DisplayMode a_displayMode)
 			 1.f,  0.f,  // Bottom right
 		};
 		break;
-	case TopRight: 
+	case DisplayMode::TopRight:
 		floatArray = new GLfloat[size]{
 			-1.f,  1.f,  // Top left
 			-1.f,  0.f,  // Bottom left
@@ -24,7 +24,7 @@ GLBuffer::GLBuffer(const DisplayMode a_displayMode)
 			 0.f,  0.f,  // Bottom right
 		};
 		break;
-	case Center:
+	case DisplayMode::Center:
 		floatArray = new GLfloat[size]{
 			-0.5f,  0.5f,  // Top left
 			-0.5f, -0.5f,  // Bottom left
@@ -32,7 +32,7 @@ GLBuffer::GLBuffer(const DisplayMode a_displayMode)
 			 0.5f, -0.5f,  // Bottom right
 		};
 		break;
-	case BottomLeft:
+	case DisplayMode::BottomLeft:
 		floatArray = new GLfloat[size]{
 			 0.f,  0.f,  // Top left
 			 0.f, -1.f,  // Bottom left
@@ -40,7 +40,7 @@ GLBuffer::GLBuffer(const DisplayMode a_displayMode)
 			 1.f, -1.f,  // Bottom right
 		};
 		break;
-	case BottomRight:
+	case DisplayMode::BottomRight:
 		floatArray = new GLfloat[size]{
 			-1.f,  0.f,  // Top left
 			-1.f, -1.f,  // Bottom left
@@ -48,7 +48,7 @@ GLBuffer::GLBuffer(const DisplayMode a_displayMode)
 			 0.f, -1.f,  // Bottom right
 		};
 		break;
-	case TopCenter:
+	case DisplayMode::TopCenter:
 		floatArray = new GLfloat[size]{
 			-0.5f,  1.f,  // Top left
 			-0.5f,  0.f,  // Bottom left
@@ -56,7 +56,7 @@ GLBuffer::GLBuffer(const DisplayMode a_displayMode)
 			 0.5f,  0.f,  // Bottom right
 		};
 		break;
-	case LeftCenter:
+	case DisplayMode::LeftCenter:
 		floatArray = new GLfloat[size]{
 			 0.f,  0.5f,  // Top left
 			 0.f, -0.5f,  // Bottom left
@@ -64,7 +64,7 @@ GLBuffer::GLBuffer(const DisplayMode a_displayMode)
 			 1.f, -0.5f,  // Bottom rightt
 		};
 		break;
-	case RightCenter:
+	case DisplayMode::RightCenter:
 		floatArray = new GLfloat[size]{
 			-1.f,  0.5f,  // Top left
 			-1.f, -0.5f,  // Bottom left
@@ -72,7 +72,7 @@ GLBuffer::GLBuffer(const DisplayMode a_displayMode)
 			 0.f, -0.5f,  // Bottom rightt
 		};
 		break;
-	case BottomCenter:
+	case DisplayMode::BottomCenter:
 		floatArray = new GLfloat[size]{
 			-0.5f,  0.f,  // Top left
 			-0.5f, -1.f,  // Bottom left

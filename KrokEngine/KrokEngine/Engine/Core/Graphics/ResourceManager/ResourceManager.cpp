@@ -46,13 +46,13 @@ GLBuffer ResourceManager::GetGLBuffer(const unsigned int a_displayModeID)
 
     if (!pGLBufferCache) return GLBuffer(displayMode);    //If no cache exists, create and return a new glBuffer
 
-    if (pGLBufferCache->Exists(displayMode)) {
+    if (pGLBufferCache->Exists(a_displayModeID)) {
         //std::cout << "ResourceManager: " << displayMode << " already cached, not loaded again" << std::endl;
-        return pGLBufferCache->Get(displayMode);
+        return pGLBufferCache->Get(a_displayModeID);
     }
 
     GLBuffer bufffer(displayMode);
-    pGLBufferCache->AddNewResource(displayMode, bufffer);
+    pGLBufferCache->AddNewResource(a_displayModeID, bufffer);
 
     return bufffer;
 }

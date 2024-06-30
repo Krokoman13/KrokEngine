@@ -122,7 +122,7 @@ void Sprite::SetFilter(GLint a_minFilter, GLint a_magFilter)
 {
 	if (Texture::NeedsMipmaps(a_magFilter))
 	{
-		std::cerr << "Warning: Mag filter cannot user mipmaps!";
+		std::cerr << "Warning: Mag filter cannot use mipmaps!" << std::endl;
 		return;
 	}
 

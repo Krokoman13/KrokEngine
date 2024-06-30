@@ -74,7 +74,7 @@ void AnimationSprite::SetCurrentFrame(const unsigned int a_frame)
 {
 	if (a_frame >= (m_columns * m_rows))
 	{
-		std::cout << "Warning: frame does not exist, did not cyhange the frame" << std::endl;
+		std::cout << "Warning: frame does not exist, did not change the frame" << std::endl;
 		return;
 	}
 

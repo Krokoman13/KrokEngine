@@ -19,6 +19,17 @@ protected:
 public:
     virtual ~ResourceCache() { Clear(); }
 
+protected:
+    TKey findByValue(const unsigned int a_value)
+    {
+        for (auto it : this->m_resourceMap) {
+            if (it.second == a_value) return it.first;
+        }
+
+        throw std::invalid_argument("Value was not found in resourceMap");
+    }
+
+public:
     inline TResource& Get(const TKey& a_key) { return m_resources[m_resourceMap[a_key]]; };
     
     // A public method to check if a resource arleady exits
@@ -36,8 +47,9 @@ public:
     void Clear()
     {
         while (!m_resources.empty()) {
-            if (!m_resources.back().IsLast())
-                std::cerr << "Warning: resource in cache is NOT the last resource, this means it cannot be cleaned up propperly" << std::endl;
+            if (!m_resources.back().IsLast()) {
+                std::cerr << "Warning: resource " << findByValue(((unsigned int)m_resources.size()) - 1) << " in cache is NOT the last resource, this means it cannot be cleaned up propperly" << std::endl;
+            }
 
             m_resources.pop_back();
         }

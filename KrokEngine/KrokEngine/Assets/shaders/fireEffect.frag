@@ -24,20 +24,18 @@ float noise(float p){
     return mix(rand(fl), rand(fl + 1.0), fc);
 }
 
-const float EDGE_THRESHOLD = 0.05; // Adjust this value based on your needs
-
 void main( void ) {
     
     //Texture
     vec4 texColor = texture2D(diffuseTexture, texCoord);
 
     //Flickering
-    float flickerSpeed = 4.0f;
+    float flickerSpeed = 20.0f;
     float flicker = clamp(noise(time * flickerSpeed), 0.8, 1.0);
 
     //GlowEffect
-    float m_GlowDistance = 1.f;
-    float m_GlowSpeed = 1.f;
+    float m_GlowDistance = 0.5f;
+    float m_GlowSpeed = 2.5f;
     float tempGlow = worldVertex.y * m_GlowDistance - time * m_GlowSpeed;
     float glow = tempGlow - floor(tempGlow);
 

@@ -16,7 +16,7 @@ void Burnable::Update()
 	m_burnTimerSeconds += Time::DeltaTimeSeconds();
 
 	while (m_burnTimerSeconds >= 1.0f) {
-		m_health->GainDamage(m_damagePerSecond);
+		if (m_health) m_health->GainDamage(m_damagePerSecond);
 		m_burnTimerSeconds -= 1.0f;
 		m_toBurnTimeSeconds -= 1.0f;
 	}
@@ -38,6 +38,7 @@ void Burnable::StartBurning(const float a_burnDurationInSeconds, const unsigned 
 	m_toBurnTimeSeconds = a_burnDurationInSeconds;
 	m_damagePerSecond = a_damagePerSecond;
 
+	if (!m_sprite) return;
 	m_defaultShader = m_sprite->GetShader();
 	m_sprite->SetShader(m_burnShader);
 }
@@ -45,5 +46,7 @@ void Burnable::StartBurning(const float a_burnDurationInSeconds, const unsigned 
 void Burnable::StopBurning()
 {
 	m_burnTimerSeconds = 0;
+
+	if (!m_sprite) return;
 	m_sprite->SetShader(m_defaultShader);
 }

@@ -3,6 +3,7 @@
 #include "../Engine/KrokEngine.hpp"
 
 #include "Components/GridLayerer.hpp"
+#include "Components/Burnable.hpp"
 
 class Chest : public GameObject
 {
@@ -27,6 +28,7 @@ public:
 		colliderComp->bounciness = 0;
 
 		AddComponent<GridLayerer>();
+		AddComponent<Burnable>();
 	}
 };
 

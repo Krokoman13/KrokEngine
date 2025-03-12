@@ -41,7 +41,7 @@ void Scene::Close()
 {
 	OnClose();
 	clearScene();
-	m_textureCache.Clear();
+	//m_textureCache.Clear();
 }
 
 void Scene::clearScene()

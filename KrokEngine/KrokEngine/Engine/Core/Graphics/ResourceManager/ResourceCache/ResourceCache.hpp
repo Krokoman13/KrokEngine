@@ -8,8 +8,6 @@ template<typename TResource, typename TKey>
 
 class ResourceCache
 {
-    static_assert(std::is_base_of<Counted, TResource>::value, "T must inherit from Counted");
-
 protected:
     // A hash map to store the mapping from resource paths to indices in the resources vector
     std::unordered_map <TKey, unsigned int> m_resourceMap;
@@ -20,9 +18,10 @@ public:
     virtual ~ResourceCache() { Clear(); }
 
 protected:
+    // For debug purposes
     TKey findByValue(const unsigned int a_value)
     {
-        for (auto it : this->m_resourceMap) {
+        for (auto it : m_resourceMap) {
             if (it.second == a_value) return it.first;
         }
 
@@ -32,7 +31,6 @@ protected:
 public:
     inline TResource& Get(const TKey& a_key) { return m_resources[m_resourceMap[a_key]]; };
     
-    // A public method to check if a resource arleady exits
     bool Exists(const TKey& a_key) const
     {
         auto it = m_resourceMap.find(a_key);
@@ -43,7 +41,6 @@ public:
         return false;
     };
 
-    // Clears the cache of all current resources
     void Clear()
     {
         while (!m_resources.empty()) {

@@ -1,10 +1,12 @@
 #pragma once
 #include "ResourceCache.hpp"
+#include "../../core/counted/Counted.hpp"
 
 template<typename TResource, typename TKey>
-
 class SelfRegResourceCache : public ResourceCache<TResource, TKey>
 {
+    static_assert(std::is_base_of<Counted, TResource>::value);
+
 public:
     virtual void AddNewResource(const TKey& a_key, const TResource a_resource) override
     {
@@ -18,9 +20,7 @@ public:
         {
             this->m_resources.push_back(a_resource);
         }
-        // Otherwise, overwrite the lonely resource
-        else
-        {
+        else {
             std::cout << "Found a lonely Resouce, will be overwritten by a new one!" << std::endl;
             const TKey& previous = this->findByValue(index);
             this->m_resources[index] = a_resource;
@@ -33,7 +33,7 @@ public:
 
 private:
 
-    // A private method to find a lonely resource
+    // Returns the first resource that only has one refrence (this cache)
     unsigned int findLonely()
     {
         const unsigned int size = (unsigned int)this->m_resources.size();
